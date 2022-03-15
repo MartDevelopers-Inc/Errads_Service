@@ -30,7 +30,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"></script>
-
+<!-- Toastr -->
+<script src="../assets/plugins/toastr/toastr.min.js"></script>
 <!-- Load Table -->
 <script>
     $(document).ready(function() {
@@ -56,60 +57,22 @@
     }
 </script>
 
-<!-- Alerts -->
-<script src="../public/plugins/iziToast/iziToast.min.js"></script>
+<!-- Init  Alerts -->
 <?php if (isset($success)) { ?>
-    <!--This code for injecting success alert-->
+    <!-- Pop Success Alert -->
     <script>
-        iziToast.success({
-            title: 'Success',
-            timeout: 1000,
-            position: 'center',
-            transitionIn: 'bounceInLeft',
-            transitionOut: 'fadeOutRight',
-            transitionInMobile: 'fadeInUp',
-            animateInside: true,
-            transitionOutMobile: 'fadeOutDown',
-            message: '<?php echo $success; ?>',
-        });
+        toastr.success('<?php echo $success; ?>')
     </script>
 
-<?php } ?>
-
-<?php if (isset($err)) { ?>
-    <!--This code for injecting error alert-->
+<?php }
+if (isset($err)) { ?>
     <script>
-        iziToast.error({
-            title: 'Error',
-            timeout: 1000,
-            resetOnHover: true,
-            position: 'center',
-            transitionIn: 'bounceInRigt',
-            transitionOut: 'fadeOutLeft',
-            transitionInMobile: 'fadeInUp',
-            transitionOutMobile: 'fadeOutDown',
-            animateInside: true,
-            message: '<?php echo $err; ?>',
-        });
+        toastr.error('<?php echo $err; ?>')
     </script>
-
-<?php } ?>
-
-<?php if (isset($info)) { ?>
-    <!--This code for injecting info alert-->
+<?php }
+if (isset($info)) { ?>
     <script>
-        iziToast.warning({
-            title: 'Warning',
-            position: 'center',
-            transitionIn: 'flipInX',
-            transitionOut: 'flipOutX',
-            transitionIn: 'fadeInUp',
-            transitionInMobile: 'fadeInUp',
-            transitionOutMobile: 'fadeOutDown',
-            animateInside: true,
-            message: '<?php echo $info; ?>',
-        });
+        toastr.warning('<?php echo $info; ?>')
     </script>
-
 <?php }
 ?>

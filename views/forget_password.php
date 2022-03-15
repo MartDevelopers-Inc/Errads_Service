@@ -21,29 +21,7 @@
  */
 session_start();
 require_once('../config/config.php');
-if (isset($_POST['Reset_Password'])) {
 
-    $login_email = $_POST['login_email'];
-    $query = mysqli_query($mysqli, "SELECT * from `Login` WHERE login_email = '" . $login_email . "' ");
-    $num_rows = mysqli_num_rows($query);
-
-    if ($num_rows > 0) {
-        $n = date('y'); //Load Mumble Jumble
-        $new_password = bin2hex(random_bytes($n));
-        $query = "UPDATE Login SET  login_password=? WHERE  login_email =? ";
-        $stmt = $mysqli->prepare($query);
-        $rc = $stmt->bind_param('ss', $new_password, $login_email);
-        $stmt->execute();
-        if ($stmt) {
-            $_SESSION['login_email'] = $login_email;
-            $success = "Password Reset" && header("refresh:1; url=confirm_password");
-        } else {
-            $err = "Password reset failed";
-        }
-    } else {
-        $err = "User Account Does Not Exist";
-    }
-}
 require_once('../partials/head.php');
 
 ?>

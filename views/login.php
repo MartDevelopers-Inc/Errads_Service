@@ -81,7 +81,7 @@ require_once('../partials/head.php');
                     </div>
                     <!-- Login Meta-->
                     <div class="login-meta-data text-center"><a class="stretched-link forgot-password d-block mt-3 mb-1" href="forget_password">Forgot Password?</a>
-                        <p class="mb-0">Didn't have an account? <br> <a class="stretched-link" href="">Sign Up</a></p>
+                        <p class="mb-0">Didn't have an account? <br> <a class="stretched-link" href="sign_up">Sign Up</a></p>
                     </div>
                 </div>
             </div>

@@ -21,29 +21,7 @@
  */
 session_start();
 require_once('../config/config.php');
-if (isset($_POST['Confirm_Password'])) {
 
-    $login_email  = $_SESSION['login_email'];
-    $new_password = sha1(md5($_POST['new_password']));
-    $confirm_password = sha1(md5($_POST['confirm_password']));
-    /* Check If Passwords Match */
-    if ($new_password != $confirm_password) {
-        /* Die */
-        $err = "Passwords Does Not Match";
-    } else {
-        /* Update Password */
-        $query = "UPDATE Login  SET  login_password =? WHERE  login_email = ? ";
-        $stmt = $mysqli->prepare($query);
-        //bind paramaters
-        $rc = $stmt->bind_param('ss',  $confirm_password, $login_email);
-        $stmt->execute();
-        if ($stmt) {
-            $success = "Password Reset" && header("refresh:1; url=login");
-        } else {
-            $err = "Password Reset Failed";
-        }
-    }
-}
 require_once('../partials/head.php');
 ?>
 
