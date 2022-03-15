@@ -35,7 +35,7 @@ require_once('../partials/head.php');
     <!-- Internet Connection Status-->
     <div class="internet-connection-status" id="internetStatus"></div>
 
-    <div class="login-wrapper d-flex align-items-center justify-content-center">
+    <div class="login-wrapper d-flex align-items-center justify-content-center" style="background-color: #e3f2fd">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12 col-sm-9 col-md-7 col-lg-6 col-xl-5">

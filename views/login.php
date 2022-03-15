@@ -26,7 +26,7 @@ if (isset($_POST['Login'])) {
     $login_email = $_POST['login_email'];
     $login_password = sha1(md5($_POST['login_password']));
 
-    $stmt = $mysqli->prepare("SELECT login_email, login_password, login_rank, login_id  FROM Login  WHERE login_email =? AND login_password =?");
+    $stmt = $mysqli->prepare("SELECT login_email, login_password, login_rank, login_id  FROM login  WHERE login_email =? AND login_password =?");
     $stmt->bind_param('ss', $login_email, $login_password);
     $stmt->execute(); //execute bind
 
@@ -37,11 +37,17 @@ if (isset($_POST['Login'])) {
 
     /* Decide Login User Dashboard Based On User Rank */
     if ($rs && $login_rank == 'Administrator') {
+        $_SESSION['success'] = 'You Have Successfully Logged In As Administrator';
         header("location:home");
-    } else if ($rs && $login_rank == 'Staff' || $rs && $login_rank == 'Doctor') {
-        header("location:staff_home");
+        exit;
+    } else if ($rs && $login_rank == 'Freelancer') {
+        $_SESSION['success'] = 'You Have Successfully Logged In As Freelancer';
+        header("location:fleelancer_home");
+        exit;
     } else if ($rs && $login_rank == 'Client') {
+        $_SESSION['success'] = 'You Have Successfully Logged In As Client';
         header("location:client_home");
+        exit;
     } else {
         $err = "Login Failed, Please Check Your Credentials And Login Permission ";
     }
@@ -59,14 +65,15 @@ require_once('../partials/head.php');
     <!-- Internet Connection Status-->
     <div class="internet-connection-status" id="internetStatus"></div>
     <!-- Login Wrapper Area-->
-    <div class="login-wrapper d-flex align-items-center justify-content-center">
+    <div class="login-wrapper d-flex align-items-center justify-content-center" style="background-color: #e3f2fd">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12 col-sm-9 col-md-7 col-lg-6 col-xl-5">
                     <div class="text-center px-4"><img class="login-intro-img" src="../public/img/bg-img/36.png" alt=""></div>
                     <!-- Register Form-->
                     <div class="register-form mt-4 px-4">
-                        <h6 class="mb-3 text-center">Log In To Continue To .</h6>
+                        <h6 class="mb-3 text-center">Welcome To <b>Errands Service</b> <br>
+                        </h6>
                         <form method="POST">
                             <div class="form-group">
                                 <label class="form-label">Email</label>
@@ -80,8 +87,13 @@ require_once('../partials/head.php');
                         </form>
                     </div>
                     <!-- Login Meta-->
-                    <div class="login-meta-data text-center"><a class="stretched-link forgot-password d-block mt-3 mb-1" href="forget_password">Forgot Password?</a>
+                    <div class="login-meta-data text-center">
+                        <br>
+                        <br>
                         <p class="mb-0">Didn't have an account? <br> <a class="stretched-link" href="sign_up">Sign Up</a></p>
+                        <br>
+                        <hr>
+                        <a class="stretched-link forgot-password d-block mt-3 mb-1" href="forget_password">Forgot Password?</a>
                     </div>
                 </div>
             </div>
