@@ -1,9 +1,20 @@
-<!-- ========= JS Files =========  -->
-<!-- Bootstrap -->
-<script src="../assets/js/lib/bootstrap.bundle.min.js"></script>
-<!-- Ionicons -->
-<script type="module" src="../../unpkg.com/ionicons%405.5.2/dist/ionicons/ionicons.js"></script>
-<!-- Splide -->
-<script src="../assets/js/plugins/splide/splide.min.js"></script>
-<!-- Base Js File -->
-<script src="../assets/js/base.js"></script>
+<!-- All JavaScript Files-->
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/default/internet-status.js"></script>
+<script src="../assets/js/waypoints.min.js"></script>
+<script src="../assets/js/jquery.easing.min.js"></script>
+<script src="../assets/js/wow.min.js"></script>
+<script src="../assets/js/owl.carousel.min.js"></script>
+<script src="../assets/js/jquery.counterup.min.js"></script>
+<script src="../assets/js/jquery.countdown.min.js"></script>
+<script src="../assets/js/imagesloaded.pkgd.min.js"></script>
+<script src="../assets/js/isotope.pkgd.min.js"></script>
+<script src="../assets/js/jquery.magnific-popup.min.js"></script>
+<script src="../assets/js/default/dark-mode-switch.js"></script>
+<script src="../assets/js/ion.rangeSlider.min.js"></script>
+<script src="../assets/js/jquery.dataTables.min.js"></script>
+<script src="../assets/js/default/active.js"></script>
+<script src="../assets/js/default/clipboard.js"></script>
+<!-- PWA-->
+<script src="../assets/js/pwa.js"></script>

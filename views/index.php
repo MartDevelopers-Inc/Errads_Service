@@ -24,7 +24,7 @@ require_once('../partials/head.php');
                     <!-- Register Form-->
                     <div class="register-form mt-4 px-4">
                         <h6 class="mb-3 text-center">Log in to continue to Affan.</h6>
-                        <form action="https://designing-world.com/affan-1.1.0/page-home.html">
+                        <form method="POST">
                             <div class="form-group">
                                 <input class="form-control" type="text" placeholder="Username">
                             </div>
@@ -42,26 +42,7 @@ require_once('../partials/head.php');
             </div>
         </div>
     </div>
-    <!-- All JavaScript Files-->
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/default/internet-status.js"></script>
-    <script src="js/waypoints.min.js"></script>
-    <script src="js/jquery.easing.min.js"></script>
-    <script src="js/wow.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/jquery.counterup.min.js"></script>
-    <script src="js/jquery.countdown.min.js"></script>
-    <script src="js/imagesloaded.pkgd.min.js"></script>
-    <script src="js/isotope.pkgd.min.js"></script>
-    <script src="js/jquery.magnific-popup.min.js"></script>
-    <script src="js/default/dark-mode-switch.js"></script>
-    <script src="js/ion.rangeSlider.min.js"></script>
-    <script src="js/jquery.dataTables.min.js"></script>
-    <script src="js/default/active.js"></script>
-    <script src="js/default/clipboard.js"></script>
-    <!-- PWA-->
-    <script src="js/pwa.js"></script>
+    <?php require_once('../partials/scripts.php'); ?>
 </body>
 
 
