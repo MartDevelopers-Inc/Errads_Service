@@ -40,24 +40,49 @@ require_once('../partials/head.php');
                 <div class="col-12 col-sm-9 col-md-7 col-lg-6 col-xl-5">
                     <div class="text-center px-4"><img class="login-intro-img" src="../public/img/bg-img/29.png" alt=""></div>
                     <div class="register-form mt-4 px-4">
-                        <h4 class="mb-3 text-center">Join <b>Errands Service</b><br>
-                        </h4>
-                        <!-- Card 03 -->
-                        <a href="sign_up_as?account=Client">
-                            <div class="card border shadow-sm">
-                                <div class="card-body d-flex align-items-center">
-                                    <h5 class="text-center">I am a <b>Client</b>, hiring for an errand service </h5>
+                        <h4 class="mb-3 text-center">Join <b>Errands Service</b> As <?php echo $_GET['account']; ?><br></h4>
+                        <form method="POST">
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    <label class="form-label">First Name</label>
+                                    <input class="form-control" required name="user_fname" type="text">
+                                </div>
+                                <div class="form-group col-12">
+                                    <label class="form-label">Last Name</label>
+                                    <input class="form-control" required name="user_lname" type="text">
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="form-label">Gender</label>
+                                    <select class="form-select" name="user_gender">
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="form-label">Age</label>
+                                    <input class="form-control" required name="user_age" type="text">
+                                </div>
+                                <div class="form-group col-12">
+                                    <label class="form-label">Phone Number</label>
+                                    <input class="form-control" required name="user_contact" type="text">
+                                </div>
+                                <div class="form-group col-12">
+                                    <label class="form-label">Email Address</label>
+                                    <input class="form-control" required name="login_email" type="text">
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="form-label">Password</label>
+                                    <input class="form-control" required name="login_password" type="text">
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="form-label">Confirm Password</label>
+                                    <input class="form-control" type="password" name="confirm_password">
                                 </div>
                             </div>
-                        </a>
-                        <br>
-                        <a href="sign_up_as?account=Client">
-                            <div class="card border shadow-sm">
-                                <div class="card-body d-flex align-items-center">
-                                    <h5 class="text-center">I am a <b>Freelancer</b>, offering errand services</h5>
-                                </div>
-                            </div>
-                        </a>
+
+
+                            <button class="btn btn-primary w-100" name="Login" type="submit">Sign Up</button>
+                        </form>
                     </div>
                     <!-- Login Meta-->
                     <div class="login-meta-data text-center">
