@@ -21,6 +21,64 @@
  */
 session_start();
 require_once('../config/config.php');
+require_once('../config/codeGen.php');
+/* Handle Sign Up */
+if (isset($_POST['sign_up'])) {
+    /* Check If Passwords Match */
+    if ($_POST['login_password'] != $_POST['confirm_password']) {
+        $err = "Passwords Does Not Match";
+    } else {
+        $login_id = $sys_gen_id;
+        $user_id = $sys_gen_id_alt_1;
+        $login_email = $_POST['login_email'];
+        $login_rank = $_GET['account'];
+        $login_password = sha1(md5($_POST['confirm_password']));
+        $user_fname = $_POST['user_fname'];
+        $user_lname  = $_POST['user_lname'];
+        $user_contact  = $_POST['user_contact'];
+        $user_location = $_POST['user_location'];
+        $user_gender = $_POST['user_gender'];
+        $user_age = $_POST['user_age'];
+        $user_login_id = $login_id;
+
+        /* Persist */
+        $login_sql = "INSERT INTO login(login_id, login_email, login_password, login_rank) VALUES(?,?,?,?)";
+        $sign_sql = "INSERT INTO users(user_id, user_fname, user_lname, user_contact, user_location, user_gender, user_age, user_login_id)
+        VALUES(?,?,?,?,?,?,?,?)";
+
+        $login_prepare = $mysqli->prepare($login_sql);
+        $sign_prepare = $mysqli->prepare($sign_sql);
+
+        $login_bind = $login_prepare->bind_param(
+            'ssss',
+            $login_id,
+            $login_email,
+            $login_password,
+            $login_rank
+        );
+        $sign_bind = $sign_bind->bind_param(
+            'ssssssss',
+            $user_id,
+            $user_fname,
+            $user_lname,
+            $user_contact,
+            $user_location,
+            $user_gender,
+            $user_age,
+            $user_login_id
+        );
+
+        $login_prepare->execute();
+        $sign_prepare->execute();
+
+        if ($login_prepare && $sign_prepare) {
+            /* Pass This Alert Via Session */
+            $_SESSION['success'] = "Your $login_rank  Has Been Created, Proceed To Login";
+            header('Location: login');
+            exit;
+        }
+    }
+}
 require_once('../partials/head.php');
 ?>
 
@@ -81,7 +139,7 @@ require_once('../partials/head.php');
                             </div>
 
 
-                            <button class="btn btn-primary w-100" name="Login" type="submit">Sign Up</button>
+                            <button class="btn btn-primary w-100" name="sign_up" type="submit">Sign Up</button>
                         </form>
                     </div>
                     <!-- Login Meta-->
