@@ -21,7 +21,22 @@
  */
 session_start();
 require_once('../config/config.php');
-
+/* Handle Password Reset */
+if (isset($_POST['Reset_Password'])) {
+    $login_email = $_POST['login_email'];
+    /* Check If User Exists */
+    $sql = "SELECT * FROM  login WHERE login_email = '$login_email'";
+    $res = mysqli_query($mysqli, $sql);
+    if (mysqli_num_rows($res) > 0) {
+        /* Redirect User To Confirm Password */
+        $_SESSION['success'] = 'Password Reset Token Generated, Proceed To Confirm Password';
+        $_SESSION['login_email'] = $login_email;
+        header('Location: confirm_password');
+        exit;
+    } else {
+        $err = "Email Address Does Not Exist";
+    }
+}
 require_once('../partials/head.php');
 
 ?>
