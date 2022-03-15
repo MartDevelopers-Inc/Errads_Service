@@ -36,7 +36,7 @@ if (isset($_POST['sign_up'])) {
         $user_fname = $_POST['user_fname'];
         $user_lname  = $_POST['user_lname'];
         $user_contact  = $_POST['user_contact'];
-        $user_location = $_POST['user_location'];
+        $user_location = '';
         $user_gender = $_POST['user_gender'];
         $user_age = $_POST['user_age'];
         $user_login_id = $login_id;
@@ -56,7 +56,7 @@ if (isset($_POST['sign_up'])) {
             $login_password,
             $login_rank
         );
-        $sign_bind = $sign_bind->bind_param(
+        $sign_bind = $sign_prepare->bind_param(
             'ssssssss',
             $user_id,
             $user_fname,
@@ -76,6 +76,8 @@ if (isset($_POST['sign_up'])) {
             $_SESSION['success'] = "Your $login_rank  Has Been Created, Proceed To Login";
             header('Location: login');
             exit;
+        } else {
+            $err = "Failed!, Please Try Again";
         }
     }
 }
