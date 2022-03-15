@@ -31,7 +31,7 @@ if (isset($_POST['reset_password'])) {
     if ($new_password != $confirm_password) {
         $err = "Passwords Does Not Match";
     } else {
-        $sql = "UPDATE login SET login_password =? WHERE user_email =?";
+        $sql = "UPDATE login SET login_password =? WHERE login_email =?";
         $prepare = $mysqli->prepare($sql);
         $bind = $prepare->bind_param(
             'ss',
