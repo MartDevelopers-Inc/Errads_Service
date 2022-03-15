@@ -42,7 +42,7 @@ class DataSource
 
     const PASSWORD = '';
 
-    const DATABASENAME = 'ischeduling';
+    const DATABASENAME = 'errand_service';
 
     private $conn;
 

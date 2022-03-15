@@ -5,7 +5,7 @@
             <!-- Logo Wrapper-->
             <div class="logo-wrapper">
                 <a href="">
-                    <h3 class="text-primary font-weight-bold">iScheduling</h3>
+                    <h3 class="text-primary font-weight-bold">iErrads</h3>
                 </a>
             </div>
             <!-- Navbar Toggler-->

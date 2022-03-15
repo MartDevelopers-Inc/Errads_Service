@@ -66,31 +66,22 @@ require_once('../partials/head.php');
                     <div class="text-center px-4"><img class="login-intro-img" src="../public/img/bg-img/36.png" alt=""></div>
                     <!-- Register Form-->
                     <div class="register-form mt-4 px-4">
-                        <h6 class="mb-3 text-center">Log In To Continue To iScheduling.</h6>
+                        <h6 class="mb-3 text-center">Log In To Continue To .</h6>
                         <form method="POST">
                             <div class="form-group">
                                 <label class="form-label">Email</label>
-                                <input class="form-control" required name="login_email" type="email" placeholder="Enter Email">
+                                <input class="form-control" required name="login_email" type="email">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Password</label>
-                                <input class="form-control" type="password" name="login_password" placeholder="Enter Password">
+                                <input class="form-control" type="password" name="login_password">
                             </div>
-                            <!-- <div class="form-group">
-                                <label class="form-label">Sign In As</label>
-                                <select class="form-control" type="text" name="login_rank">
-                                    <option>Administrator</option>
-                                    <option>Staff</option>
-                                    <option>Doctor</option>
-                                    <option>Client</option>
-                                </select>
-                            </div> -->
                             <button class="btn btn-primary w-100" name="Login" type="submit">Sign In</button>
                         </form>
                     </div>
                     <!-- Login Meta-->
                     <div class="login-meta-data text-center"><a class="stretched-link forgot-password d-block mt-3 mb-1" href="forget_password">Forgot Password?</a>
-                        <p class="mb-0">Didn't have an account? <br> <a class="stretched-link" href="client_register.php">Register A Client Account</a></p>
+                        <p class="mb-0">Didn't have an account? <br> <a class="stretched-link" href="">Sign Up</a></p>
                     </div>
                 </div>
             </div>
