@@ -51,7 +51,7 @@ require_once('../partials/head.php');
                             </div>
                         </a>
                         <br>
-                        <a href="sign_up_as?account=Client">
+                        <a href="sign_up_as?account=Freelancer">
                             <div class="card border shadow-sm">
                                 <div class="card-body d-flex align-items-center">
                                     <h5 class="text-center">I am a <b>Freelancer</b>, offering errand services</h5>

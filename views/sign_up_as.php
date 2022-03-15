@@ -73,7 +73,7 @@ if (isset($_POST['sign_up'])) {
 
         if ($login_prepare && $sign_prepare) {
             /* Pass This Alert Via Session */
-            $_SESSION['success'] = "Your $login_rank  Has Been Created, Proceed To Login";
+            $_SESSION['success'] = "Your $login_rank  Account Has Been Created, Proceed To Login";
             header('Location: login');
             exit;
         } else {
@@ -132,7 +132,7 @@ require_once('../partials/head.php');
                                 </div>
                                 <div class="form-group col-6">
                                     <label class="form-label">Password</label>
-                                    <input class="form-control" required name="login_password" type="text">
+                                    <input class="form-control" required name="login_password" type="password">
                                 </div>
                                 <div class="form-group col-6">
                                     <label class="form-label">Confirm Password</label>
