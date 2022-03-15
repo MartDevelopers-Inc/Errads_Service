@@ -1,17 +1,37 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#000000">
-    <title>Errads Service Application</title>
-    <link rel="icon" type="image/png" href="../assets/img/favicon.png" sizes="32x32">
-    <!-- Icons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="../assets/img/icon/192x192.png">
-    <!-- Style  -->
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <!--  -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Affan - PWA Mobile HTML Template">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="theme-color" content="#0134d4">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!-- Title-->
+    <title>Affan - PWA Mobile HTML Template</title>
+    <!-- Fonts-->
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
+    <!-- Favicon-->
+    <link rel="icon" href="../assets/img/core-img/favicon.ico">
+    <link rel="apple-touch-icon" href="img/icons/icon-96x96.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="../assets/img/icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="../assets/img/icons/icon-167x167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/img/icons/icon-180x180.png">
+    <!-- CSS Libraries-->
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/animate.css">
+    <link rel="stylesheet" href="../assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="../assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="../assets/css/ion.rangeSlider.min.css">
+    <link rel="stylesheet" href="../assets/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="../assets/css/apexcharts.css">
+    <!-- Core Stylesheet-->
+    <link rel="stylesheet" href="../assets/style.css">
+    <!-- Web App Manifest-->
+    <link rel="manifest" href="../assets/manifest.json">
 </head>

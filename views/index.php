@@ -3,81 +3,66 @@ require_once('../partials/head.php');
 ?>
 
 <body>
-
-    <!-- loader -->
-    <div id="loader">
-        <img src="../assets/img/loading-icon.png" alt="icon" class="loading-icon">
-    </div>
-    <!-- * loader -->
-
-    <!-- App Header -->
-    <div class="appHeader no-border transparent position-absolute">
-        <div class="left">
-            <a href="#" class="headerButton goBack">
-                <ion-icon name="chevron-back-outline"></ion-icon>
-            </a>
-        </div>
-        <div class="pageTitle"></div>
-        <div class="right">
+    <!-- Preloader-->
+    <div class="preloader d-flex align-items-center justify-content-center" id="preloader">
+        <div class="spinner-grow text-primary" role="status">
+            <div class="sr-only">Loading...</div>
         </div>
     </div>
-    <!-- * App Header -->
-
-    <!-- App Capsule -->
-    <div id="appCapsule">
-
-        <div class="section mt-2 text-center">
-            <h1>Log in</h1>
-            <h4>Fill the form to log in</h4>
-        </div>
-        <div class="section mb-5 p-2">
-
-            <form action="https://finapp.bragherstudio.com/view22/index.html">
-                <div class="card">
-                    <div class="card-body pb-1">
-                        <div class="form-group basic">
-                            <div class="input-wrapper">
-                                <label class="label" for="email1">E-mail</label>
-                                <input type="email" class="form-control" id="email1" placeholder="Your e-mail">
-                                <i class="clear-input">
-                                    <ion-icon name="close-circle"></ion-icon>
-                                </i>
+    <!-- Internet Connection Status-->
+    <div class="internet-connection-status" id="internetStatus"></div>
+    <!-- Back Button-->
+    <div class="login-back-button"><a href="element-hero-blocks.html"><svg width="32" height="32" viewBox="0 0 16 16" class="bi bi-arrow-left-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
+            </svg></a></div>
+    <!-- Login Wrapper Area-->
+    <div class="login-wrapper d-flex align-items-center justify-content-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-9 col-md-7 col-lg-6 col-xl-5">
+                    <div class="text-center px-4"><img class="login-intro-img" src="img/bg-img/36.png" alt=""></div>
+                    <!-- Register Form-->
+                    <div class="register-form mt-4 px-4">
+                        <h6 class="mb-3 text-center">Log in to continue to Affan.</h6>
+                        <form action="https://designing-world.com/affan-1.1.0/page-home.html">
+                            <div class="form-group">
+                                <input class="form-control" type="text" placeholder="Username">
                             </div>
-                        </div>
-
-                        <div class="form-group basic">
-                            <div class="input-wrapper">
-                                <label class="label" for="password1">Password</label>
-                                <input type="password" class="form-control" id="password1" autocomplete="off" placeholder="Your password">
-                                <i class="clear-input">
-                                    <ion-icon name="close-circle"></ion-icon>
-                                </i>
+                            <div class="form-group">
+                                <input class="form-control" type="password" placeholder="Enter Password">
                             </div>
-                        </div>
+                            <button class="btn btn-primary w-100" type="submit">Sign In</button>
+                        </form>
+                    </div>
+                    <!-- Login Meta-->
+                    <div class="login-meta-data text-center"><a class="stretched-link forgot-password d-block mt-3 mb-1" href="page-forget-password.html">Forgot Password?</a>
+                        <p class="mb-0">Didn't have an account? <a class="stretched-link" href="page-register.html">Register Now</a></p>
                     </div>
                 </div>
-
-
-                <div class="form-links mt-2">
-                    <div>
-                        <a href="app-register.html">Register Now</a>
-                    </div>
-                    <div><a href="app-forgot-password.html" class="text-muted">Forgot Password?</a></div>
-                </div>
-
-                <div class="form-button-group  transparent">
-                    <button type="submit" class="btn btn-primary btn-block btn-lg">Log in</button>
-                </div>
-
-            </form>
+            </div>
         </div>
-
     </div>
-    <!-- * App Capsule -->
-
-    <?php require_once('../partials/scripts.php'); ?>
-
-
+    <!-- All JavaScript Files-->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/default/internet-status.js"></script>
+    <script src="js/waypoints.min.js"></script>
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/wow.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.counterup.min.js"></script>
+    <script src="js/jquery.countdown.min.js"></script>
+    <script src="js/imagesloaded.pkgd.min.js"></script>
+    <script src="js/isotope.pkgd.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/default/dark-mode-switch.js"></script>
+    <script src="js/ion.rangeSlider.min.js"></script>
+    <script src="js/jquery.dataTables.min.js"></script>
+    <script src="js/default/active.js"></script>
+    <script src="js/default/clipboard.js"></script>
+    <!-- PWA-->
+    <script src="js/pwa.js"></script>
 </body>
+
 
 </html>
