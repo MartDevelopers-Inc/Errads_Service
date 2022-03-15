@@ -21,7 +21,34 @@
  */
 session_start();
 require_once('../config/config.php');
+/*  Confirm Passwords */
+if (isset($_POST['reset_password'])) {
+    $login_email = $_SESSION['login_email'];
+    $new_password = sha1(md5($_POST['new_password']));
+    $confirm_password = sha1(md5($_POST['confirm_password']));
 
+    /* Check If Passwords Match */
+    if ($new_password != $confirm_password) {
+        $err = "Passwords Does Not Match";
+    } else {
+        $sql = "UPDATE login SET login_password =? WHERE user_email =?";
+        $prepare = $mysqli->prepare($sql);
+        $bind = $prepare->bind_param(
+            'ss',
+            $new_password,
+            $login_email
+        );
+        $prepare->execute();
+        if ($prepare) {
+            /* Pass This Alert Via Session */
+            $_SESSION['success'] = 'Your Password Has Been Reset Proceed To Login';
+            header('Location: login');
+            exit;
+        } else {
+            $err = "Failed!, Please Try Again";
+        }
+    }
+}
 require_once('../partials/head.php');
 ?>
 
@@ -49,7 +76,7 @@ require_once('../partials/head.php');
                             <div class="form-group">
                                 <input class="form-control" required type="password" name="confirm_password" placeholder="Confirm New Password">
                             </div>
-                            <button class="btn btn-primary w-100" name="Confirm_Password" type="submit">Confirm Password</button>
+                            <button class="btn btn-primary w-100" name="reset_password" type="submit">Confirm Password</button>
                         </form>
                     </div>
                 </div>
