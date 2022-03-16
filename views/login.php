@@ -42,7 +42,7 @@ if (isset($_POST['Login'])) {
         exit;
     } else if ($rs && $login_rank == 'Freelancer') {
         $_SESSION['success'] = 'You Have Successfully Logged In As Freelancer';
-        header("location:fleelancer_home");
+        header("location:freelancer_home");
         exit;
     } else if ($rs && $login_rank == 'Client') {
         $_SESSION['success'] = 'You Have Successfully Logged In As Client';
