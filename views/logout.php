@@ -1,6 +1,5 @@
 <?php
 /*
- * Created on Sat Jul 03 2021
  *
  * The MIT License (MIT)
  * Copyright (c) 2021 MartDevelopers Inc
