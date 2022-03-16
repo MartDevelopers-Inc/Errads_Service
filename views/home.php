@@ -86,10 +86,11 @@ require_once('../partials/head.php');
                 </div>
             </div>
         </div>
+        <br>
         <div class="container">
             <div class="card">
                 <div class="card-body">
-                    <h2>Customer Review</h2>
+                    <h2>Recent Posted Errands Services</h2>
                     <div class="testimonial-slide owl-carousel testimonial-style3">
                         <!-- Single Testimonial Slide-->
                         <div class="single-testimonial-slide">
@@ -97,18 +98,95 @@ require_once('../partials/head.php');
                                 <h6 class="mb-2">The code looks clean, and the designs are excellent. I recommend.</h6><span class="d-block">Mrrickez, Themeforest</span>
                             </div>
                         </div>
-                        <!-- Single Testimonial Slide-->
                         <div class="single-testimonial-slide">
                             <div class="text-content"><span class="d-inline-block badge bg-warning mb-2"><i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill"></i></span>
-                                <h6 class="mb-2">All complete, <br> great craft.</h6><span class="d-block">Mazatlumm, Themeforest</span>
+                                <h6 class="mb-2">The code looks clean, and the designs are excellent. I recommend.</h6><span class="d-block">Mrrickez, Themeforest</span>
                             </div>
                         </div>
-                        <!-- Single Testimonial Slide-->
-                        <div class="single-testimonial-slide">
-                            <div class="text-content"><span class="d-inline-block badge bg-warning mb-2"><i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill"></i></span>
-                                <h6 class="mb-2">Awesome template! <br> Excellent support!</h6><span class="d-block">Vguntars, Themeforest</span>
-                            </div>
-                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="container">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="text-center">Recent Joined Clients</h4>
+                    <div class="testimonial-slide owl-carousel testimonial-style3">
+                        <?php
+                        $ret = "SELECT * FROM users u
+                        INNER JOIN login l ON l.login_id = u.user_login_id
+                        WHERE l.login_rank = 'Client'
+                        ORDER BY RAND() ASC LIMIT 10   ";
+                        $stmt = $mysqli->prepare($ret);
+                        $stmt->execute(); //ok
+                        $res = $stmt->get_result();
+                        while ($clients = $res->fetch_object()) {
+                        ?>
+                            <a href="clients?view=<?php echo $clients->user_id; ?>">
+                                <div class="single-testimonial-slide">
+                                    <div class="text-content">
+                                        <div class="col-12">
+                                            <div class="card team-member-card shadow">
+                                                <div class="card-body">
+                                                    <!-- Member Image-->
+                                                    <div class="team-member-img shadow-sm"><img src="../public/img/bg-img/profile.svg" alt=""></div>
+                                                    <!-- Team Info-->
+                                                    <div class="team-info">
+                                                        <h6 class="mb-0"><?php echo $clients->user_fname . ' ' . $clients->user_lname; ?></h6>
+                                                        <p class="mb-0">Gender: <?php echo $clients->user_gender; ?></p>
+                                                        <p class="mb-0">Contacts: <?php echo $clients->user_contact; ?></p>
+                                                        <p class="mb-0">Email: <?php echo $clients->login_email; ?></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pb-3"></div>
+        <div class="container">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="text-center">Available Freelancers</h4>
+                    <div class="testimonial-slide owl-carousel testimonial-style3">
+                        <?php
+                        $ret = "SELECT * FROM users u
+                        INNER JOIN login l ON l.login_id = u.user_login_id
+                        WHERE l.login_rank = 'Freelancer'
+                        ORDER BY RAND() ASC LIMIT 10   ";
+                        $stmt = $mysqli->prepare($ret);
+                        $stmt->execute(); //ok
+                        $res = $stmt->get_result();
+                        while ($clients = $res->fetch_object()) {
+                        ?>
+                            <a href="freelancers?view=<?php echo $clients->user_id; ?>">
+                                <div class="single-testimonial-slide">
+                                    <div class="text-content">
+                                        <div class="col-12">
+                                            <div class="card team-member-card shadow">
+                                                <div class="card-body">
+                                                    <!-- Member Image-->
+                                                    <div class="team-member-img shadow-sm"><img src="../public/img/bg-img/profile.svg" alt=""></div>
+                                                    <!-- Team Info-->
+                                                    <div class="team-info">
+                                                        <h6 class="mb-0"><?php echo $clients->user_fname . ' ' . $clients->user_lname; ?></h6>
+                                                        <p class="mb-0">Gender: <?php echo $clients->user_gender; ?></p>
+                                                        <p class="mb-0">Contacts: <?php echo $clients->user_contact; ?></p>
+                                                        <p class="mb-0">Email: <?php echo $clients->login_email; ?></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
