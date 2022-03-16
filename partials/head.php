@@ -50,7 +50,7 @@
     <!-- Export Data Tables -->
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
     <!-- Toastr -->
-    <link rel="stylesheet" href="../assets/plugins/toastr/toastr.min.css">
+    <link rel="stylesheet" href="../public/plugins/toastr/toastr.min.css">
 </head>
 <?php
 /* Alert Sesion Via Alerts */
