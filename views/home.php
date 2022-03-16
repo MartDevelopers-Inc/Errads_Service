@@ -22,6 +22,7 @@ session_start();
 require_once('../config/config.php');
 require_once('../config/checklogin.php');
 check_login();
+require_once('../partials/analytics.php');
 require_once('../partials/head.php');
 ?>
 
@@ -73,8 +74,9 @@ require_once('../partials/head.php');
             <div class="single-hero-slide bg-overlay" style="background-image: url('img/bg-img/31.jpg')">
                 <div class="slide-content h-100 d-flex align-items-center text-center">
                     <div class="container">
-                        <h4 class="text-white mb-1" data-animation="fadeInUp" data-delay="100ms" data-wow-duration="500ms">Build with Bootstrap 5</h4>
-                        <p class="text-white mb-4" data-animation="fadeInUp" data-delay="400ms" data-wow-duration="500ms">Build fast, responsive sites with Bootstrap.</p><a class="btn btn-creative btn-warning" href="#" data-animation="fadeInUp" data-delay="800ms" data-wow-duration="500ms">Buy Now</a>
+                        <h4 class="text-white mb-1" data-animation="fadeInUp" data-delay="100ms" data-wow-duration="500ms">Clients</h4>
+                        <p class="text-white mb-4" data-animation="fadeInUp" data-delay="400ms" data-wow-duration="1000ms">Ready to hire and pay for errands services</p>
+                        <a class="btn btn-creative btn-warning" href="clients" data-animation="fadeInUp" data-delay="800ms" data-wow-duration="500ms"><?php echo $clients; ?></a>
                     </div>
                 </div>
             </div>
@@ -82,8 +84,9 @@ require_once('../partials/head.php');
             <div class="single-hero-slide bg-overlay" style="background-image: url('img/bg-img/32.jpg')">
                 <div class="slide-content h-100 d-flex align-items-center text-center">
                     <div class="container">
-                        <h4 class="text-white mb-1" data-animation="fadeInUp" data-delay="100ms" data-wow-duration="1000ms">PWA ready</h4>
-                        <p class="text-white mb-4" data-animation="fadeInUp" data-delay="400ms" data-wow-duration="1000ms">Make your website feel more like a native app.</p><a class="btn btn-creative btn-warning" href="#" data-animation="fadeInUp" data-delay="800ms" data-wow-duration="500ms">Buy Now</a>
+                        <h4 class="text-white mb-1" data-animation="fadeInUp" data-delay="100ms" data-wow-duration="1000ms">Freelancers</h4>
+                        <p class="text-white mb-4" data-animation="fadeInUp" data-delay="400ms" data-wow-duration="1000ms">Ready and available freelancers to run your errands</p>
+                        <a class="btn btn-creative btn-warning" href="#" data-animation="fadeInUp" data-delay="800ms" data-wow-duration="500ms"><?php echo $freelancers; ?></a>
                     </div>
                 </div>
             </div>
@@ -91,8 +94,9 @@ require_once('../partials/head.php');
             <div class="single-hero-slide bg-overlay" style="background-image: url('img/bg-img/33.jpg')">
                 <div class="slide-content h-100 d-flex align-items-center text-center">
                     <div class="container">
-                        <h4 class="text-white mb-1" data-animation="fadeInUp" data-delay="100ms" data-wow-duration="1000ms">Unique elements &amp; pages</h4>
-                        <p class="text-white mb-4" data-animation="fadeInUp" data-delay="400ms" data-wow-duration="1000ms">Create your website in minutes, not weeks.</p><a class="btn btn-creative btn-warning" href="#" data-animation="fadeInUp" data-delay="800ms" data-wow-duration="500ms">Buy Now</a>
+                        <h4 class="text-white mb-1" data-animation="fadeInUp" data-delay="100ms" data-wow-duration="1000ms">Posted Errands</h4>
+                        <p class="text-white mb-4" data-animation="fadeInUp" data-delay="400ms" data-wow-duration="1000ms">Readly and available errands services openings.</p>
+                        <a class="btn btn-creative btn-warning" href="#" data-animation="fadeInUp" data-delay="800ms" data-wow-duration="500ms"><?php echo $errands; ?></a>
                     </div>
                 </div>
             </div>
@@ -100,8 +104,19 @@ require_once('../partials/head.php');
             <div class="single-hero-slide bg-overlay" style="background-image: url('img/bg-img/1.jpg')">
                 <div class="slide-content h-100 d-flex align-items-center text-center">
                     <div class="container">
-                        <h4 class="text-white mb-1" data-animation="fadeInUp" data-delay="100ms" data-wow-duration="1000ms">Dark &amp; rtl ready</h4>
-                        <p class="text-white mb-4" data-animation="fadeInUp" data-delay="400ms" data-wow-duration="1000ms">You can use Dark or RTL mode of your choice.</p><a class="btn btn-creative btn-warning" href="#" data-animation="fadeInUp" data-delay="800ms" data-wow-duration="500ms">Buy Now</a>
+                        <h4 class="text-white mb-1" data-animation="fadeInUp" data-delay="100ms" data-wow-duration="1000ms">Biddings</h4>
+                        <p class="text-white mb-4" data-animation="fadeInUp" data-delay="400ms" data-wow-duration="1000ms">Freelancers are ready to offer services on posted errands.</p>
+                        <a class="btn btn-creative btn-warning" href="#" data-animation="fadeInUp" data-delay="800ms" data-wow-duration="500ms"><?php echo $biddings; ?></a>
+                    </div>
+                </div>
+            </div>
+            <!-- Single Hero Slide-->
+            <div class="single-hero-slide bg-overlay" style="background-image: url('img/bg-img/1.jpg')">
+                <div class="slide-content h-100 d-flex align-items-center text-center">
+                    <div class="container">
+                        <h4 class="text-white mb-1" data-animation="fadeInUp" data-delay="100ms" data-wow-duration="1000ms">Payments</h4>
+                        <p class="text-white mb-4" data-animation="fadeInUp" data-delay="400ms" data-wow-duration="1000ms">Freelancers are earning quite alot on this platform, Clients are spending too.</p>
+                        <a class="btn btn-creative btn-warning" href="" data-animation="fadeInUp" data-delay="800ms" data-wow-duration="500ms">Ksh <?php echo number_format($payments, 2); ?></a>
                     </div>
                 </div>
             </div>
