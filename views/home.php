@@ -86,7 +86,7 @@ require_once('../partials/head.php');
                     <div class="container">
                         <h4 class="text-white mb-1" data-animation="fadeInUp" data-delay="100ms" data-wow-duration="1000ms">Freelancers</h4>
                         <p class="text-white mb-4" data-animation="fadeInUp" data-delay="400ms" data-wow-duration="1000ms">Ready and available freelancers to run your errands</p>
-                        <a class="btn btn-creative btn-warning" href="#" data-animation="fadeInUp" data-delay="800ms" data-wow-duration="500ms"><?php echo $freelancers; ?></a>
+                        <a class="btn btn-creative btn-warning" href="freelancers" data-animation="fadeInUp" data-delay="800ms" data-wow-duration="500ms"><?php echo $freelancers; ?></a>
                     </div>
                 </div>
             </div>
@@ -96,7 +96,7 @@ require_once('../partials/head.php');
                     <div class="container">
                         <h4 class="text-white mb-1" data-animation="fadeInUp" data-delay="100ms" data-wow-duration="1000ms">Posted Errands</h4>
                         <p class="text-white mb-4" data-animation="fadeInUp" data-delay="400ms" data-wow-duration="1000ms">Readly and available errands services openings.</p>
-                        <a class="btn btn-creative btn-warning" href="#" data-animation="fadeInUp" data-delay="800ms" data-wow-duration="500ms"><?php echo $errands; ?></a>
+                        <a class="btn btn-creative btn-warning" href="errands" data-animation="fadeInUp" data-delay="800ms" data-wow-duration="500ms"><?php echo $errands; ?></a>
                     </div>
                 </div>
             </div>
@@ -106,7 +106,7 @@ require_once('../partials/head.php');
                     <div class="container">
                         <h4 class="text-white mb-1" data-animation="fadeInUp" data-delay="100ms" data-wow-duration="1000ms">Biddings</h4>
                         <p class="text-white mb-4" data-animation="fadeInUp" data-delay="400ms" data-wow-duration="1000ms">Freelancers are ready to offer services on posted errands.</p>
-                        <a class="btn btn-creative btn-warning" href="#" data-animation="fadeInUp" data-delay="800ms" data-wow-duration="500ms"><?php echo $biddings; ?></a>
+                        <a class="btn btn-creative btn-warning" href="errands" data-animation="fadeInUp" data-delay="800ms" data-wow-duration="500ms"><?php echo $biddings; ?></a>
                     </div>
                 </div>
             </div>
@@ -116,7 +116,7 @@ require_once('../partials/head.php');
                     <div class="container">
                         <h4 class="text-white mb-1" data-animation="fadeInUp" data-delay="100ms" data-wow-duration="1000ms">Payments</h4>
                         <p class="text-white mb-4" data-animation="fadeInUp" data-delay="400ms" data-wow-duration="1000ms">Freelancers are earning quite alot on this platform, Clients are spending too.</p>
-                        <a class="btn btn-creative btn-warning" href="" data-animation="fadeInUp" data-delay="800ms" data-wow-duration="500ms">Ksh <?php echo number_format($payments, 2); ?></a>
+                        <a class="btn btn-creative btn-warning" href="payments" data-animation="fadeInUp" data-delay="800ms" data-wow-duration="500ms">Ksh <?php echo number_format($payments, 2); ?></a>
                     </div>
                 </div>
             </div>
