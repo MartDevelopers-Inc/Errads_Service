@@ -7,8 +7,8 @@ $stmt = $mysqli->prepare($ret);
 $stmt->execute(); //ok
 $res = $stmt->get_result();
 while ($user = $res->fetch_object()) {
-
     if ($user_access_level == 'Administrator') {
+        require_once('../partials/analytics.php');
 ?>
         <div class="sidenav-wrapper" id="sidenavWrapper">
             <!-- Go Back Button-->
@@ -46,7 +46,7 @@ while ($user = $res->fetch_object()) {
                         </svg>
                         Clients
                         <span class="badge bg-danger rounded-pill ms-2">
-                            220+
+                            <?php echo $clients; ?>
                         </span>
                     </a>
                 </li>
@@ -57,7 +57,7 @@ while ($user = $res->fetch_object()) {
                         </svg>
                         Freelancers
                         <span class="badge bg-success rounded-pill ms-2">
-                            38
+                            <?php echo $freelancers; ?>
                         </span>
                     </a>
                 </li>
