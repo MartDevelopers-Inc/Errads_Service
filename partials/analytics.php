@@ -21,4 +21,47 @@
  */
 
 
+/* Freelancers */
+$query = "SELECT COUNT(*)  FROM users u 
+INNER JOIN login l ON l.login_id = u.user_login_id
+WHERE login_rank = 'Freelancer' ";
+$stmt = $mysqli->prepare($query);
+$stmt->execute();
+$stmt->bind_result($Freelancers);
+$stmt->fetch();
+$stmt->close();
 
+
+/* CLients */
+$query = "SELECT COUNT(*)  FROM users u 
+INNER JOIN login l ON l.login_id = u.user_login_id
+WHERE login_rank = 'Client' ";
+$stmt = $mysqli->prepare($query);
+$stmt->execute();
+$stmt->bind_result($Clients);
+$stmt->fetch();
+$stmt->close();
+
+/* Posted Errands */
+$query = "SELECT COUNT(*)  FROM errands";
+$stmt = $mysqli->prepare($query);
+$stmt->execute();
+$stmt->bind_result($errands);
+$stmt->fetch();
+$stmt->close();
+
+/* Biddings */
+$query = "SELECT COUNT(*)  FROM biddings";
+$stmt = $mysqli->prepare($query);
+$stmt->execute();
+$stmt->bind_result($biddings);
+$stmt->fetch();
+$stmt->close();
+
+/* Total Amount Spent */
+$query = "SELECT SUM(payment_amount)  FROM payments";
+$stmt = $mysqli->prepare($query);
+$stmt->execute();
+$stmt->bind_result($payments);
+$stmt->fetch();
+$stmt->close();
