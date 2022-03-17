@@ -21,8 +21,34 @@
 session_start();
 require_once('../config/config.php');
 require_once('../config/checklogin.php');
+require_once('../config/codeGen.php');
 check_login();
-require_once('../partials/analytics.php');
+/* Add Errand Bid */
+if (isset($_POST['add_bid'])) {
+    $bidding_id = $sys_gen_id;
+    $bidding_errand_id = $_GET['view'];
+    $bidding_user_id = $_SESSION['user_id'];
+    $bidding_description = $_POST['bidding_description'];
+    $bidding_amount = $_POST['bidding_amount'];
+
+    /* Add Bidding */
+    $sql = "INSERT INTO biddings (bidding_id, bidding_errand_id, bidding_user_id, bidding_description, bidding_amount) VALUES(?,?,?,?,?)";
+    $prepare = $mysqli->prepare($sql);
+    $bind = $prepare->bind_param(
+        'sssss',
+        $bidding_id,
+        $bidding_errand_id,
+        $bidding_user_id,
+        $bidding_description,
+        $bidding_amount
+    );
+    $prepare->execute();
+    if ($prepare) {
+        $success = "Bidding Posted";
+    } else {
+        $err = "Failed!, Please Try Again";
+    }
+}
 require_once('../partials/head.php');
 ?>
 
@@ -87,15 +113,25 @@ require_once('../partials/head.php');
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h6 class="modal-title" id="exampleModalLabel">Modal Heading</h6>
+                        <h6 class="modal-title" id="exampleModalLabel">Bid For <?php echo $errand->errand_name; ?></h6>
                         <button class="btn btn-close p-1 ms-auto" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p class="mb-0">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquam quasi illum eveniet quidem dolores consectetur tempore architecto quo quos.</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-sm btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
-                        <button class="btn btn-sm btn-success" type="button">Save</button>
+                        <form method="post" enctype="multipart/form-data" role="form">
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label for="">Amount (Ksh)</label>
+                                    <input type="number" required name="bidding_amount" class="form-control">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="">Bidding Description</label>
+                                    <textarea type="text" required name="bidding_description" class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <div class="pull-right">
+                                <button type="submit" name="add_bid" class="btn btn-warning">Submit Bid</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
