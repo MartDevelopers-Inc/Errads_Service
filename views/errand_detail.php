@@ -49,6 +49,35 @@ if (isset($_POST['add_bid'])) {
         $err = "Failed!, Please Try Again";
     }
 }
+
+/* Update Errand */
+if (isset($_POST['update_errand'])) {
+    $errand_id = $_GET['view'];
+    $errand_name = $_POST['errand_name'];
+    $errand_description = $_POST['errand_description'];
+    $errand_amount = $_POST['errand_amount'];
+    $errand_due_date  = $_POST['errand_amount'];
+
+    /* Update */
+    $sql = "UPDATE errands SET errand_name =?, errand_description =?, errand_amount =?, errand_due_date =? WHERE errand_id =?";
+    $prepare = $mysqli->prepare($sql);
+    $bind = $prepare->bind_param(
+        'sssss',
+        $errand_name,
+        $errand_description,
+        $errand_amount,
+        $errand_due_date,
+        $errand_id
+    );
+    $prepare->execute();
+    if ($prepare) {
+        $success = "Errand Record Updated";
+    } else {
+        $err = "Failed!, Please Try Again";
+    }
+}
+
+/* Delete Errand */
 require_once('../partials/head.php');
 ?>
 
