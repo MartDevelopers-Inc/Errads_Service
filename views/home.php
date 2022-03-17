@@ -111,14 +111,22 @@ require_once('../partials/head.php');
                             $stmt->close();
                         ?>
                             <div class="single-testimonial-slide">
-                                <div class="text-content">
-                                    <h6 class="mb-2"><?php echo $errands->errand_name; ?></h6>
-                                    <p class="">
-                                        <?php echo $errands->errand_description; ?>
-                                    </p>
-                                    <p class="text-success">Amount: Ksh<?php echo number_format($errands->errand_amount); ?></p>
-                                    <span class="d-block">Posted By: <?php echo $errands->user_fname . ' ' . $errands->user_lname; ?></span>
-                                </div>
+                                <a href="errand_detail?view=<?php echo $errand_id; ?>">
+                                    <div class="text-content">
+                                        <h6 class="mb-2"><?php echo $errands->errand_name; ?></h6>
+                                        <p class="">
+                                            <?php echo substr($errands->errand_description, 0, 100); ?>... <br>
+                                            <span class="text-success">
+                                                Amount: Ksh<?php echo number_format($errands->errand_amount); ?><br>
+                                                Due Date: <?php echo date('d M Y', strtotime($errands->errand_due_date)); ?><br>
+                                                Bids: <?php echo $biddings; ?>
+                                            </span>
+                                        </p>
+                                        <figcaption class="blockquote-footer">
+                                            Posted By <cite title="Source Title"><?php echo $errands->user_fname . ' ' . $errands->user_lname; ?></cite>
+                                        </figcaption>
+                                    </div>
+                                </a>
                             </div>
                         <?php } ?>
                     </div>
