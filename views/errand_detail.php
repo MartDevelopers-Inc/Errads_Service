@@ -57,7 +57,6 @@ if (isset($_POST['update_errand'])) {
     $errand_description = $_POST['errand_description'];
     $errand_amount = $_POST['errand_amount'];
     $errand_due_date  = $_POST['errand_due_date'];
-
     /* Update */
     $sql = "UPDATE errands SET errand_name =?, errand_description =?, errand_amount =?, errand_due_date =? WHERE errand_id =?";
     $prepare = $mysqli->prepare($sql);
@@ -79,11 +78,11 @@ if (isset($_POST['update_errand'])) {
 
 /* Delete Errand */
 if (isset($_POST['delete'])) {
-    $errand_id = $_GET['view'];
-
+    $errand_id = $_POST['errand_id'];
     /* Delete */
-    $sql = "DELETE FROM errands WHERE errand_id = '$errand_id'";
+    $sql = "DELETE FROM errands WHERE errand_id = ?";
     $prepare = $mysqli->prepare($sql);
+    $bind = $prepare->bind_param('s', $errand_id);
     $prepare->execute();
     if ($prepare) {
         $_SESSION['success'] = 'Errand Deleted';
@@ -218,6 +217,28 @@ require_once('../partials/head.php');
             </div>
         </div>
         <!-- Update Modal -->
+
+        <!-- Delete Modal -->
+        <div class="modal fade" id="delete_<?php echo $errand->errand_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">CONFIRM DELETE</h5>
+                        <button class="btn btn-close p-1 ms-auto" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form method="POST">
+                        <div class="modal-body text-center text-danger">
+                            <h4>Delete Errand?</h4>
+                            <br>
+                            <!-- Hide This -->
+                            <input type="hidden" name="errand_id" value="<?php echo $errand->errand_id; ?>">
+                            <button type="button" class="text-center btn btn-success" data-bs-dismiss="modal">No</button>
+                            <input type="submit" name="delete" value="Delete" class="text-center btn btn-danger">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <!-- Delete Modal -->
         <!-- Side Nav Wrapper-->
         <?php require_once('../partials/side_nav.php'); ?>
