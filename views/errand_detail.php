@@ -56,7 +56,7 @@ if (isset($_POST['update_errand'])) {
     $errand_name = $_POST['errand_name'];
     $errand_description = $_POST['errand_description'];
     $errand_amount = $_POST['errand_amount'];
-    $errand_due_date  = $_POST['errand_amount'];
+    $errand_due_date  = $_POST['errand_due_date'];
 
     /* Update */
     $sql = "UPDATE errands SET errand_name =?, errand_description =?, errand_amount =?, errand_due_date =? WHERE errand_id =?";
@@ -174,6 +174,43 @@ require_once('../partials/head.php');
                             </div>
                             <div class="pull-right">
                                 <button type="submit" name="add_bid" class="btn btn-warning">Submit Bid</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Update Modal -->
+        <div class="modal fade" id="update_<?php echo $errand->errand_id; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="exampleModalLabel">Edit Errand: <?php echo $errand->errand_name; ?></h6>
+                        <button class="btn btn-close p-1 ms-auto" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" enctype="multipart/form-data" role="form">
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label class="form-label">Errand Name</label>
+                                    <input type="text" value="<?php echo $errand->errand_name; ?>" required name="errand_name" class="form-control">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="form-label">Due Date</label>
+                                    <input type="date" value="<?php echo $errand->errand_due_date; ?>" required name="errand_due_date" class="form-control">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="form-label">Amount (Ksh)</label>
+                                    <input type="number" value="<?php echo $errand->errand_amount; ?>" required name="errand_amount" class="form-control">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label class="form-label">Errand Description</label>
+                                    <textarea type="text" required name="errand_description" class="form-control"><?php echo $errand->errand_description; ?></textarea>
+                                </div>
+                            </div>
+                            <div class="pull-right">
+                                <button type="submit" name="update_errand" class="btn btn-warning">Update Errand</button>
                             </div>
                         </form>
                     </div>
