@@ -78,6 +78,21 @@ if (isset($_POST['update_errand'])) {
 }
 
 /* Delete Errand */
+if (isset($_POST['delete'])) {
+    $errand_id = $_GET['view'];
+
+    /* Delete */
+    $sql = "DELETE FROM errands WHERE errand_id = '$errand_id'";
+    $prepare = $mysqli->prepare($sql);
+    $prepare->execute();
+    if ($prepare) {
+        $_SESSION['success'] = 'Errand Deleted';
+        header("location:home");
+        exit;
+    } else {
+        $err = "Failed!, Please Try Again";
+    }
+}
 require_once('../partials/head.php');
 ?>
 
