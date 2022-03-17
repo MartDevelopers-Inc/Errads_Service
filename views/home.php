@@ -91,18 +91,36 @@ require_once('../partials/head.php');
             <div class="card">
                 <div class="card-body">
                     <h2>Recent Posted Errands Services</h2>
+                    <hr>
                     <div class="testimonial-slide owl-carousel testimonial-style3">
-                        <!-- Single Testimonial Slide-->
-                        <div class="single-testimonial-slide">
-                            <div class="text-content"><span class="d-inline-block badge bg-warning mb-2"><i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill"></i></span>
-                                <h6 class="mb-2">The code looks clean, and the designs are excellent. I recommend.</h6><span class="d-block">Mrrickez, Themeforest</span>
+                        <?php
+                        $ret = "SELECT * FROM errands e
+                        INNER JOIN users u ON u.user_id = e.errand_user_id 
+                        ORDER BY errand_due_date DESC LIMIT 10";
+                        $stmt = $mysqli->prepare($ret);
+                        $stmt->execute(); //ok
+                        $res = $stmt->get_result();
+                        while ($errands = $res->fetch_object()) {
+                            /* Count Available bids to this errand */
+                            $errand_id = $errands->errand_id;
+                            $query = "SELECT COUNT(*)  FROM biddings WHERE bidding_errand_id  = '$errand_id'";
+                            $stmt = $mysqli->prepare($query);
+                            $stmt->execute();
+                            $stmt->bind_result($biddings);
+                            $stmt->fetch();
+                            $stmt->close();
+                        ?>
+                            <div class="single-testimonial-slide">
+                                <div class="text-content">
+                                    <h6 class="mb-2"><?php echo $errands->errand_name; ?></h6>
+                                    <p class="">
+                                        <?php echo $errands->errand_description; ?>
+                                    </p>
+                                    <p class="text-success">Amount: Ksh<?php echo number_format($errands->errand_amount); ?></p>
+                                    <span class="d-block">Posted By: <?php echo $errands->user_fname . ' ' . $errands->user_lname; ?></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="single-testimonial-slide">
-                            <div class="text-content"><span class="d-inline-block badge bg-warning mb-2"><i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill me-1"></i><i class="bi bi-star-fill"></i></span>
-                                <h6 class="mb-2">The code looks clean, and the designs are excellent. I recommend.</h6><span class="d-block">Mrrickez, Themeforest</span>
-                            </div>
-                        </div>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
