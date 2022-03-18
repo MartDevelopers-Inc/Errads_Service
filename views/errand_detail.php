@@ -129,7 +129,7 @@ require_once('../partials/head.php');
                     </div>
                     <!-- Page Title-->
                     <div class="page-heading">
-                        <h6 class="mb-0"><?php echo $errand->errand_name; ?></h6>
+                        <h6 class="mb-0">Errand Details And Bids</h6>
                     </div>
                     <!-- Navbar Toggler-->
                     <div class="navbar--toggler" id="affanNavbarToggler"><span class="d-block"></span><span class="d-block"></span><span class="d-block"></span></div>
@@ -246,7 +246,7 @@ require_once('../partials/head.php');
             <div class="container">
                 <div class="card product-details-card mb-3 direction-rtl border-primary">
                     <div class="card-body">
-                        <h5>Errand Details</h5>
+                        <h5><?php echo $errand->errand_name; ?> </h5>
                         <p><?php echo $errand->errand_description; ?></p><br>
                         <figcaption class="blockquote-footer">
                             Posted By <cite title="Source Title"><?php echo $errand->user_fname . ' ' . $errand->user_lname; ?></cite>
@@ -262,12 +262,14 @@ require_once('../partials/head.php');
                     </div>
                     <div class="card-footer">
                         <div class="text-center">
-                            <button class="btn btn-round btn-success" type="button" data-bs-toggle="modal" data-bs-target="#bid_<?php echo $errand->errand_id; ?>">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-megaphone" viewBox="0 0 16 16">
-                                    <path d="M13 2.5a1.5 1.5 0 0 1 3 0v11a1.5 1.5 0 0 1-3 0v-.214c-2.162-1.241-4.49-1.843-6.912-2.083l.405 2.712A1 1 0 0 1 5.51 15.1h-.548a1 1 0 0 1-.916-.599l-1.85-3.49a68.14 68.14 0 0 0-.202-.003A2.014 2.014 0 0 1 0 9V7a2.02 2.02 0 0 1 1.992-2.013 74.663 74.663 0 0 0 2.483-.075c3.043-.154 6.148-.849 8.525-2.199V2.5zm1 0v11a.5.5 0 0 0 1 0v-11a.5.5 0 0 0-1 0zm-1 1.35c-2.344 1.205-5.209 1.842-8 2.033v4.233c.18.01.359.022.537.036 2.568.189 5.093.744 7.463 1.993V3.85zm-9 6.215v-4.13a95.09 95.09 0 0 1-1.992.052A1.02 1.02 0 0 0 1 7v2c0 .55.448 1.002 1.006 1.009A60.49 60.49 0 0 1 4 10.065zm-.657.975 1.609 3.037.01.024h.548l-.002-.014-.443-2.966a68.019 68.019 0 0 0-1.722-.082z" />
-                                </svg>
-                                Bid
-                            </button>
+                            <?php /* You Cant Bid Your Own Errand */ if ($_SESSION['user_id'] != ($errand->errand_user_id)) { ?>
+                                <button class="btn btn-round btn-success" type="button" data-bs-toggle="modal" data-bs-target="#bid_<?php echo $errand->errand_id; ?>">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-megaphone" viewBox="0 0 16 16">
+                                        <path d="M13 2.5a1.5 1.5 0 0 1 3 0v11a1.5 1.5 0 0 1-3 0v-.214c-2.162-1.241-4.49-1.843-6.912-2.083l.405 2.712A1 1 0 0 1 5.51 15.1h-.548a1 1 0 0 1-.916-.599l-1.85-3.49a68.14 68.14 0 0 0-.202-.003A2.014 2.014 0 0 1 0 9V7a2.02 2.02 0 0 1 1.992-2.013 74.663 74.663 0 0 0 2.483-.075c3.043-.154 6.148-.849 8.525-2.199V2.5zm1 0v11a.5.5 0 0 0 1 0v-11a.5.5 0 0 0-1 0zm-1 1.35c-2.344 1.205-5.209 1.842-8 2.033v4.233c.18.01.359.022.537.036 2.568.189 5.093.744 7.463 1.993V3.85zm-9 6.215v-4.13a95.09 95.09 0 0 1-1.992.052A1.02 1.02 0 0 0 1 7v2c0 .55.448 1.002 1.006 1.009A60.49 60.49 0 0 1 4 10.065zm-.657.975 1.609 3.037.01.024h.548l-.002-.014-.443-2.966a68.019 68.019 0 0 0-1.722-.082z" />
+                                    </svg>
+                                    Bid
+                                </button>
+                            <?php } ?>
                             <button class="btn btn-round btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#update_<?php echo $errand->errand_id; ?>">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
@@ -285,6 +287,40 @@ require_once('../partials/head.php');
                         </div>
                     </div>
                 </div>
+            </div>
+            <hr>
+            <h5 class="text-center">Bids</h5>
+            <div class="container">
+                <?php
+                $ret = "SELECT * FROM biddings  ";
+                $stmt = $mysqli->prepare($ret);
+                $stmt->execute(); //ok
+                $res = $stmt->get_result();
+                while ($errands = $res->fetch_object()) {
+                ?>
+                    <ul class="ps-0 chat-user-list">
+                        <li class="p-3 chat-unread">
+                            <a class="d-flex" href="errand_detail?view=<?php echo $errands->errand_id; ?>">
+                                <div class="text-content">
+                                    <h6 class="mb-2"><?php echo $errands->errand_name; ?></h6>
+                                    <p class="">
+                                        <?php echo substr($errands->errand_description, 0, 100); ?>... <br>
+                                        <span class="text-success">
+                                            Amount: Ksh <?php echo number_format($errands->errand_amount); ?><br>
+                                            Due Date: <?php echo date('d M Y', strtotime($errands->errand_due_date)); ?><br>
+                                            Bids: <?php echo $biddings; ?>
+                                        </span>
+                                    </p>
+                                    <figcaption class="blockquote-footer">
+                                        Posted By <cite title="Source Title"><?php echo $errands->user_fname . ' ' . $errands->user_lname; ?></cite>
+                                    </figcaption>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <br>
+                <?php
+                } ?>
             </div>
         </div>
     <?php } ?>
