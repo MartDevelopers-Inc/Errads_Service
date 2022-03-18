@@ -24,37 +24,6 @@ require_once('../config/config.php');
 require_once('../config/checklogin.php');
 require_once('../config/codeGen.php');
 check_login();
-
-/* Add Errand */
-if (isset($_POST['add_errand'])) {
-    $errand_id = $sys_gen_id;
-    $errand_name = $_POST['errand_name'];
-    $errand_description = $_POST['errand_description'];
-    $errand_amount = $_POST['errand_amount'];
-    $errand_due_date = $_POST['errand_due_date'];
-    $errand_user_id = $_SESSION['user_id'];
-
-    /* Persist */
-    $sql = "INSERT INTO errands (errand_id, errand_name, errand_description, errand_amount, errand_due_date, errand_user_id)
-    VALUES(?,?,?,?,?,?)";
-    $prepare = $mysqli->prepare($sql);
-    $bind = $prepare->bind_param(
-        'ssssss',
-        $errand_id,
-        $errand_name,
-        $errand_description,
-        $errand_amount,
-        $errand_due_date,
-        $errand_user_id
-    );
-    $prepare->execute();
-    if ($prepare) {
-        $success = "Errand Service Opening Posted";
-    } else {
-        $err = "Failed!, Please Try Again";
-    }
-}
-
 require_once('../partials/head.php');
 ?>
 
@@ -74,7 +43,7 @@ require_once('../partials/head.php');
             <div class="header-content header-style-five position-relative d-flex align-items-center justify-content-between">
                 <!-- Back Button-->
                 <div class="back-button">
-                    <a href="home">
+                    <a href="errands">
                         <svg width="32" height="32" viewBox="0 0 16 16" class="bi bi-arrow-left-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
                         </svg>
@@ -82,7 +51,7 @@ require_once('../partials/head.php');
                 </div>
                 <!-- Page Title-->
                 <div class="page-heading">
-                    <h6 class="mb-0">Errands</h6>
+                    <h6 class="mb-0">Search Results For : <?php echo $_GET['search_query']; ?><h6>
                 </div>
                 <!-- Navbar Toggler-->
                 <div class="navbar--toggler" id="affanNavbarToggler"><span class="d-block"></span><span class="d-block"></span><span class="d-block"></span></div>
@@ -109,42 +78,6 @@ require_once('../partials/head.php');
     <!-- Side Nav Wrapper-->
     <?php require_once('../partials/side_nav.php'); ?>
 
-    <!-- Add new Staff modal-->
-    <div class="add-new-contact-modal modal fade px-0" id="addnewcontact" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addnewcontactlabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="modal-title" id="addnewcontactlabel">Register New Errand Service</h6>
-                        <button class="btn btn-close p-1 ms-auto me-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form method="post" enctype="multipart/form-data" role="form">
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                <label class="form-label">Name</label>
-                                <input type="text" required name="errand_name" class="form-control">
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label class="form-label">Amount (Ksh)</label>
-                                <input type="number" required name="errand_amount" class="form-control">
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label class="form-label">Due Date</label>
-                                <input type="date" required name="errand_due_date" class="form-control">
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label class="form-label">Description</label>
-                                <textarea type="text" required name="errand_description" class="form-control"></textarea>
-                            </div>
-                        </div>
-                        <div class="pull-right">
-                            <button type="submit" name="add_errand" class="btn btn-warning">Post Errand</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="page-content-wrapper py-3">
         <!-- Add New Staff-->
         <div class="add-new-contact-wrap"><a class="shadow" href="#" data-bs-toggle="modal" data-bs-target="#addnewcontact"><i class="bi bi-plus"></i></a></div>
@@ -165,38 +98,47 @@ require_once('../partials/head.php');
             </div>
             <!-- Chat User List-->
             <?php
-            $ret = "SELECT * FROM errands e
-            INNER JOIN users u ON u.user_id = e.errand_user_id 
-            ORDER BY errand_due_date DESC";
-            $stmt = $mysqli->prepare($ret);
-            $stmt->execute(); //ok
-            $res = $stmt->get_result();
-            while ($errands = $res->fetch_object()) {
-                
+            $search_query = htmlspecialchars($_GET['search_query']);
+            $min_length = 0;
+            if (strlen($search_query) >= $min_length) {
+                $search_query = mysqli_real_escape_string($mysqli, $search_query);
+                $raw_results = mysqli_query($mysqli, "SELECT * FROM errands e
+                INNER JOIN users u ON u.user_id = e.errand_user_id 
+                WHERE (e.errand_name LIKE '%" . $search_query . "%') || (e.errand_description LIKE '%" . $search_query . "%') ");
+                if (mysqli_num_rows($raw_results) > 0) {
+                    while ($results = mysqli_fetch_array($raw_results)) {
+
             ?>
-                <ul class="ps-0 chat-user-list">
-                    <li class="p-3 chat-unread">
-                        <a class="d-flex" href="errand_detail?view=<?php echo $errands->errand_id; ?>">
-                            <div class="text-content">
-                                <h6 class="mb-2"><?php echo $errands->errand_name; ?></h6>
-                                <p class="">
-                                    <?php echo substr($errands->errand_description, 0, 100); ?>... <br>
-                                    <span class="text-success">
-                                        Amount: Ksh<?php echo number_format($errands->errand_amount); ?><br>
-                                        Due Date: <?php echo date('d M Y', strtotime($errands->errand_due_date)); ?><br>
-                                        Bids: <?php echo $biddings; ?>
-                                    </span>
-                                </p>
-                                <figcaption class="blockquote-footer">
-                                    Posted By <cite title="Source Title"><?php echo $errands->user_fname . ' ' . $errands->user_lname; ?></cite>
-                                </figcaption>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-                <br>
+                        <ul class="ps-0 chat-user-list">
+                            <li class="p-3 chat-unread">
+                                <a class="d-flex" href="errand_detail?view=<?php echo  $results['errand_id']; ?>">
+                                    <div class="text-content">
+                                        <h6 class="mb-2"><?php echo $results['errand_name']; ?></h6>
+                                        <p class="">
+                                            <?php echo substr($results['errand_description'], 0, 100); ?>... <br>
+                                            <span class="text-success">
+                                                Amount: Ksh<?php echo number_format($results['errand_amount']); ?><br>
+                                                Due Date: <?php echo date('d M Y', strtotime($results['errand_due_date'])); ?><br>
+                                                Bids: <?php echo $biddings; ?>
+                                            </span>
+                                        </p>
+                                        <figcaption class="blockquote-footer">
+                                            Posted By <cite title="Source Title"><?php echo $results['user_fname'] . ' ' . $results['user_lname']; ?></cite>
+                                        </figcaption>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                        <br>
             <?php
-            } ?>
+                    }
+                } else {
+                    echo "<h5  class='text-danger text-center'> No Search Results</h5>";
+                }
+            } else {
+                echo "<h5  class='text-danger text-center'>Minimum Search Querry  Length Is " . $min_length . " Characters</h5>";
+            }
+            ?>
         </div>
     </div>
     <!-- Footer Nav-->
