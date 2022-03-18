@@ -36,7 +36,7 @@ if (isset($_POST['add_errand'])) {
 
     /* Persist */
     $sql = "INSERT INTO errands (errand_id, errand_name, errand_description, errand_amount, errand_due_date, errand_user_id)
-    VAALUES(?,?,?,?,?,?)";
+    VALUES(?,?,?,?,?,?)";
     $prepare = $mysqli->prepare($sql);
     $bind = $prepare->bind_param(
         'ssssss',
@@ -164,16 +164,16 @@ require_once('../partials/head.php');
             <div class="element-heading">
             </div>
             <!-- Chat User List-->
-            <ul class="ps-0 chat-user-list">
-                <?php
-                $ret = "SELECT * FROM errands e
-                INNER JOIN users u ON u.user_id = e.errand_user_id 
-                ORDER BY errand_due_date DESC LIMIT 10";
-                $stmt = $mysqli->prepare($ret);
-                $stmt->execute(); //ok
-                $res = $stmt->get_result();
-                while ($errands = $res->fetch_object()) {
-                ?>
+            <?php
+            $ret = "SELECT * FROM errands e
+            INNER JOIN users u ON u.user_id = e.errand_user_id 
+            ORDER BY errand_due_date DESC";
+            $stmt = $mysqli->prepare($ret);
+            $stmt->execute(); //ok
+            $res = $stmt->get_result();
+            while ($errands = $res->fetch_object()) {
+            ?>
+                <ul class="ps-0 chat-user-list">
                     <li class="p-3 chat-unread">
                         <a class="d-flex" href="errand_detail?view=<?php echo $errands->errand_id; ?>">
                             <div class="text-content">
@@ -192,9 +192,10 @@ require_once('../partials/head.php');
                             </div>
                         </a>
                     </li>
-                <?php
-                } ?>
-            </ul>
+                </ul>
+                <br>
+            <?php
+            } ?>
         </div>
     </div>
     <!-- Footer Nav-->
