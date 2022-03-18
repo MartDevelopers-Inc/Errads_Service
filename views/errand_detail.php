@@ -254,7 +254,7 @@ require_once('../partials/head.php');
                         <hr>
                         <p>
                             <span class="text-success">
-                                Amount: Ksh<?php echo number_format($errand->errand_amount); ?><br>
+                                Amount: Ksh <?php echo number_format($errand->errand_amount); ?><br>
                                 Due Date: <?php echo date('d M Y', strtotime($errand->errand_due_date)); ?><br>
                                 Total Bids: <?php echo $biddings; ?> <br>
                             </span>

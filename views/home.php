@@ -117,7 +117,7 @@ require_once('../partials/head.php');
                                         <p class="">
                                             <?php echo substr($errands->errand_description, 0, 100); ?>... <br>
                                             <span class="text-success">
-                                                Amount: Ksh<?php echo number_format($errands->errand_amount); ?><br>
+                                                Amount: Ksh <?php echo number_format($errands->errand_amount); ?><br>
                                                 Due Date: <?php echo date('d M Y', strtotime($errands->errand_due_date)); ?><br>
                                                 Bids: <?php echo $biddings; ?>
                                             </span>
