@@ -92,6 +92,29 @@ if (isset($_POST['delete'])) {
         $err = "Failed!, Please Try Again";
     }
 }
+
+/* Accept Bidding */
+if (isset($_POST['accept_bid'])) {
+    $accepted_bid_id = $sys_gen_id;
+    $accepted_bid_bidding_id = $_POST['accepted_bid_bidding_id'];
+    $accepted_bid_date = date('d M Y');
+
+    /* Persist */
+    $sql = "INSERT INTO accepted_bids(accepted_bid_id, accepted_bid_bidding_id, accepted_bid_date) VALUES(?,?,?)";
+    $prepare = $mysqli->prepare($sql);
+    $bind = $prepare->bind_param(
+        'sss',
+        $accepted_bid_id,
+        $accepted_bid_bidding_id,
+        $accepted_bid_date
+    );
+    $prepare->execute();
+    if ($prepare) {
+        $success = "Bidding Accepted";
+    } else {
+        $err  = "Failed!, Please Try Again";
+    }
+}
 require_once('../partials/head.php');
 ?>
 
