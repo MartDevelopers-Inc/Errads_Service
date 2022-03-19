@@ -340,6 +340,57 @@ require_once('../partials/head.php');
                                             </svg>
                                             Delete
                                         </button>
+
+                                        <!--Acept Modals -->
+                                        <div class="modal fade" id="accept_bid_<?php echo $biddings->bidding_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">CONFIRM BIDDING ACCEPTANCE</h5>
+                                                        <button class="btn btn-close p-1 ms-auto" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <form method="POST">
+                                                        <div class="modal-body text-center text-danger">
+                                                            <h4>Accept This Bidding Offer?</h4>
+                                                            <br>
+                                                            <!-- Hide This -->
+                                                            <input type="hidden" name="accepted_bid_bidding_id" value="<?php echo $errand->bidding_id; ?>">
+                                                            <button type="button" class="text-center btn btn-danger" data-bs-dismiss="modal">No, Thank You</button>
+                                                            <input type="submit" name="accept_bid" value="Yes, Accept" class="text-center btn  btn-success">
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Modal -->
+
+                                        <!-- Update Bidding Details Modal -->
+
+                                        <!-- End Modal -->
+
+
+                                        <!-- Delete Bidding -->
+                                        <div class="modal fade" id="delete_bid_<?php echo $biddings->bidding_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">CONFIRM DELETE</h5>
+                                                        <button class="btn btn-close p-1 ms-auto" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <form method="POST">
+                                                        <div class="modal-body text-center text-danger">
+                                                            <h4>Delete This Bidding?</h4>
+                                                            <br>
+                                                            <!-- Hide This -->
+                                                            <input type="hidden" name="bidding_id" value="<?php echo $biddings->bidding_id; ?>">
+                                                            <button type="button" class="text-center btn btn-success" data-bs-dismiss="modal">No</button>
+                                                            <input type="submit" name="delete_bidding" value="Delete" class="text-center btn btn-danger">
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Delete -->
                                     <?php } ?>
                                 </div>
                             </div>
