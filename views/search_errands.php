@@ -107,6 +107,14 @@ require_once('../partials/head.php');
                 WHERE (e.errand_name LIKE '%" . $search_query . "%') || (e.errand_description LIKE '%" . $search_query . "%') ");
                 if (mysqli_num_rows($raw_results) > 0) {
                     while ($results = mysqli_fetch_array($raw_results)) {
+                        /* Count Available bids to this errand */
+                        $errand_id = $results['errand_id'];
+                        $query = "SELECT COUNT(*)  FROM biddings WHERE bidding_errand_id  = '$errand_id'";
+                        $stmt = $mysqli->prepare($query);
+                        $stmt->execute();
+                        $stmt->bind_result($biddings);
+                        $stmt->fetch();
+                        $stmt->close();
 
             ?>
                         <ul class="ps-0 chat-user-list">
