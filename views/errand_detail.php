@@ -110,7 +110,7 @@ if (isset($_POST['accept_bid'])) {
     );
     $prepare->execute();
     if ($prepare) {
-        $success = "Bidding Accepted";
+        $success = "Bid Accepted";
     } else {
         $err  = "Failed!, Please Try Again";
     }
@@ -128,6 +128,29 @@ if (isset($_POST['delete_bidding'])) {
         $success = "Bid Deleted";
     } else {
         $err = "Failed!, Please Try Again Later";
+    }
+}
+
+/* Update Delete */
+if (isset($_POST['update_bid'])) {
+    $bidding_id = $_POST['bidding_id'];
+    $bidding_description = $_POST['bidding_description'];
+    $bidding_amount = $_POST['bidding_amount'];
+
+    /* Update */
+    $sql = "UPDATE biddings SET bidding_description =?,  bidding_amount =? WHERE bidding_id = ?";
+    $prepare = $mysqli->prepare($sql);
+    $bind = $prepare->bind_param(
+        'sss',
+        $bidding_description,
+        $bidding_amount,
+        $bidding_id
+    );
+    $prepare->execute();
+    if ($prepare) {
+        $success = "Bid Updated";
+    } else {
+        $err = "Failed!, Please Try Again";
     }
 }
 require_once('../partials/head.php');
@@ -332,8 +355,9 @@ require_once('../partials/head.php');
             <h5 class="text-center">Bids</h5>
             <div class="container">
                 <?php
-                $ret = "SELECT * FROM biddings b INNER JOIN
-                users u ON b.bidding_user_id = u.user_id 
+                $ret = "SELECT * FROM biddings b 
+                INNER JOIN users u ON b.bidding_user_id = u.user_id 
+                INNER JOIN errands e ON e.errand_id = b.bidding_errand_id
                 WHERE b.bidding_errand_id = '$view'  ";
                 $stmt = $mysqli->prepare($ret);
                 $stmt->execute(); //ok
@@ -351,10 +375,10 @@ require_once('../partials/head.php');
                                 </p>
                                 <hr>
                                 <figcaption class="blockquote-footer">
-                                    Bidding By <cite title="Source Title"><?php echo $biddings->user_fname . ' ' . $biddings->user_lname; ?></cite>
+                                    Bid By <cite title="Source Title"><?php echo $biddings->user_fname . ' ' . $biddings->user_lname; ?></cite>
                                 </figcaption>
                                 <div class="text-center">
-                                    <?php if ($_SESSION['user_id'] == ($biddings->bidding_user_id)) { ?>
+                                    <?php if ($_SESSION['user_id'] == ($biddings->errand_user_id)) { ?>
                                         <button class="btn btn-round btn-success" type="button" data-bs-toggle="modal" data-bs-target="#accept_bid_<?php echo $biddings->bidding_id; ?>">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
                                                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
@@ -362,8 +386,9 @@ require_once('../partials/head.php');
                                             </svg>
                                             Accept Bid
                                         </button>
-                                    <?php } ?>
-                                    <?php /* You can delete and update your own bids */ if ($_SESSION['user_id'] == ($biddings->bidding_user_id)) { ?>
+                                    <?php }
+                                    /* You can delete and update your own bids */
+                                    if ($_SESSION['user_id'] == ($biddings->bidding_user_id)) { ?>
                                         <button class="btn btn-round btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#update_bid_<?php echo $biddings->bidding_id; ?>">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
@@ -378,92 +403,93 @@ require_once('../partials/head.php');
                                             </svg>
                                             Delete
                                         </button>
-
-                                        <!--Acept Modals -->
-                                        <div class="modal fade" id="accept_bid_<?php echo $biddings->bidding_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">CONFIRM BIDDING ACCEPTANCE</h5>
-                                                        <button class="btn btn-close p-1 ms-auto" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <form method="POST">
-                                                        <div class="modal-body text-center text-danger">
-                                                            <h4>Accept This Bidding Offer?</h4>
-                                                            <br>
-                                                            <!-- Hide This -->
-                                                            <input type="hidden" name="accepted_bid_bidding_id" value="<?php echo $biddings->bidding_id; ?>">
-                                                            <button type="button" class="text-center btn btn-danger" data-bs-dismiss="modal">No, Thank You</button>
-                                                            <input type="submit" name="accept_bid" value="Yes, Accept" class="text-center btn  btn-success">
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- End Modal -->
-
-                                        <!-- Update Bidding Details Modal -->
-                                        <div class="modal fade" id="update_bid_<?php echo $biddings->bidding_id; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h6 class="modal-title" id="exampleModalLabel">Update Bidding</h6>
-                                                        <button class="btn btn-close p-1 ms-auto" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form method="post" enctype="multipart/form-data" role="form">
-                                                            <div class="row">
-                                                                <div class="form-group col-md-12">
-                                                                    <label class="form-label">Amount (Ksh)</label>
-                                                                    <input type="hidden" value="<?php echo $biddings->bidding_id; ?>" required name="bidding_id" class="form-control">
-                                                                    <input type="number" value="<?php echo $biddings->bidding_amount; ?>" required name="bidding_amount" class="form-control">
-                                                                </div>
-                                                                <div class="form-group col-md-12">
-                                                                    <label class="form-label">Bidding Description</label>
-                                                                    <textarea type="text" required name="bidding_description" class="form-control"><?php echo $biddings->bidding_description; ?></textarea>
-                                                                </div>
-                                                            </div>
-                                                            <div class="pull-right">
-                                                                <button type="submit" name="update_bid" class="btn btn-warning">Update Bid</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- End Modal -->
-
-
-                                        <!-- Delete Bidding -->
-                                        <div class="modal fade" id="delete_bid_<?php echo $biddings->bidding_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">CONFIRM DELETE</h5>
-                                                        <button class="btn btn-close p-1 ms-auto" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <form method="POST">
-                                                        <div class="modal-body text-center text-danger">
-                                                            <h4>Delete This Bidding?</h4>
-                                                            <br>
-                                                            <!-- Hide This -->
-                                                            <input type="hidden" name="bidding_id" value="<?php echo $biddings->bidding_id; ?>">
-                                                            <button type="button" class="text-center btn btn-success" data-bs-dismiss="modal">No</button>
-                                                            <input type="submit" name="delete_bidding" value="Delete" class="text-center btn btn-danger">
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- End Delete -->
                                     <?php } ?>
                                 </div>
                             </div>
                         </li>
                     </ul>
                     <br>
+
+                    <!--Acept Modals -->
+                    <div class="modal fade" id="accept_bid_<?php echo $biddings->bidding_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">CONFIRM BIDDING ACCEPTANCE</h5>
+                                    <button class="btn btn-close p-1 ms-auto" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form method="POST">
+                                    <div class="modal-body text-center text-danger">
+                                        <h4>Accept This Bidding Offer?</h4>
+                                        <br>
+                                        <!-- Hide This -->
+                                        <input type="hidden" name="accepted_bid_bidding_id" value="<?php echo $biddings->bidding_id; ?>">
+                                        <button type="button" class="text-center btn btn-danger" data-bs-dismiss="modal">No, Thank You</button>
+                                        <input type="submit" name="accept_bid" value="Yes, Accept" class="text-center btn  btn-success">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Modal -->
+
+                    <!-- Update Bidding Details Modal -->
+                    <div class="modal fade" id="update_bid_<?php echo $biddings->bidding_id; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h6 class="modal-title" id="exampleModalLabel">Update Bidding</h6>
+                                    <button class="btn btn-close p-1 ms-auto" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="post" enctype="multipart/form-data" role="form">
+                                        <div class="row">
+                                            <div class="form-group col-md-12">
+                                                <label class="form-label">Amount (Ksh)</label>
+                                                <input type="hidden" value="<?php echo $biddings->bidding_id; ?>" required name="bidding_id" class="form-control">
+                                                <input type="number" value="<?php echo $biddings->bidding_amount; ?>" required name="bidding_amount" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <label class="form-label">Bidding Description</label>
+                                                <textarea type="text" required name="bidding_description" class="form-control"><?php echo $biddings->bidding_description; ?></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="pull-right">
+                                            <button type="submit" name="update_bid" class="btn btn-warning">Update Bid</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Modal -->
+
+
+                    <!-- Delete Bidding -->
+                    <div class="modal fade" id="delete_bid_<?php echo $biddings->bidding_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">CONFIRM DELETE</h5>
+                                    <button class="btn btn-close p-1 ms-auto" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form method="POST">
+                                    <div class="modal-body text-center text-danger">
+                                        <h4>Delete This Bidding?</h4>
+                                        <br>
+                                        <!-- Hide This -->
+                                        <input type="hidden" name="bidding_id" value="<?php echo $biddings->bidding_id; ?>">
+                                        <button type="button" class="text-center btn btn-success" data-bs-dismiss="modal">No</button>
+                                        <input type="submit" name="delete_bidding" value="Delete" class="text-center btn btn-danger">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Delete -->
                 <?php
                 } ?>
+                <br><br><br>
             </div>
         </div>
     <?php } ?>
