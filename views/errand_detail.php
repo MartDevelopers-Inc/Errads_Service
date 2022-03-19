@@ -115,6 +115,21 @@ if (isset($_POST['accept_bid'])) {
         $err  = "Failed!, Please Try Again";
     }
 }
+
+/* Delete Bidding */
+if (isset($_POST['delete_bidding'])) {
+    $bidding_id = $_POST['bidding_id'];
+
+    /* Delete */
+    $sql = "DELETE FROM biddings WHERE bidding_id = '$bidding_id'";
+    $prepare = $mysqli->prepare($sql);
+    $prepare->execute();
+    if ($prepare) {
+        $success = "Bid Deleted";
+    } else {
+        $err = "Failed!, Please Try Again Later";
+    }
+}
 require_once('../partials/head.php');
 ?>
 
@@ -377,7 +392,7 @@ require_once('../partials/head.php');
                                                             <h4>Accept This Bidding Offer?</h4>
                                                             <br>
                                                             <!-- Hide This -->
-                                                            <input type="hidden" name="accepted_bid_bidding_id" value="<?php echo $errand->bidding_id; ?>">
+                                                            <input type="hidden" name="accepted_bid_bidding_id" value="<?php echo $biddings->bidding_id; ?>">
                                                             <button type="button" class="text-center btn btn-danger" data-bs-dismiss="modal">No, Thank You</button>
                                                             <input type="submit" name="accept_bid" value="Yes, Accept" class="text-center btn  btn-success">
                                                         </div>
