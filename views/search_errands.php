@@ -115,7 +115,6 @@ require_once('../partials/head.php');
                         $stmt->bind_result($biddings);
                         $stmt->fetch();
                         $stmt->close();
-
             ?>
                         <ul class="ps-0 chat-user-list">
                             <li class="p-3 chat-unread">
