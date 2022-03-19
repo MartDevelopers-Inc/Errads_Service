@@ -172,7 +172,14 @@ require_once('../partials/head.php');
             $stmt->execute(); //ok
             $res = $stmt->get_result();
             while ($errands = $res->fetch_object()) {
-
+                /* Count Available bids to this errand */
+                $errand_id = $errands->errand_id;
+                $query = "SELECT COUNT(*)  FROM biddings WHERE bidding_errand_id  = '$errand_id'";
+                $stmt = $mysqli->prepare($query);
+                $stmt->execute();
+                $stmt->bind_result($biddings);
+                $stmt->fetch();
+                $stmt->close();
             ?>
                 <ul class="ps-0 chat-user-list">
                     <li class="p-3 chat-unread">

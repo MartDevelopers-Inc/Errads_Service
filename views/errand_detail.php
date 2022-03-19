@@ -105,6 +105,7 @@ require_once('../partials/head.php');
     $stmt->execute(); //ok
     $res = $stmt->get_result();
     while ($errand = $res->fetch_object()) {
+
     ?>
         <!-- Preloader-->
         <div class="preloader d-flex align-items-center justify-content-center" id="preloader">
@@ -256,7 +257,6 @@ require_once('../partials/head.php');
                             <span class="text-success">
                                 Amount: Ksh <?php echo number_format($errand->errand_amount); ?><br>
                                 Due Date: <?php echo date('d M Y', strtotime($errand->errand_due_date)); ?><br>
-                                Total Bids: <?php echo $biddings; ?> <br>
                             </span>
                         </p>
                     </div>
@@ -292,30 +292,28 @@ require_once('../partials/head.php');
             <h5 class="text-center">Bids</h5>
             <div class="container">
                 <?php
-                $ret = "SELECT * FROM biddings  ";
+                $ret = "SELECT * FROM biddings b INNER JOIN
+                users u ON b.bidding_user_id = u.user_id 
+                WHERE b.bidding_errand_id = '$view'  ";
                 $stmt = $mysqli->prepare($ret);
                 $stmt->execute(); //ok
                 $res = $stmt->get_result();
-                while ($errands = $res->fetch_object()) {
+                while ($biddings = $res->fetch_object()) {
                 ?>
                     <ul class="ps-0 chat-user-list">
                         <li class="p-3 chat-unread">
-                            <a class="d-flex" href="errand_detail?view=<?php echo $errands->errand_id; ?>">
-                                <div class="text-content">
-                                    <h6 class="mb-2"><?php echo $errands->errand_name; ?></h6>
-                                    <p class="">
-                                        <?php echo substr($errands->errand_description, 0, 100); ?>... <br>
-                                        <span class="text-success">
-                                            Amount: Ksh <?php echo number_format($errands->errand_amount); ?><br>
-                                            Due Date: <?php echo date('d M Y', strtotime($errands->errand_due_date)); ?><br>
-                                            Bids: <?php echo $biddings; ?>
-                                        </span>
-                                    </p>
-                                    <figcaption class="blockquote-footer">
-                                        Posted By <cite title="Source Title"><?php echo $errands->user_fname . ' ' . $errands->user_lname; ?></cite>
-                                    </figcaption>
-                                </div>
-                            </a>
+                            <div class="text-content">
+                                <p class="">
+                                    <?php echo $biddings->bidding_description; ?><br>
+                                    <span class="text-success">
+                                        Bidding Amount: Ksh <?php echo number_format($biddings->bidding_amount); ?><br>
+                                    </span>
+                                </p>
+                                <hr>
+                                <figcaption class="blockquote-footer">
+                                    Bidding By <cite title="Source Title"><?php echo $biddings->user_fname . ' ' . $biddings->user_lname; ?></cite>
+                                </figcaption>
+                            </div>
                         </li>
                     </ul>
                     <br>
