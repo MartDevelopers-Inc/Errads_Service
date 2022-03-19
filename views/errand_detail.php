@@ -365,7 +365,34 @@ require_once('../partials/head.php');
                                         <!-- End Modal -->
 
                                         <!-- Update Bidding Details Modal -->
-
+                                        <div class="modal fade" id="update_bid_<?php echo $biddings->bidding_id; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h6 class="modal-title" id="exampleModalLabel">Update Bidding</h6>
+                                                        <button class="btn btn-close p-1 ms-auto" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form method="post" enctype="multipart/form-data" role="form">
+                                                            <div class="row">
+                                                                <div class="form-group col-md-12">
+                                                                    <label class="form-label">Amount (Ksh)</label>
+                                                                    <input type="hidden" value="<?php echo $biddings->bidding_id; ?>" required name="bidding_id" class="form-control">
+                                                                    <input type="number" value="<?php echo $biddings->bidding_amount; ?>" required name="bidding_amount" class="form-control">
+                                                                </div>
+                                                                <div class="form-group col-md-12">
+                                                                    <label class="form-label">Bidding Description</label>
+                                                                    <textarea type="text" required name="bidding_description" class="form-control"><?php echo $biddings->bidding_description; ?></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="pull-right">
+                                                                <button type="submit" name="update_bid" class="btn btn-warning">Update Bid</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <!-- End Modal -->
 
 
