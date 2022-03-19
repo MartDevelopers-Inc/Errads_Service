@@ -243,7 +243,9 @@ require_once('../partials/head.php');
         <!-- Delete Modal -->
         <!-- Side Nav Wrapper-->
         <?php require_once('../partials/side_nav.php'); ?>
-        <div class="page-content-wrapper py-3">
+        <br>
+        <br>
+        <div class="py-3">
             <div class="container">
                 <div class="card product-details-card mb-3 direction-rtl border-primary">
                     <div class="card-body">
