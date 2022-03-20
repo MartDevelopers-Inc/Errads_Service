@@ -149,7 +149,7 @@ require_once('../partials/head.php');
                         $res = $stmt->get_result();
                         while ($clients = $res->fetch_object()) {
                         ?>
-                            <a href="clients?view=<?php echo $clients->user_id; ?>">
+                            <a href="client?view=<?php echo $clients->user_id; ?>">
                                 <div class="single-testimonial-slide">
                                     <div class="text-content">
                                         <div class="col-12">
@@ -191,7 +191,7 @@ require_once('../partials/head.php');
                         $res = $stmt->get_result();
                         while ($clients = $res->fetch_object()) {
                         ?>
-                            <a href="freelancers?view=<?php echo $clients->user_id; ?>">
+                            <a href="freelancer?view=<?php echo $clients->user_id; ?>">
                                 <div class="single-testimonial-slide">
                                     <div class="text-content">
                                         <div class="col-12">
