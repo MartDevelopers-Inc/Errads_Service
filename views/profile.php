@@ -76,7 +76,36 @@ if (isset($_POST['Update_auth'])) {
         $err = "Failed!, Please Try Again";
     }
 }
+
 /* Update Password */
+if (isset($_POST['Update_Password'])) {
+    $old_password = sha1(md5($_POST['old_password']));
+    $new_password = sha1(md5($_POST['new_password']));
+    $confirm_password = sha1(md5($_POST['confirm_password']));
+    $login_id = $_SESSION['login_id'];
+
+    /* Check If Old Password  Match  */
+    $sql = "SELECT * FROM login WHERE login_id = '$login_id'";
+    $res = mysqli_query($mysqli, $sql);
+    if (mysqli_num_rows($res) > 0) {
+        $row = mysqli_fetch_assoc($res);
+        if ($old_password != $row['login_password']) {
+            $err =  "Please Enter Correct Old Password";
+        } elseif ($new_password != $confirm_password) {
+            $err = "Confirmation Password Does Not Match";
+        } else {
+            $query = "UPDATE login SET  login_password =? WHERE login_id =?";
+            $stmt = $mysqli->prepare($query);
+            $rc = $stmt->bind_param('ss', $new_password, $login_id);
+            $stmt->execute();
+            if ($stmt) {
+                $success = "Password Updated";
+            } else {
+                $err = "Please Try Again Or Try Later";
+            }
+        }
+    }
+}
 require_once('../partials/head.php');
 $user_id = $_SESSION['user_id'];
 $ret = "SELECT * FROM users u
