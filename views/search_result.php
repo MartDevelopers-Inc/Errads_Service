@@ -50,7 +50,7 @@ require_once('../partials/head.php');
                 </div>
                 <!-- Page Title-->
                 <div class="page-heading">
-                    <h6 class="mb-0"><?php echo $_GET['rank']; ?> Search Results</h6>
+                    <h6 class="mb-0">Search Results For : <?php echo $_GET['search_query']; ?><h6>
                 </div>
                 <!-- Navbar Toggler-->
                 <div class="navbar--toggler" id="affanNavbarToggler"><span class="d-block"></span><span class="d-block"></span><span class="d-block"></span></div>
@@ -83,7 +83,7 @@ require_once('../partials/head.php');
             <div class="card mb-2">
                 <div class="card-body p-2">
                     <div class="chat-search-box">
-                        <form action="client_search_result" method="GET">
+                        <form action="search_result" method="GET">
                             <div class="input-group"><span class="input-group-text" id="searchbox"><i class="bi bi-search"></i></span>
                                 <input class="form-control" name="search_query" type="text" placeholder="Search Clients" aria-describedby="searchbox">
                             </div>
@@ -95,14 +95,11 @@ require_once('../partials/head.php');
             <ul class="ps-0 chat-user-list">
                 <?php
                 $search_query = htmlspecialchars($_GET['search_query']);
-                $rank = $_GET['rank'];
                 $min_length = 0;
                 if (strlen($search_query) >= $min_length) {
                     $search_query = mysqli_real_escape_string($mysqli, $search_query);
-                    $raw_results = mysqli_query($mysqli, "SELECT * FROM users u INNER JOIN login l
-                    ON l.login_id = u.user_login_id
-                    WHERE ((`u.user_fname` LIKE '%" . $search_query . "%') ||(`u.user_lname` LIKE '%" . $search_query . "%')) AND 
-                    l.login_rank = '$rank'");
+                    $raw_results = mysqli_query($mysqli, "SELECT * FROM users 
+                    WHERE (user_fname LIKE '%" . $search_query . "%') || (user_lname LIKE '%" . $search_query . "%') ");
                     if (mysqli_num_rows($raw_results) > 0) {
                         while ($results = mysqli_fetch_array($raw_results)) {
                 ?>
@@ -112,7 +109,6 @@ require_once('../partials/head.php');
                                     <!-- Info-->
                                     <div class="chat-user-info">
                                         <h6 class="text-truncate mb-0"><?php echo $results['user_fname'] . '' . $results['user_lname']; ?></h6>
-                                        <h6 class="text-truncate mb-0">Email: <?php echo $results['login_email']; ?></h6>
                                         <h6 class="text-truncate mb-0">Phone: <?php echo $results['user_contact']; ?></h6>
                                         <h6 class="text-truncate mb-0">Gender: <?php echo $results['user_gender']; ?></h6>
                                         <div class="last-chat">
