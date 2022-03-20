@@ -209,11 +209,11 @@ while ($users = $res->fetch_object()) {
                                 </div>
                                 <div class="form-group mb-3">
                                     <label class="form-label" for="bio">Login Security Question</label>
-                                    <textarea class="form-control" name="login_question" cols="30" rows="10"><?php echo $users->login_question; ?></textarea>
+                                    <textarea class="form-control" name="login_question" cols="20" rows="2"><?php echo $users->login_question; ?></textarea>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label class="form-label" for="bio">Login Question Answer</label>
-                                    <textarea class="form-control" name="login_answer" cols="30" rows="10"><?php echo $users->login_answer; ?></textarea>
+                                    <textarea class="form-control" name="login_answer" cols="20" rows="2"><?php echo $users->login_answer; ?></textarea>
                                 </div>
                                 <button class="btn btn-success w-100" type="submit" name="Update_auth">Update Authentication Information</button>
                             </form>
