@@ -258,15 +258,15 @@ while ($users = $res->fetch_object()) {
                             <form method="POST">
                                 <div class="form-group mb-3">
                                     <label class="form-label">Old Password </label>
-                                    <input class="form-control" type="text" name="old_password">
+                                    <input class="form-control" type="password" name="old_password">
                                 </div>
                                 <div class="form-group mb-3">
                                     <label class="form-label">New Password </label>
-                                    <input class="form-control" type="text" name="new_password">
+                                    <input class="form-control" type="password" name="new_password">
                                 </div>
                                 <div class="form-group mb-3">
                                     <label class="form-label">Confirm New Password </label>
-                                    <input class="form-control" type="text" name="confirm_new_password">
+                                    <input class="form-control" type="password" name="confirm_password">
                                 </div>
                                 <button class="btn btn-success w-100" type="submit" name="Update_Password">Update Passwords</button>
                             </form>
