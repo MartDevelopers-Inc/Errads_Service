@@ -53,6 +53,7 @@ if (isset($_POST['Update_profile'])) {
     }
 }
 /* Update Login Info */
+
 /* Update Password */
 require_once('../partials/head.php');
 $user_id = $_SESSION['user_id'];
