@@ -142,7 +142,7 @@ require_once('../partials/head.php');
                             </div>
                         </fieldset>
                         <br>
-                        <button class="btn btn-success w-100" name="AddClient" type="submit">Submit</button>
+                        <button class="btn btn-success w-100" name="add_client" type="submit">Submit</button>
                     </form>
                 </div>
             </div>
@@ -190,13 +190,6 @@ require_once('../partials/head.php');
                                 <h6 class="text-truncate mb-0">Address: <?php echo $client->user_location; ?></h6>
                             </div>
                         </a>
-                        <!-- Options-->
-                        <div class="dropstart chat-options-btn">
-                            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></button>
-                            <ul class="dropdown-menu">
-                                <li><a href="clients?delete=<?php echo $client->user_id; ?>&login=<?php echo $client->user_login_id; ?>"><i class="bi bi-trash"></i>Delete</a></li>
-                            </ul>
-                        </div>
                     </li>
                 <?php
                 } ?>
