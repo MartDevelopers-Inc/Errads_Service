@@ -24,6 +24,7 @@ require_once('../config/config.php');
 require_once('../config/checklogin.php');
 require_once('../config/codeGen.php');
 check_login();
+
 /* Add Client */
 if (isset($_POST['add_client'])) {
     $user_id = $_POST['user_id'];
@@ -49,7 +50,7 @@ if (isset($_POST['add_client'])) {
     $auth_prepare = $mysqli->prepare($auth_sql);
 
     $bind = $prepare->bind_param(
-        'sssssss',
+        'ssssssss',
         $user_id,
         $user_fname,
         $user_lname,
@@ -66,9 +67,9 @@ if (isset($_POST['add_client'])) {
         $login_password,
         $login_rank
     );
-
-    $prepare->execute();
+    
     $auth_prepare->execute();
+    $prepare->execute();
 
     if ($prepare && $auth_prepare) {
         $success = "Client Account Created";
@@ -76,9 +77,6 @@ if (isset($_POST['add_client'])) {
         $err = "Failed!, Please Try Again";
     }
 }
-
-/* Update Client */
-/* Delete Client */
 require_once('../partials/head.php');
 ?>
 
@@ -150,7 +148,7 @@ require_once('../partials/head.php');
                                 <div class="form-group mb-3 col-6">
                                     <label class="form-label" for="fullname">First Name</label>
                                     <input class="form-control" required name="user_fname" type="text">
-                                    <input class="form-control" value="<?php echo $sys_gen_id_alt_1; ?>" required name="user_login_id" type="hidden">
+                                    <input class="form-control" value="<?php echo $sys_gen_id_alt_1; ?>" required name="login_id" type="hidden">
                                 </div>
                                 <div class="form-group mb-3 col-6">
                                     <label class="form-label" for="fullname">Last Name</label>
