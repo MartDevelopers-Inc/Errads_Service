@@ -23,6 +23,35 @@ require_once('../config/config.php');
 require_once('../config/checklogin.php');
 check_login();
 /* Update Profile */
+if (isset($_POST['Update_profile'])) {
+    $user_id = $_SESSION['user_id'];
+    $user_fname = $_POST['user_fname'];
+    $user_lname = $_POST['user_lname'];
+    $user_contact = $_POST['user_contact'];
+    $user_location = $_POST['user_location'];
+    $user_age = $_POST['user_age'];
+    $user_gender = $_POST['user_gender'];
+
+    /* Persist */
+    $sql = "UPDATE users SET user_fname =?, user_lname =?, user_contact =?, user_location =?, user_age =?, user_gender =? WHERE user_id =?";
+    $prepare = $mysqli->prepare($sql);
+    $bind = $prepare->bind_param(
+        'sssssss',
+        $user_fname,
+        $user_lname,
+        $user_contact,
+        $user_location,
+        $user_age,
+        $user_gender,
+        $user_id
+    );
+    $prepare->execute();
+    if ($prepare) {
+        $success = "Profile Updated";
+    } else {
+        $err = "Failed!, Please Try Again";
+    }
+}
 /* Update Login Info */
 /* Update Password */
 require_once('../partials/head.php');
@@ -139,7 +168,7 @@ while ($users = $res->fetch_object()) {
                                         </select>
                                     </div>
                                 </div>
-                                <button class="btn btn-success w-100" type="submit" name="Update">Update Now</button>
+                                <button class="btn btn-success w-100" type="submit" name="Update_profile">Update Now</button>
                             </form>
                         </div>
                     </div>
@@ -164,6 +193,30 @@ while ($users = $res->fetch_object()) {
                                     <textarea class="form-control" name="login_answer" cols="30" rows="10"><?php echo $users->login_answer; ?></textarea>
                                 </div>
                                 <button class="btn btn-success w-100" type="submit" name="Update_auth">Update Authentication Information</button>
+                            </form>
+                        </div>
+                    </div>
+                </fieldset>
+                <hr>
+                <!-- Passwords -->
+                <fieldset class="border border-primary p-2">
+                    <legend class="w-auto text-primary pull-center">Passwords</legend>
+                    <div class="card user-data-card">
+                        <div class="card-body">
+                            <form method="POST">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Old Password </label>
+                                    <input class="form-control" type="text" name="old_password">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="form-label">New Password </label>
+                                    <input class="form-control" type="text" name="new_password">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Confirm New Password </label>
+                                    <input class="form-control" type="text" name="confirm_new_password">
+                                </div>
+                                <button class="btn btn-success w-100" type="submit" name="Update_Password">Update Passwords</button>
                             </form>
                         </div>
                     </div>
