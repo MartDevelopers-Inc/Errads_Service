@@ -61,7 +61,7 @@ while ($users = $res->fetch_object()) {
                     </div>
                     <!-- Page Title-->
                     <div class="page-heading">
-                        <h6 class="mb-0"><?php echo $users->user_fname . '' . $users->user_lname; ?> Profile</h6>
+                        <h6 class="mb-0"><?php echo $users->user_fname . ' ' . $users->user_lname; ?> Profile</h6>
                     </div>
                     <!-- Navbar Toggler-->
                     <div class="navbar--toggler" id="affanNavbarToggler"><span class="d-block"></span><span class="d-block"></span><span class="d-block"></span></div>
@@ -92,16 +92,14 @@ while ($users = $res->fetch_object()) {
                 <!-- User Information-->
                 <div class="card user-info-card mb-3">
                     <div class="card-body d-flex align-items-center">
-                        <div class="user-profile me-3"><img src="img/bg-img/2.jpg" alt="">
-                            <form action="#">
-                                <input class="form-control" type="file">
-                            </form>
+                        <div class="user-profile me-3">
+                            <img src="../public/img/bg-img/profile.svg" alt="">
                         </div>
                         <div class="user-info">
                             <div class="d-flex align-items-center">
-                                <h5 class="mb-1">Affan Islam</h5><span class="badge bg-warning ms-2 rounded-pill">Pro</span>
+                                <h5 class="mb-1"><?php echo $users->user_fname . ' ' . $users->user_lname; ?></h5>
                             </div>
-                            <p class="mb-0">UX/UI Designer</p>
+                            <p class="mb-0"><?php echo $users->login_rank; ?></p>
                         </div>
                     </div>
                 </div>
