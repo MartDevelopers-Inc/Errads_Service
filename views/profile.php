@@ -106,36 +106,38 @@ while ($users = $res->fetch_object()) {
                 <!-- User Meta Data-->
                 <div class="card user-data-card">
                     <div class="card-body">
-                        <form action="#">
+                        <form method="POST">
                             <div class="form-group mb-3">
-                                <label class="form-label" for="Username">Username</label>
-                                <input class="form-control" id="Username" type="text" value="@designing-world" placeholder="Username">
+                                <label class="form-label">First name</label>
+                                <input class="form-control" type="text" name="user_fname" value="<?php echo $users->user_fname; ?>">
                             </div>
                             <div class="form-group mb-3">
-                                <label class="form-label" for="fullname">Full Name</label>
-                                <input class="form-control" id="fullname" type="text" value="Affan Islam" placeholder="Full Name" readonly>
+                                <label class="form-label">Last name</label>
+                                <input class="form-control" type="text" name="user_lname" value="<?php echo $users->user_lname; ?>">
                             </div>
                             <div class="form-group mb-3">
-                                <label class="form-label" for="email">Email Address</label>
-                                <input class="form-control" id="email" type="text" value="care@example.com" placeholder="Email Address" readonly>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label class="form-label" for="job">Job Title</label>
-                                <input class="form-control" id="job" type="text" value="UX/UI Designer" placeholder="Job Title">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label class="form-label" for="portfolio">Portfolio URL</label>
-                                <input class="form-control" id="portfolio" type="url" value="https://themeforest.net/user/designing-world" placeholder="Portfolio URL">
+                                <label class="form-label">Contacts</label>
+                                <input class="form-control" type="text" name="user_contact" value="<?php echo $users->user_contact; ?>">
                             </div>
                             <div class="form-group mb-3">
                                 <label class="form-label" for="address">Address</label>
-                                <input class="form-control" id="address" type="text" value="28/C Green Road, BD" placeholder="Address">
+                                <input class="form-control" type="text" name="user_location" value="<?php echo $users->user_location; ?>">
                             </div>
-                            <div class="form-group mb-3">
-                                <label class="form-label" for="bio">Bio</label>
-                                <textarea class="form-control" id="bio" name="bio" cols="30" rows="10" placeholder="Working as UX/UI Designer at Designing World since 2016."></textarea>
+                            <div class="row">
+                                <div class="form-group mb-3 col-6">
+                                    <label class="form-label" for="address">Age</label>
+                                    <input class="form-control" type="text" name="user_age" value="<?php echo $users->user_age; ?>">
+                                </div>
+                                <div class="form-group mb-3 col-6">
+                                    <label class="form-label" for="address">Gender</label>
+                                    <select class="form-control" type="text" name="user_gender" value="">
+                                        <option><?php echo $users->user_gender; ?></option>
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                    </select>
+                                </div>
                             </div>
-                            <button class="btn btn-success w-100" type="submit">Update Now</button>
+                            <button class="btn btn-success w-100" type="submit" name="Update">Update Now</button>
                         </form>
                     </div>
                 </div>
