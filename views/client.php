@@ -24,7 +24,52 @@ require_once('../config/checklogin.php');
 require_once('../config/codeGen.php');
 check_login();
 /* Update */
+if (isset($_POST['update_client'])) {
+    $user_id = $_GET['view'];
+    $user_fname = $_POST['user_fname'];
+    $user_lname = $_POST['user_lname'];
+    $user_contact = $_POST['user_contact'];
+    $user_location = $_POST['user_location'];
+    $user_age = $_POST['user_age'];
+    $user_gender = $_POST['user_gender'];
+
+    /* Persist */
+    $sql = "UPDATE users SET user_fname =?, user_lname =?, user_contact =?, user_location =?, user_age =?, user_gender =? WHERE user_id =?";
+    $prepare = $mysqli->prepare($sql);
+    $bind = $prepare->bind_param(
+        'sssssss',
+        $user_fname,
+        $user_lname,
+        $user_contact,
+        $user_location,
+        $user_age,
+        $user_gender,
+        $user_id
+    );
+    $prepare->execute();
+    if ($prepare) {
+        $success = "Account Details Updated";
+    } else {
+        $err = "Failed!, Please Try Again";
+    }
+}
+
 /* Delete */
+if (isset($_POST['delete'])) {
+    $login_id = $_POST['login_id'];
+    /* Delete */
+    $sql = "DELETE FROM login WHERE login_id = ?";
+    $prepare = $mysqli->prepare($sql);
+    $bind = $prepare->bind_param('s', $login_id);
+    $prepare->execute();
+    if ($prepare) {
+        $_SESSION['success'] = 'User Account Deleted';
+        header("location:clients");
+        exit;
+    } else {
+        $err = "Failed!, Please Try Again";
+    }
+}
 require_once('../partials/head.php');
 ?>
 
@@ -94,7 +139,39 @@ require_once('../partials/head.php');
                         <button class="btn btn-close p-1 ms-auto" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-
+                        <form method="POST">
+                            <div class="form-group mb-3">
+                                <label class="form-label">First name</label>
+                                <input class="form-control" type="text" name="user_fname" value="<?php echo $row->user_fname; ?>">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label">Last name</label>
+                                <input class="form-control" type="text" name="user_lname" value="<?php echo $row->user_lname; ?>">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label">Contacts</label>
+                                <input class="form-control" type="text" name="user_contact" value="<?php echo $row->user_contact; ?>">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label" for="address">Address</label>
+                                <input class="form-control" type="text" name="user_location" value="<?php echo $row->user_location; ?>">
+                            </div>
+                            <div class="row">
+                                <div class="form-group mb-3 col-6">
+                                    <label class="form-label" for="address">Age</label>
+                                    <input class="form-control" type="text" name="user_age" value="<?php echo $row->user_age; ?>">
+                                </div>
+                                <div class="form-group mb-3 col-6">
+                                    <label class="form-label" for="address">Gender</label>
+                                    <select class="form-control" type="text" name="user_gender" value="">
+                                        <option><?php echo $row->user_gender; ?></option>
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn-success w-100" type="submit" name="update_client">Update Now</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -114,7 +191,7 @@ require_once('../partials/head.php');
                             <h4>Delete <?php echo $row->user_fname . ' ' . $row->user_lname; ?> Account?</h4>
                             <br>
                             <!-- Hide This -->
-                            <input type="hidden" name="user_id" value="<?php echo $row->user_id; ?>">
+                            <input type="hidden" name="login_id" value="<?php echo $row->login_id; ?>">
                             <button type="button" class="text-center btn btn-success" data-bs-dismiss="modal">No</button>
                             <input type="submit" name="delete" value="Delete" class="text-center btn btn-danger">
                         </div>
