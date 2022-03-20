@@ -25,6 +25,58 @@ require_once('../config/checklogin.php');
 require_once('../config/codeGen.php');
 check_login();
 /* Add Client */
+if (isset($_POST['add_client'])) {
+    $user_id = $_POST['user_id'];
+    $user_fname = $_POST['user_fname'];
+    $user_lname = $_POST['user_lname'];
+    $user_contact = $_POST['user_contact'];
+    $user_location = $_POST['user_location'];
+    $user_age = $_POST['user_age'];
+    $user_gender = $_POST['user_gender'];
+
+    /* Auth */
+    $login_email = $_POST['login_email'];
+    $login_password = sha1(md5($_POST['login_password']));
+    $login_rank = 'Client';
+    $login_id = $_POST['login_id'];
+
+    /* Persist */
+    $sql = "INSERT INTO users(user_id, user_fname, user_lname, user_contact, user_location, user_age, user_gender, user_login_id)
+    VALUES(?,?,?,?,?,?,?,?)";
+    $auth_sql = "INSERT INTO login(login_id, login_email, login_password, login_rank) VALUES(?,?,?,?)";
+
+    $prepare = $mysqli->prepare($sql);
+    $auth_prepare = $mysqli->prepare($auth_sql);
+
+    $bind = $prepare->bind_param(
+        'sssssss',
+        $user_id,
+        $user_fname,
+        $user_lname,
+        $user_contact,
+        $user_location,
+        $user_age,
+        $user_gender,
+        $login_id
+    );
+    $auth_bind = $auth_prepare->bind_param(
+        'ssss',
+        $login_id,
+        $login_email,
+        $login_password,
+        $login_rank
+    );
+
+    $prepare->execute();
+    $auth_prepare->execute();
+
+    if ($prepare && $auth_prepare) {
+        $success = "Client Account Created";
+    } else {
+        $err = "Failed!, Please Try Again";
+    }
+}
+
 /* Update Client */
 /* Delete Client */
 require_once('../partials/head.php');
