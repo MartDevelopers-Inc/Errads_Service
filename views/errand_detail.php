@@ -86,8 +86,69 @@ if (isset($_POST['delete'])) {
     $prepare->execute();
     if ($prepare) {
         $_SESSION['success'] = 'Errand Deleted';
-        header("location:home");
+        header("location:errands");
         exit;
+    } else {
+        $err = "Failed!, Please Try Again";
+    }
+}
+
+/* Accept Bidding */
+if (isset($_POST['accept_bid'])) {
+    $accepted_bid_id = $sys_gen_id;
+    $accepted_bid_bidding_id = $_POST['accepted_bid_bidding_id'];
+    $accepted_bid_date = date('d M Y');
+
+    /* Persist */
+    $sql = "INSERT INTO accepted_bids(accepted_bid_id, accepted_bid_bidding_id, accepted_bid_date) VALUES(?,?,?)";
+    $prepare = $mysqli->prepare($sql);
+    $bind = $prepare->bind_param(
+        'sss',
+        $accepted_bid_id,
+        $accepted_bid_bidding_id,
+        $accepted_bid_date
+    );
+    $prepare->execute();
+    if ($prepare) {
+        $success = "Bid Accepted";
+    } else {
+        $err  = "Failed!, Please Try Again";
+    }
+}
+
+/* Delete Bidding */
+if (isset($_POST['delete_bidding'])) {
+    $bidding_id = $_POST['bidding_id'];
+
+    /* Delete */
+    $sql = "DELETE FROM biddings WHERE bidding_id = '$bidding_id'";
+    $prepare = $mysqli->prepare($sql);
+    $prepare->execute();
+    if ($prepare) {
+        $success = "Bid Deleted";
+    } else {
+        $err = "Failed!, Please Try Again Later";
+    }
+}
+
+/* Update Delete */
+if (isset($_POST['update_bid'])) {
+    $bidding_id = $_POST['bidding_id'];
+    $bidding_description = $_POST['bidding_description'];
+    $bidding_amount = $_POST['bidding_amount'];
+
+    /* Update */
+    $sql = "UPDATE biddings SET bidding_description =?,  bidding_amount =? WHERE bidding_id = ?";
+    $prepare = $mysqli->prepare($sql);
+    $bind = $prepare->bind_param(
+        'sss',
+        $bidding_description,
+        $bidding_amount,
+        $bidding_id
+    );
+    $prepare->execute();
+    if ($prepare) {
+        $success = "Bid Updated";
     } else {
         $err = "Failed!, Please Try Again";
     }
@@ -105,6 +166,7 @@ require_once('../partials/head.php');
     $stmt->execute(); //ok
     $res = $stmt->get_result();
     while ($errand = $res->fetch_object()) {
+
     ?>
         <!-- Preloader-->
         <div class="preloader d-flex align-items-center justify-content-center" id="preloader">
@@ -121,7 +183,7 @@ require_once('../partials/head.php');
                 <div class="header-content header-style-five position-relative d-flex align-items-center justify-content-between">
                     <!-- Back Button-->
                     <div class="back-button">
-                        <a href="home">
+                        <a href="errands">
                             <svg width="32" height="32" viewBox="0 0 16 16" class="bi bi-arrow-left-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
                             </svg>
@@ -129,7 +191,7 @@ require_once('../partials/head.php');
                     </div>
                     <!-- Page Title-->
                     <div class="page-heading">
-                        <h6 class="mb-0"><?php echo $errand->errand_name; ?></h6>
+                        <h6 class="mb-0">Errand Details And Bids</h6>
                     </div>
                     <!-- Navbar Toggler-->
                     <div class="navbar--toggler" id="affanNavbarToggler"><span class="d-block"></span><span class="d-block"></span><span class="d-block"></span></div>
@@ -242,11 +304,13 @@ require_once('../partials/head.php');
         <!-- Delete Modal -->
         <!-- Side Nav Wrapper-->
         <?php require_once('../partials/side_nav.php'); ?>
-        <div class="page-content-wrapper py-3">
+        <br>
+        <br>
+        <div class="py-3">
             <div class="container">
                 <div class="card product-details-card mb-3 direction-rtl border-primary">
                     <div class="card-body">
-                        <h5>Errand Details</h5>
+                        <h5><?php echo $errand->errand_name; ?> </h5>
                         <p><?php echo $errand->errand_description; ?></p><br>
                         <figcaption class="blockquote-footer">
                             Posted By <cite title="Source Title"><?php echo $errand->user_fname . ' ' . $errand->user_lname; ?></cite>
@@ -254,20 +318,21 @@ require_once('../partials/head.php');
                         <hr>
                         <p>
                             <span class="text-success">
-                                Amount: Ksh<?php echo number_format($errand->errand_amount); ?><br>
+                                Amount: Ksh <?php echo number_format($errand->errand_amount); ?><br>
                                 Due Date: <?php echo date('d M Y', strtotime($errand->errand_due_date)); ?><br>
-                                Total Bids: <?php echo $biddings; ?> <br>
                             </span>
                         </p>
                     </div>
                     <div class="card-footer">
                         <div class="text-center">
-                            <button class="btn btn-round btn-success" type="button" data-bs-toggle="modal" data-bs-target="#bid_<?php echo $errand->errand_id; ?>">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-megaphone" viewBox="0 0 16 16">
-                                    <path d="M13 2.5a1.5 1.5 0 0 1 3 0v11a1.5 1.5 0 0 1-3 0v-.214c-2.162-1.241-4.49-1.843-6.912-2.083l.405 2.712A1 1 0 0 1 5.51 15.1h-.548a1 1 0 0 1-.916-.599l-1.85-3.49a68.14 68.14 0 0 0-.202-.003A2.014 2.014 0 0 1 0 9V7a2.02 2.02 0 0 1 1.992-2.013 74.663 74.663 0 0 0 2.483-.075c3.043-.154 6.148-.849 8.525-2.199V2.5zm1 0v11a.5.5 0 0 0 1 0v-11a.5.5 0 0 0-1 0zm-1 1.35c-2.344 1.205-5.209 1.842-8 2.033v4.233c.18.01.359.022.537.036 2.568.189 5.093.744 7.463 1.993V3.85zm-9 6.215v-4.13a95.09 95.09 0 0 1-1.992.052A1.02 1.02 0 0 0 1 7v2c0 .55.448 1.002 1.006 1.009A60.49 60.49 0 0 1 4 10.065zm-.657.975 1.609 3.037.01.024h.548l-.002-.014-.443-2.966a68.019 68.019 0 0 0-1.722-.082z" />
-                                </svg>
-                                Bid
-                            </button>
+                            <?php /* You Cant Bid Your Own Errand */ if ($_SESSION['user_id'] != ($errand->errand_user_id)) { ?>
+                                <button class="btn btn-round btn-success" type="button" data-bs-toggle="modal" data-bs-target="#bid_<?php echo $errand->errand_id; ?>">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-megaphone" viewBox="0 0 16 16">
+                                        <path d="M13 2.5a1.5 1.5 0 0 1 3 0v11a1.5 1.5 0 0 1-3 0v-.214c-2.162-1.241-4.49-1.843-6.912-2.083l.405 2.712A1 1 0 0 1 5.51 15.1h-.548a1 1 0 0 1-.916-.599l-1.85-3.49a68.14 68.14 0 0 0-.202-.003A2.014 2.014 0 0 1 0 9V7a2.02 2.02 0 0 1 1.992-2.013 74.663 74.663 0 0 0 2.483-.075c3.043-.154 6.148-.849 8.525-2.199V2.5zm1 0v11a.5.5 0 0 0 1 0v-11a.5.5 0 0 0-1 0zm-1 1.35c-2.344 1.205-5.209 1.842-8 2.033v4.233c.18.01.359.022.537.036 2.568.189 5.093.744 7.463 1.993V3.85zm-9 6.215v-4.13a95.09 95.09 0 0 1-1.992.052A1.02 1.02 0 0 0 1 7v2c0 .55.448 1.002 1.006 1.009A60.49 60.49 0 0 1 4 10.065zm-.657.975 1.609 3.037.01.024h.548l-.002-.014-.443-2.966a68.019 68.019 0 0 0-1.722-.082z" />
+                                    </svg>
+                                    Bid
+                                </button>
+                            <?php } ?>
                             <button class="btn btn-round btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#update_<?php echo $errand->errand_id; ?>">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
@@ -285,6 +350,146 @@ require_once('../partials/head.php');
                         </div>
                     </div>
                 </div>
+            </div>
+            <hr>
+            <h5 class="text-center">Bids</h5>
+            <div class="container">
+                <?php
+                $ret = "SELECT * FROM biddings b 
+                INNER JOIN users u ON b.bidding_user_id = u.user_id 
+                INNER JOIN errands e ON e.errand_id = b.bidding_errand_id
+                WHERE b.bidding_errand_id = '$view'  ";
+                $stmt = $mysqli->prepare($ret);
+                $stmt->execute(); //ok
+                $res = $stmt->get_result();
+                while ($biddings = $res->fetch_object()) {
+                ?>
+                    <ul class="ps-0 chat-user-list">
+                        <li class="p-3 chat-unread">
+                            <div class="text-content">
+                                <p class="">
+                                    <?php echo $biddings->bidding_description; ?><br>
+                                    <span class="text-success">
+                                        Bidding Amount: Ksh <?php echo number_format($biddings->bidding_amount); ?><br>
+                                    </span>
+                                </p>
+                                <hr>
+                                <figcaption class="blockquote-footer">
+                                    Bid By <cite title="Source Title"><?php echo $biddings->user_fname . ' ' . $biddings->user_lname; ?></cite>
+                                </figcaption>
+                                <div class="text-center">
+                                    <?php if ($_SESSION['user_id'] == ($biddings->errand_user_id)) { ?>
+                                        <button class="btn btn-round btn-success" type="button" data-bs-toggle="modal" data-bs-target="#accept_bid_<?php echo $biddings->bidding_id; ?>">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                            </svg>
+                                            Accept Bid
+                                        </button>
+                                    <?php }
+                                    /* You can delete and update your own bids */
+                                    if ($_SESSION['user_id'] == ($biddings->bidding_user_id)) { ?>
+                                        <button class="btn btn-round btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#update_bid_<?php echo $biddings->bidding_id; ?>">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                            </svg>
+                                            Edit
+                                        </button>
+                                        <button class="btn btn-round btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#delete_bid_<?php echo $biddings->bidding_id; ?>">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                            </svg>
+                                            Delete
+                                        </button>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <br>
+
+                    <!--Acept Modals -->
+                    <div class="modal fade" id="accept_bid_<?php echo $biddings->bidding_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">CONFIRM BIDDING ACCEPTANCE</h5>
+                                    <button class="btn btn-close p-1 ms-auto" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form method="POST">
+                                    <div class="modal-body text-center text-danger">
+                                        <h4>Accept This Bidding Offer?</h4>
+                                        <br>
+                                        <!-- Hide This -->
+                                        <input type="hidden" name="accepted_bid_bidding_id" value="<?php echo $biddings->bidding_id; ?>">
+                                        <button type="button" class="text-center btn btn-danger" data-bs-dismiss="modal">No, Thank You</button>
+                                        <input type="submit" name="accept_bid" value="Yes, Accept" class="text-center btn  btn-success">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Modal -->
+
+                    <!-- Update Bidding Details Modal -->
+                    <div class="modal fade" id="update_bid_<?php echo $biddings->bidding_id; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h6 class="modal-title" id="exampleModalLabel">Update Bidding</h6>
+                                    <button class="btn btn-close p-1 ms-auto" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="post" enctype="multipart/form-data" role="form">
+                                        <div class="row">
+                                            <div class="form-group col-md-12">
+                                                <label class="form-label">Amount (Ksh)</label>
+                                                <input type="hidden" value="<?php echo $biddings->bidding_id; ?>" required name="bidding_id" class="form-control">
+                                                <input type="number" value="<?php echo $biddings->bidding_amount; ?>" required name="bidding_amount" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <label class="form-label">Bidding Description</label>
+                                                <textarea type="text" required name="bidding_description" class="form-control"><?php echo $biddings->bidding_description; ?></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="pull-right">
+                                            <button type="submit" name="update_bid" class="btn btn-warning">Update Bid</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Modal -->
+
+
+                    <!-- Delete Bidding -->
+                    <div class="modal fade" id="delete_bid_<?php echo $biddings->bidding_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">CONFIRM DELETE</h5>
+                                    <button class="btn btn-close p-1 ms-auto" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form method="POST">
+                                    <div class="modal-body text-center text-danger">
+                                        <h4>Delete This Bidding?</h4>
+                                        <br>
+                                        <!-- Hide This -->
+                                        <input type="hidden" name="bidding_id" value="<?php echo $biddings->bidding_id; ?>">
+                                        <button type="button" class="text-center btn btn-success" data-bs-dismiss="modal">No</button>
+                                        <input type="submit" name="delete_bidding" value="Delete" class="text-center btn btn-danger">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Delete -->
+                <?php
+                } ?>
+                <br><br><br>
             </div>
         </div>
     <?php } ?>
