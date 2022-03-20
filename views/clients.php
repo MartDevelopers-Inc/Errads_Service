@@ -187,7 +187,7 @@ require_once('../partials/head.php');
                                 </div>
                                 <div class="form-group mb-3 col-12">
                                     <label class="form-label" for="fullname">Login Password</label>
-                                    <input class="form-control" required name="login_password" type="text">
+                                    <input class="form-control" required name="login_password" type="password">
                                 </div>
                             </div>
                         </fieldset>
