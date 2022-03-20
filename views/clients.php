@@ -67,7 +67,7 @@ if (isset($_POST['add_client'])) {
         $login_password,
         $login_rank
     );
-    
+
     $auth_prepare->execute();
     $prepare->execute();
 
@@ -205,7 +205,7 @@ require_once('../partials/head.php');
             <div class="card mb-2">
                 <div class="card-body p-2">
                     <div class="chat-search-box">
-                        <form action="search_result" method="GET">
+                        <form action="search_result?rank=Client" method="GET">
                             <div class="input-group"><span class="input-group-text" id="searchbox"><i class="bi bi-search"></i></span>
                                 <input class="form-control" name="search_query" type="text" placeholder="Search Clients" aria-describedby="searchbox">
                             </div>
@@ -227,7 +227,7 @@ require_once('../partials/head.php');
                 $res = $stmt->get_result();
                 while ($client = $res->fetch_object()) {
                 ?>
-                    <li class="p-3 chat-unread"><a class="d-flex" href="client?view=<?php echo $client->client_id; ?>">
+                    <li class="p-3 chat-unread"><a class="d-flex" href="client?view=<?php echo $client->user_id; ?>">
                             <!-- Thumbnail-->
                             <div class="chat-user-thumbnail me-3 shadow"><img class="img-circle" src="../public/img/bg-img/patient.svg" alt=""><span class="active-status"></span></div>
                             <!-- Info-->
@@ -235,15 +235,11 @@ require_once('../partials/head.php');
                                 <h6 class="text-truncate mb-0"><b><?php echo $client->user_fname . ' ' . $client->user_lname; ?></b></h6>
                                 <h6 class="text-truncate mb-0">Email: <?php echo $client->login_email; ?></h6>
                                 <h6 class="text-truncate mb-0">Phone: <?php echo $client->user_contact; ?></h6>
-                                <h6 class="text-truncate mb-0">Gender: <?php echo $client->user_gender; ?></h6>
-                                <h6 class="text-truncate mb-0">Age: <?php echo $client->user_age; ?> Years</h6>
-                                <h6 class="text-truncate mb-0">Address: <?php echo $client->user_location; ?></h6>
                             </div>
                         </a>
                     </li>
                 <?php
                 } ?>
-
             </ul>
         </div>
     </div>
