@@ -53,7 +53,29 @@ if (isset($_POST['Update_profile'])) {
     }
 }
 /* Update Login Info */
+if (isset($_POST['Update_auth'])) {
+    $login_id = $_SESSION['login_id'];
+    $login_email = $_POST['login_email'];
+    $login_question = $_POST['login_question'];
+    $login_answer = $_POST['login_answer'];
 
+    /* Persist */
+    $sql = "UPDATE login SET login_email =?, login_question =?, login_answer =? WHERE login_id = ?";
+    $prepare = $mysqli->prepare($sql);
+    $bind = $prepare->bind_param(
+        'ssss',
+        $login_email,
+        $login_question,
+        $login_answer,
+        $login_id
+    );
+    $prepare->execute();
+    if ($prepare) {
+        $success  = "Login Details Updated";
+    } else {
+        $err = "Failed!, Please Try Again";
+    }
+}
 /* Update Password */
 require_once('../partials/head.php');
 $user_id = $_SESSION['user_id'];
