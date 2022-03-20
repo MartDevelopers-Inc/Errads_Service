@@ -104,43 +104,70 @@ while ($users = $res->fetch_object()) {
                     </div>
                 </div>
                 <!-- User Meta Data-->
-                <div class="card user-data-card">
-                    <div class="card-body">
-                        <form method="POST">
-                            <div class="form-group mb-3">
-                                <label class="form-label">First name</label>
-                                <input class="form-control" type="text" name="user_fname" value="<?php echo $users->user_fname; ?>">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label class="form-label">Last name</label>
-                                <input class="form-control" type="text" name="user_lname" value="<?php echo $users->user_lname; ?>">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label class="form-label">Contacts</label>
-                                <input class="form-control" type="text" name="user_contact" value="<?php echo $users->user_contact; ?>">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label class="form-label" for="address">Address</label>
-                                <input class="form-control" type="text" name="user_location" value="<?php echo $users->user_location; ?>">
-                            </div>
-                            <div class="row">
-                                <div class="form-group mb-3 col-6">
-                                    <label class="form-label" for="address">Age</label>
-                                    <input class="form-control" type="text" name="user_age" value="<?php echo $users->user_age; ?>">
+                <fieldset class="border border-primary p-2">
+                    <legend class="w-auto text-primary pull-center">Personal Information</legend>
+                    <div class="card user-data-card">
+                        <div class="card-body">
+                            <form method="POST">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">First name</label>
+                                    <input class="form-control" type="text" name="user_fname" value="<?php echo $users->user_fname; ?>">
                                 </div>
-                                <div class="form-group mb-3 col-6">
-                                    <label class="form-label" for="address">Gender</label>
-                                    <select class="form-control" type="text" name="user_gender" value="">
-                                        <option><?php echo $users->user_gender; ?></option>
-                                        <option>Male</option>
-                                        <option>Female</option>
-                                    </select>
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Last name</label>
+                                    <input class="form-control" type="text" name="user_lname" value="<?php echo $users->user_lname; ?>">
                                 </div>
-                            </div>
-                            <button class="btn btn-success w-100" type="submit" name="Update">Update Now</button>
-                        </form>
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Contacts</label>
+                                    <input class="form-control" type="text" name="user_contact" value="<?php echo $users->user_contact; ?>">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="form-label" for="address">Address</label>
+                                    <input class="form-control" type="text" name="user_location" value="<?php echo $users->user_location; ?>">
+                                </div>
+                                <div class="row">
+                                    <div class="form-group mb-3 col-6">
+                                        <label class="form-label" for="address">Age</label>
+                                        <input class="form-control" type="text" name="user_age" value="<?php echo $users->user_age; ?>">
+                                    </div>
+                                    <div class="form-group mb-3 col-6">
+                                        <label class="form-label" for="address">Gender</label>
+                                        <select class="form-control" type="text" name="user_gender" value="">
+                                            <option><?php echo $users->user_gender; ?></option>
+                                            <option>Male</option>
+                                            <option>Female</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button class="btn btn-success w-100" type="submit" name="Update">Update Now</button>
+                            </form>
+                        </div>
                     </div>
-                </div>
+                </fieldset>
+                <hr>
+                <!-- Login Info -->
+                <fieldset class="border border-primary p-2">
+                    <legend class="w-auto text-primary pull-center">Authentication Information</legend>
+                    <div class="card user-data-card">
+                        <div class="card-body">
+                            <form method="POST">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Email </label>
+                                    <input class="form-control" type="text" name="login_email" value="<?php echo $users->login_email; ?>">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="form-label" for="bio">Login Security Question</label>
+                                    <textarea class="form-control" name="login_question" cols="30" rows="10"><?php echo $users->login_question; ?></textarea>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="form-label" for="bio">Login Question Answer</label>
+                                    <textarea class="form-control" name="login_answer" cols="30" rows="10"><?php echo $users->login_answer; ?></textarea>
+                                </div>
+                                <button class="btn btn-success w-100" type="submit" name="Update_auth">Update Authentication Information</button>
+                            </form>
+                        </div>
+                    </div>
+                </fieldset>
             </div>
         </div>
         <!-- Footer Nav-->
