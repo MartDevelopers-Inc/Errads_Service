@@ -25,13 +25,16 @@ if (isset($_POST['Login'])) {
     $login_email = $_POST['login_email'];
     $login_password = sha1(md5($_POST['login_password']));
 
-    $stmt = $mysqli->prepare("SELECT login_email, login_password, login_rank, login_id  FROM login  WHERE login_email =? AND login_password =?");
+    $stmt = $mysqli->prepare("SELECT login_email, login_password, login_rank, login_id, user_id  FROM login l 
+    INNER JOIN users u ON u.user_login_id = l.login_id
+    WHERE login_email =? AND login_password =?");
     $stmt->bind_param('ss', $login_email, $login_password);
     $stmt->execute(); //execute bind
 
-    $stmt->bind_result($login_email, $login_password, $login_rank, $login_id);
+    $stmt->bind_result($login_email, $login_password, $login_rank, $login_id, $user_id);
     $rs = $stmt->fetch();
     $_SESSION['login_id'] = $login_id;
+    $_SESSION['user_id'] = $user_id;
     $_SESSION['login_rank'] = $login_rank;
 
     /* Decide Login User Dashboard Based On User Rank */
