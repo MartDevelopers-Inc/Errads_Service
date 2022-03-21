@@ -24,35 +24,33 @@ require_once('../config/config.php');
 require_once('../config/checklogin.php');
 require_once('../config/codeGen.php');
 check_login();
-/* Add Payments */
-if (isset($_POST['add_payment'])) {
-    $payment_id = $sys_gen_id;
+/* Update Payments */
+if (isset($_POST['update_payment'])) {
+    $payment_id = $_POST['payment_id'];
     $payment_amount = $_POST['payment_amount'];
-    $payment_date = date('d M Y g:ia');
+    $payment_date = date('d M Y');
     $payment_ref = $sys_gen_paycode;
     $payment_mode = $_POST['payment_mode'];
-    $payment_accepted_bid_id = $_POST['payment_accepted_bid_id'];
 
     /* Persist */
-    $sql = "INSERT INTO payments (payment_id, payment_amount, payment_date, payment_ref, payment_mode, payment_accepted_bid_id)
-    VALUES(?,?,?,?,?,?)";
+    $sql = "UPDATE  payments SET payment_amount =?, payment_date =?, payment_ref =?, payment_mode =? WHERE payment_id =?";
     $prepare = $mysqli->prepare($sql);
     $bind = $prepare->bind_param(
-        'ssssss',
-        $payment_id,
+        'sssss',
         $payment_amount,
         $paayment_date,
         $payment_ref,
         $payment_mode,
-        $payment_accepted_bid_id
+        $payment_id
     );
     $prepare->execute();
     if ($prepare) {
-        $success = "Payment REF: $payment_ref, Posted";
+        $success = "Payment REF: $payment_ref, Updated";
     } else {
         $err = "Failed!, Please Try Again";
     }
 }
+/* Delete Payments */
 require_once('../partials/head.php');
 ?>
 
