@@ -50,7 +50,22 @@ if (isset($_POST['update_payment'])) {
         $err = "Failed!, Please Try Again";
     }
 }
+
 /* Delete Payments */
+if (isset($_POST['delete_paayment'])) {
+    $payment_id = $_POST['payment_id'];
+
+    /* Persist */
+    $sql = "DELETE FROM payments WHERE payment_id = ?";
+    $prepare = $mysqli->prepare($sql);
+    $bind = $prepare->bind_param('s', $payment_id);
+    $prepare->execute();
+    if ($prepare) {
+        $success = "Payment Deleted";
+    } else {
+        $err = "Failed!, Please Try Again";
+    }
+}
 require_once('../partials/head.php');
 ?>
 
