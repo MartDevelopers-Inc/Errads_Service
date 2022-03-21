@@ -106,8 +106,9 @@ require_once('../partials/head.php');
     <div class="sidenav-black-overlay"></div>
     <!-- Side Nav Wrapper-->
     <?php require_once('../partials/side_nav.php'); ?>
-
-    <div class="page-content-wrapper py-3">
+    <br>
+    <br>
+    <div class="py-3">
         <!-- Add New Staff-->
         <div class="container">
             <div class="card mb-2">
@@ -137,38 +138,46 @@ require_once('../partials/head.php');
             ?>
                 <ul class="ps-0 chat-user-list">
                     <li class="p-3 chat-unread">
-                        <a class="d-flex" href="pay_bid?view=<?php echo $biddings->accepted_bid_id; ?>">
-                            <div class="text-content">
-                                <h5><?php echo $biddings->errand_name; ?> </h5>
-                                <p><?php echo $biddings->errand_description; ?></p><br>
-                                <figcaption class="blockquote-footer">
-                                    Posted By <cite title="Source Title"><?php echo $biddings->user_fname . ' ' . $biddings->user_lname; ?></cite>
-                                </figcaption>
-                                <p>
-                                    <span class="text-success">
-                                        Amount: Ksh <?php echo number_format($biddings->errand_amount); ?><br>
-                                        Due Date: <?php echo date('d M Y', strtotime($biddings->errand_due_date)); ?><br>
-                                    </span>
-                                </p>
-                                <hr>
-                                <h5>Accepted Bid Details </h5>
-                                <p class="">
-                                    <?php echo $biddings->bidding_description; ?> <br>
-                                    <span class="text-success">
-                                        Amount: Ksh <?php echo number_format($biddings->bidding_amount); ?><br>
-                                        Bid Date: <?php echo date('d M Y', strtotime($biddings->accepted_bid_date)); ?><br>
-                                    </span>
-                                </p>
-                                <figcaption class="blockquote-footer">
-                                    Bid By <cite title="Source Title"><?php echo $biddings->user_fname . ' ' . $biddings->user_lname; ?></cite>
-                                </figcaption>
+                        <div class="text-content">
+                            <h5><?php echo $biddings->errand_name; ?> </h5>
+                            <p><?php echo $biddings->errand_description; ?></p><br>
+                            <figcaption class="blockquote-footer">
+                                Posted By <cite title="Source Title"><?php echo $biddings->user_fname . ' ' . $biddings->user_lname; ?></cite>
+                            </figcaption>
+                            <p>
+                                <span class="text-success">
+                                    Amount: Ksh <?php echo number_format($biddings->errand_amount); ?><br>
+                                    Due Date: <?php echo date('d M Y', strtotime($biddings->errand_due_date)); ?><br>
+                                </span>
+                            </p>
+                            <hr>
+                            <h5>Accepted Bid Details </h5>
+                            <p class="">
+                                <?php echo $biddings->bidding_description; ?> <br>
+                                <span class="text-success">
+                                    Amount: Ksh <?php echo number_format($biddings->bidding_amount); ?><br>
+                                    Bid Date: <?php echo date('d M Y', strtotime($biddings->accepted_bid_date)); ?><br>
+                                </span>
+                            </p>
+                            <figcaption class="blockquote-footer">
+                                Bid By <cite title="Source Title"><?php echo $biddings->user_fname . ' ' . $biddings->user_lname; ?></cite>
+                            </figcaption>
+                            <div class="text-center">
+                                <button class="btn btn-round btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#pay_<?php echo $biddings->accepted_bid_id; ?>">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                    </svg>
+                                    Pay Bid
+                                </button>
                             </div>
-                        </a>
+                        </div>
                     </li>
                 </ul>
-                <br>
+                <br><br>
             <?php
             } ?>
+            <br><br>
         </div>
     </div>
     <!-- Footer Nav-->
