@@ -95,7 +95,7 @@ require_once('../partials/head.php');
                     <?php
                     $ret = "SELECT * FROM errands e
                     INNER JOIN users u ON u.user_id = e.errand_user_id
-                    INNER JOIN login l ON l.login_id = u.user_id";
+                    INNER JOIN login l ON l.login_id = u.user_login_id";
                     $stmt = $mysqli->prepare($ret);
                     $stmt->execute(); //ok
                     $res = $stmt->get_result();
