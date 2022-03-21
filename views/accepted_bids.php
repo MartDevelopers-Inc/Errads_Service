@@ -175,6 +175,40 @@ require_once('../partials/head.php');
                     </li>
                 </ul>
                 <br><br>
+                <!-- Add Payment -->
+                <div class="modal fade" id="pay_<?php echo $biddings->accepted_bid_id; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h6 class="modal-title" id="exampleModalLabel">Pay Errand: <?php echo $biddings->errand_name; ?></h6>
+                                <button class="btn btn-close p-1 ms-auto" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="post" enctype="multipart/form-data" role="form">
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label class="form-label">Payment Amount</label>
+                                            <input type="text" readonly value="<?php echo $biddings->bidding_amount; ?>" required name="payment_amount" class="form-control">
+                                            <input type="hidden" readonly value="<?php echo $biddings->accepted_bid_id; ?>" required name="payment_accepted_bid_id" class="form-control">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="form-label">Payment Mode</label>
+                                            <select class="form-control" type="text" name="payment_mode" value="">
+                                                <option>MPESA</option>
+                                                <option>Debit / Credit Card</option>
+                                                <option>Cash</option>
+                                                <option>Bank Deposit</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="pull-right">
+                                        <button type="submit" name="add_payment" class="btn btn-warning">Add Payment</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             <?php
             } ?>
             <br><br>
