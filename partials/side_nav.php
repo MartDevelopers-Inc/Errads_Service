@@ -106,7 +106,6 @@ while ($user = $res->fetch_object()) {
                         <li><a href="reports_freelancers">Freelancers</a></li>
                         <li><a href="reports_clients">Clients</a></li>
                         <li><a href="reports_errands">Posted Errands</a></li>
-                        <li><a href="reports_biddings">Biddings</a></li>
                         <li><a href="reports_payments">Payments</a></li>
                     </ul>
                 </li>
