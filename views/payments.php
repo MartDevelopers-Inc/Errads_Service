@@ -247,7 +247,7 @@ require_once('../partials/head.php');
                                     <!-- Hide This -->
                                     <input type="hidden" name="payment_id" value="<?php echo $biddings->payment_id; ?>">
                                     <button type="button" class="text-center btn btn-success" data-bs-dismiss="modal">No</button>
-                                    <input type="submit" name="delete" value="Delete" class="text-center btn btn-danger">
+                                    <input type="submit" name="delete_payment" value="Delete" class="text-center btn btn-danger">
                                 </div>
                             </form>
                         </div>
