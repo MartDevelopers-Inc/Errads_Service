@@ -166,7 +166,7 @@ require_once('../partials/head.php');
                             </figcaption>
                             <hr>
                             <h5>Payment Details </h5>
-                            <span class="text-dark">
+                            <span class="text-success">
                                 Payment REF#: <?php echo $biddings->payment_ref; ?><br>
                                 Amount: Ksh <?php echo number_format($biddings->payment_amount); ?><br>
                                 Payment Date: <?php echo $biddings->payment_date; ?><br>
