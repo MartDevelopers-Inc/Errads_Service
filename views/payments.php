@@ -52,7 +52,7 @@ if (isset($_POST['update_payment'])) {
 }
 
 /* Delete Payments */
-if (isset($_POST['delete_paayment'])) {
+if (isset($_POST['delete_payment'])) {
     $payment_id = $_POST['payment_id'];
 
     /* Persist */
@@ -93,7 +93,7 @@ require_once('../partials/head.php');
                 </div>
                 <!-- Page Title-->
                 <div class="page-heading">
-                    <h6 class="mb-0">Accepted Errands Bids</h6>
+                    <h6 class="mb-0">Payments</h6>
                 </div>
                 <!-- Navbar Toggler-->
                 <div class="navbar--toggler" id="affanNavbarToggler"><span class="d-block"></span><span class="d-block"></span><span class="d-block"></span></div>
@@ -119,27 +119,17 @@ require_once('../partials/head.php');
     <div class="sidenav-black-overlay"></div>
     <!-- Side Nav Wrapper-->
     <?php require_once('../partials/side_nav.php'); ?>
-
-    <div class="page-content-wrapper py-3">
+    <br><br>
+    <div class="py-3">
         <!-- Add New Staff-->
         <div class="container">
-            <div class="card mb-2">
-                <div class="card-body p-2">
-                    <div class="chat-search-box">
-                        <form action="search_errands" method="GET">
-                            <div class="input-group"><span class="input-group-text" id="searchbox"><i class="bi bi-search"></i></span>
-                                <input class="form-control" name="search_query" type="text" placeholder="Search Errands Services" aria-describedby="searchbox">
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
             <!-- Element Heading-->
             <div class="element-heading">
             </div>
             <!-- Chat User List-->
             <?php
-            $ret = "SELECT * FROM accepted_bids ab
+            $ret = "SELECT * FROM payments p 
+            INNER JOIN accepted_bids ab ON p.payment_accepted_bid_id  = ab.accepted_bid_id
             INNER JOIN biddings b  ON ab.accepted_bid_bidding_id = b.bidding_id
             INNER JOIN users u ON b.bidding_user_id = u.user_id 
             INNER JOIN errands e ON e.errand_id = b.bidding_errand_id";
@@ -151,7 +141,7 @@ require_once('../partials/head.php');
                 <ul class="ps-0 chat-user-list">
                     <li class="p-3 chat-unread">
                         <div class="text-content">
-                            <h5><?php echo $biddings->errand_name; ?> </h5>
+                            <h5>Errand: <?php echo $biddings->errand_name; ?> </h5>
                             <p><?php echo $biddings->errand_description; ?></p><br>
                             <figcaption class="blockquote-footer">
                                 Posted By <cite title="Source Title"><?php echo $biddings->user_fname . ' ' . $biddings->user_lname; ?></cite>
@@ -174,12 +164,44 @@ require_once('../partials/head.php');
                             <figcaption class="blockquote-footer">
                                 Bid By <cite title="Source Title"><?php echo $biddings->user_fname . ' ' . $biddings->user_lname; ?></cite>
                             </figcaption>
+                            <hr>
+                            <h5>Payment Details </h5>
+                            <span class="text-dark">
+                                Payment REF#: <?php echo $biddings->payment_ref; ?><br>
+                                Amount: Ksh <?php echo number_format($biddings->payment_amount); ?><br>
+                                Payment Date: <?php echo $biddings->payment_date; ?><br>
+                                Payment Mode: <?php echo $biddings->payment_mode; ?><br>
+                            </span>
+                            <br>
+                            <div class="text-center">
+                                <button class="btn btn-round btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#update_<?php echo $biddings->payment_id; ?>">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                    </svg>
+                                    Edit
+                                </button>
+                                <button class="btn btn-round btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#delete_<?php echo $biddings->payment_id; ?>">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                    </svg>
+                                    Delete
+                                </button>
+                            </div>
                         </div>
                     </li>
                 </ul>
                 <br>
+                <!-- Edit Modal -->
+                <!-- End Edit -->
+
+
+                <!-- Delete Modal -->
+                <!-- End Delete -->
             <?php
             } ?>
+            <br><br><br>
         </div>
     </div>
     <!-- Footer Nav-->
