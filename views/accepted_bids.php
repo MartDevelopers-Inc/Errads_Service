@@ -28,7 +28,7 @@ check_login();
 if (isset($_POST['add_payment'])) {
     $payment_id = $sys_gen_id;
     $payment_amount = $_POST['payment_amount'];
-    $payment_date = date('d M Y g:ia');
+    $payment_date = $_POST['payment_date'];
     $payment_ref = $sys_gen_paycode;
     $payment_mode = $_POST['payment_mode'];
     $payment_accepted_bid_id = $_POST['payment_accepted_bid_id'];
@@ -190,6 +190,8 @@ require_once('../partials/head.php');
                                             <label class="form-label">Payment Amount</label>
                                             <input type="text" readonly value="<?php echo $biddings->bidding_amount; ?>" required name="payment_amount" class="form-control">
                                             <input type="hidden" readonly value="<?php echo $biddings->accepted_bid_id; ?>" required name="payment_accepted_bid_id" class="form-control">
+                                            <input type="hidden" readonly value="<?php echo date('d M Y g:ia'); ?>" required name="payment_date" class="form-control">
+
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label class="form-label">Payment Mode</label>
