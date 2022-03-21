@@ -99,7 +99,7 @@ require_once('../partials/head.php');
                     <?php
                     $ret = "SELECT * FROM users u
                     INNER JOIN login l ON l.login_id = u.user_login_id
-                    WHERE l.login_rank = 'Freelancers'";
+                    WHERE l.login_rank = 'Freelancer'";
                     $stmt = $mysqli->prepare($ret);
                     $stmt->execute(); //ok
                     $res = $stmt->get_result();
@@ -111,7 +111,7 @@ require_once('../partials/head.php');
                             <td><?php echo $users->user_age; ?> Years</td>
                             <td><?php echo $users->user_contact; ?></td>
                             <td><?php echo $users->user_location; ?></td>
-                            <td><?php echo $users->user_email; ?></td>
+                            <td><?php echo $users->login_email; ?></td>
                         </tr>
                     <?php } ?>
                 </tbody>
