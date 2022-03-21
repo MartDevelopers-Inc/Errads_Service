@@ -233,6 +233,26 @@ require_once('../partials/head.php');
 
 
                 <!-- Delete Modal -->
+                <div class="modal fade" id="delete_<?php echo $biddings->payment_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">CONFIRM DELETE</h5>
+                                <button class="btn btn-close p-1 ms-auto" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form method="POST">
+                                <div class="modal-body text-center text-danger">
+                                    <h4>Delete Payment Ref#: <?php echo $biddings->payment_ref; ?>?</h4>
+                                    <br>
+                                    <!-- Hide This -->
+                                    <input type="hidden" name="payment_id" value="<?php echo $biddings->payment_id; ?>">
+                                    <button type="button" class="text-center btn btn-success" data-bs-dismiss="modal">No</button>
+                                    <input type="submit" name="delete" value="Delete" class="text-center btn btn-danger">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <!-- End Delete -->
             <?php
             } ?>
