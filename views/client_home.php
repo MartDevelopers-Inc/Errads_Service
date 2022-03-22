@@ -132,7 +132,7 @@ require_once('../partials/head.php');
                         $res = $stmt->get_result();
                         while ($clients = $res->fetch_object()) {
                         ?>
-                            <a href="client_freelancer?view=<?php echo $clients->user_id; ?>">
+                            <a href="client_freelancers">
                                 <div class="single-testimonial-slide">
                                     <div class="text-content">
                                         <div class="col-12">
