@@ -90,8 +90,8 @@ require_once('../partials/head.php');
             $ret = "SELECT * FROM payments p 
             INNER JOIN accepted_bids ab ON p.payment_accepted_bid_id  = ab.accepted_bid_id
             INNER JOIN biddings b  ON ab.accepted_bid_bidding_id = b.bidding_id
-            INNER JOIN users u ON b.bidding_user_id = u.user_id 
             INNER JOIN errands e ON e.errand_id = b.bidding_errand_id
+            INNER JOIN users u ON e.errand_user_id = u.user_id 
             WHERE b.bidding_user_id = '$user_id'";
             $stmt = $mysqli->prepare($ret);
             $stmt->execute(); //ok
@@ -121,9 +121,7 @@ require_once('../partials/head.php');
                                     Bid Date: <?php echo date('d M Y', strtotime($biddings->accepted_bid_date)); ?><br>
                                 </span>
                             </p>
-                            <figcaption class="blockquote-footer">
-                                Bid By <cite title="Source Title"><?php echo $biddings->user_fname . ' ' . $biddings->user_lname; ?></cite>
-                            </figcaption>
+                            <br>
                             <hr>
                             <h5>Payment Details </h5>
                             <span class="text-success">

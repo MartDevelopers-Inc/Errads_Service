@@ -212,9 +212,9 @@ require_once('../partials/head.php');
             <?php
             $user_id = $_SESSION['user_id'];
             $ret = "SELECT * FROM biddings b 
-            INNER JOIN users u ON b.bidding_user_id = u.user_id 
             INNER JOIN errands e ON e.errand_id = b.bidding_errand_id
-            WHERE u.user_id = '$user_id'  ";
+            INNER JOIN users u ON e.errand_user_id = u.user_id 
+            WHERE b.bidding_user_id = '$user_id'  ";
             $stmt = $mysqli->prepare($ret);
             $stmt->execute(); //ok
             $res = $stmt->get_result();
@@ -231,9 +231,6 @@ require_once('../partials/head.php');
                                 </span>
                             </p>
                             <br>
-                            <figcaption class="blockquote-footer">
-                                Bid By <cite title="Source Title"><?php echo $biddings->user_fname . ' ' . $biddings->user_lname; ?></cite>
-                            </figcaption>
                             <hr>
                             <h5 class="text-center">Errand Details</h5>
                             <h5><?php echo $biddings->errand_name; ?> </h5>
