@@ -159,7 +159,7 @@ while ($user = $res->fetch_object()) {
             <div class="sidenav-profile">
                 <div class="sidenav-style1"></div>
                 <!-- User Thumbnail-->
-                <div class="user-profile"><img src="../public/img/bg-img/no-profile.png" alt=""></div>
+                <div class="user-profile"><img src="../public/img/bg-img/profile.svg" alt=""></div>
                 <!-- User Info-->
                 <div class="user-info">
                     <h6 class="user-name mb-0"><?php echo $user->user_fname . ' ' . $user->user_lname; ?></h6><span><?php echo $user->user_contact; ?></span>
@@ -267,7 +267,7 @@ while ($user = $res->fetch_object()) {
             <div class="sidenav-profile">
                 <div class="sidenav-style1"></div>
                 <!-- User Thumbnail-->
-                <div class="user-profile"><img src="../public/img/bg-img/no-profile.png" alt=""></div>
+                <div class="user-profile"><img src="../public/img/bg-img/profile.svg" alt=""></div>
                 <!-- User Info-->
                 <div class="user-info">
                     <h6 class="user-name mb-0"><?php echo $user->user_fname . ' ' . $user->user_lname; ?></h6><span><?php echo $user->user_contact; ?></span>

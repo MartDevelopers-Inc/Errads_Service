@@ -18,6 +18,7 @@
  * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+
 session_start();
 require_once('../config/config.php');
 require_once('../config/checklogin.php');
@@ -42,7 +43,7 @@ require_once('../partials/head.php');
             <div class="header-content header-style-five position-relative d-flex align-items-center justify-content-between">
                 <!-- Back Button-->
                 <div class="back-button">
-                    <a href="home">
+                    <a href="freelancer_home">
                         <svg width="32" height="32" viewBox="0 0 16 16" class="bi bi-arrow-left-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
                         </svg>
@@ -50,7 +51,7 @@ require_once('../partials/head.php');
                 </div>
                 <!-- Page Title-->
                 <div class="page-heading">
-                    <h6 class="mb-0">Posted Errands - Reports</h6>
+                    <h6 class="mb-0">Errands</h6>
                 </div>
                 <!-- Navbar Toggler-->
                 <div class="navbar--toggler" id="affanNavbarToggler"><span class="d-block"></span><span class="d-block"></span><span class="d-block"></span></div>
@@ -77,61 +78,63 @@ require_once('../partials/head.php');
     <!-- Side Nav Wrapper-->
     <?php require_once('../partials/side_nav.php'); ?>
 
-    <!-- Add new Staff modal-->
-
     <div class="page-content-wrapper py-3">
         <div class="container">
+            <div class="card mb-2">
+                <div class="card-body p-2">
+                    <div class="chat-search-box">
+                        <form action="freelancer_search_errands" method="GET">
+                            <div class="input-group"><span class="input-group-text" id="searchbox"><i class="bi bi-search"></i></span>
+                                <input class="form-control" name="search_query" type="text" placeholder="Search Errands Services" aria-describedby="searchbox">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <!-- Element Heading-->
             <div class="element-heading">
             </div>
-            <table id="report" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>Errand Client</th>
-                        <th>Errand Details</th>
-                        <th>Bid Details</th>
-                        <th>Payment Details</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $ret = "SELECT * FROM payments p 
-                    INNER JOIN accepted_bids ab ON ab.accepted_bid_id = p.payment_accepted_bid_id 
-                    INNER JOIN biddings b ON b.bidding_id = ab.accepted_bid_bidding_id 
-                    INNER JOIN errands e ON e.errand_id = b.bidding_errand_id
-                    INNER JOIN users u ON u.user_id = e.errand_user_id 
-                    INNER JOIN login l ON l.login_id = u.user_login_id; ";
-                    $stmt = $mysqli->prepare($ret);
-                    $stmt->execute(); //ok
-                    $res = $stmt->get_result();
-                    while ($users = $res->fetch_object()) {
-                    ?>
-                        <tr>
-                            <td>
-                                Names: <?php echo $users->user_fname . ' ' . $users->user_lname; ?> <br>
-                                Contacts: <?php echo $users->user_contact; ?> <br>
-                                Email: <?php echo $users->login_email; ?>
-                            </td>
-                            <td>
-                                Name:<?php echo $users->errand_name; ?><br>
-                                Details: <?php echo $users->errand_description; ?><br>
-                                Budget: Ksh <?php echo number_format($users->errand_amount); ?><br>
-                                Due: <?php echo date('d M Y', strtotime($users->errand_due_date)); ?><br>
-                            </td>
-                            <td>
-                                Amount: Ksh <?php echo number_format($users->bidding_amount); ?><br>
-                                Bid Date: <?php echo date('d M Y', strtotime($users->accepted_bid_date)); ?><br>
-                            </td>
-                            <td>
-                                Payment REF#: <?php echo $users->payment_ref; ?><br>
-                                Amount: Ksh <?php echo number_format($users->payment_amount); ?><br>
-                                Payment Date: <?php echo $users->payment_date; ?><br>
-                                Payment Mode: <?php echo $users->payment_mode; ?><br>
-                            </td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
+            <!-- Chat User List-->
+            <?php
+            $ret = "SELECT * FROM errands e
+            INNER JOIN users u ON u.user_id = e.errand_user_id 
+            ORDER BY errand_due_date DESC";
+            $stmt = $mysqli->prepare($ret);
+            $stmt->execute(); //ok
+            $res = $stmt->get_result();
+            while ($errands = $res->fetch_object()) {
+                /* Count Available bids to this errand */
+                $errand_id = $errands->errand_id;
+                $query = "SELECT COUNT(*)  FROM biddings WHERE bidding_errand_id  = '$errand_id'";
+                $stmt = $mysqli->prepare($query);
+                $stmt->execute();
+                $stmt->bind_result($biddings);
+                $stmt->fetch();
+                $stmt->close();
+            ?>
+                <ul class="ps-0 chat-user-list">
+                    <li class="p-3 chat-unread">
+                        <a class="d-flex" href="freelancer_errand_detail?view=<?php echo $errands->errand_id; ?>">
+                            <div class="text-content">
+                                <h6 class="mb-2"><?php echo $errands->errand_name; ?></h6>
+                                <p class="">
+                                    <?php echo substr($errands->errand_description, 0, 100); ?>... <br>
+                                    <span class="text-success">
+                                        Amount: Ksh <?php echo number_format($errands->errand_amount); ?><br>
+                                        Due Date: <?php echo date('d M Y', strtotime($errands->errand_due_date)); ?><br>
+                                        Bids: <?php echo $biddings; ?>
+                                    </span>
+                                </p>
+                                <figcaption class="blockquote-footer">
+                                    Posted By <cite title="Source Title"><?php echo $errands->user_fname . ' ' . $errands->user_lname; ?></cite>
+                                </figcaption>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+                <br>
+            <?php
+            } ?>
         </div>
     </div>
     <!-- Footer Nav-->
