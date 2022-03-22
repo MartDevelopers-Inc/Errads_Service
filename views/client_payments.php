@@ -103,9 +103,6 @@ require_once('../partials/head.php');
                         <div class="text-content">
                             <h5>Errand: <?php echo $biddings->errand_name; ?> </h5>
                             <p><?php echo $biddings->errand_description; ?></p><br>
-                            <figcaption class="blockquote-footer">
-                                Posted By <cite title="Source Title"><?php echo $biddings->user_fname . ' ' . $biddings->user_lname; ?></cite>
-                            </figcaption>
                             <p>
                                 <span class="text-success">
                                     Amount: Ksh <?php echo number_format($biddings->errand_amount); ?><br>
@@ -121,6 +118,7 @@ require_once('../partials/head.php');
                                     Bid Date: <?php echo date('d M Y', strtotime($biddings->accepted_bid_date)); ?><br>
                                 </span>
                             </p>
+                            <br>
                             <figcaption class="blockquote-footer">
                                 Bid By <cite title="Source Title"><?php echo $biddings->user_fname . ' ' . $biddings->user_lname; ?></cite>
                             </figcaption>
