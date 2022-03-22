@@ -119,10 +119,14 @@ require_once('../partials/head.php');
                                 Due: <?php echo date('d M Y', strtotime($users->errand_due_date)); ?><br>
                             </td>
                             <td>
-
+                                Amount: Ksh <?php echo number_format($users->bidding_amount); ?><br>
+                                Bid Date: <?php echo date('d M Y', strtotime($users->accepted_bid_date)); ?><br>
                             </td>
                             <td>
-
+                                Payment REF#: <?php echo $users->payment_ref; ?><br>
+                                Amount: Ksh <?php echo number_format($users->payment_amount); ?><br>
+                                Payment Date: <?php echo $users->payment_date; ?><br>
+                                Payment Mode: <?php echo $users->payment_mode; ?><br>
                             </td>
                         </tr>
                     <?php } ?>
