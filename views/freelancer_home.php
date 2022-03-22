@@ -36,6 +36,16 @@ require_once('../partials/head.php');
         <!-- Hero Slides-->
         <div class="owl-carousel-one owl-carousel">
             <!-- Single Hero Slide-->
+            <div class="single-hero-slide bg-overlay" style="background-image: url('../public/img/bg-img/clients.webp')">
+                <div class="slide-content h-100 d-flex align-items-center text-center">
+                    <div class="container">
+                        <h4 class="text-white mb-1" data-animation="fadeInUp" data-delay="100ms" data-wow-duration="500ms">Clients</h4>
+                        <p class="text-white mb-4" data-animation="fadeInUp" data-delay="400ms" data-wow-duration="1000ms">Prepared to employ and pay for errand-running services.</p>
+                        <a class="btn btn-creative btn-warning" href="clients" data-animation="fadeInUp" data-delay="800ms" data-wow-duration="500ms"><?php echo $clients; ?></a>
+                    </div>
+                </div>
+            </div>
+            <!-- Single Hero Slide-->
             <div class="single-hero-slide bg-overlay" style="background-image: url('../public/img/bg-img/errands.jpg')">
                 <div class="slide-content h-100 d-flex align-items-center text-center">
                     <div class="container">
@@ -113,6 +123,7 @@ require_once('../partials/head.php');
                 </div>
             </div>
         </div>
+        <div class="pb-3"></div>
     </div>
     <!-- Footer Nav-->
     <?php require_once('../partials/footer_nav.php'); ?>
