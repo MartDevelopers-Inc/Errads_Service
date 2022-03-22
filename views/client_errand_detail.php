@@ -86,7 +86,7 @@ if (isset($_POST['delete'])) {
     $prepare->execute();
     if ($prepare) {
         $_SESSION['success'] = 'Errand Deleted';
-        header("location:errands");
+        header("location:client_errands");
         exit;
     } else {
         $err = "Failed!, Please Try Again";
@@ -110,7 +110,9 @@ if (isset($_POST['accept_bid'])) {
     );
     $prepare->execute();
     if ($prepare) {
-        $success = "Bid Accepted";
+        $_SESSION['success'] = 'Bid Accepted, Proceed To Pay';
+        header("location:client_biddings");
+        exit;
     } else {
         $err  = "Failed!, Please Try Again";
     }
