@@ -77,7 +77,7 @@ if ($user_access_level == 'Administrator') {
     $stmt->execute(); //ok
     $res = $stmt->get_result();
     while ($client = $res->fetch_object()) {
-        $client_id = $client_user_id;
+        $client_id = $client->user_id;
         /* Freelancers */
         $query = "SELECT COUNT(*)  FROM users u 
         INNER JOIN login l ON l.login_id = u.user_login_id
@@ -101,7 +101,8 @@ if ($user_access_level == 'Administrator') {
         $query = "SELECT SUM(payment_amount)  FROM payments p
         INNER JOIN accepted_bids ab ON ab.accepted_bid_id = p.payment_accepted_bid_id
         INNER JOIN biddings b ON b.bidding_id = ab.accepted_bid_bidding_id 
-        WHERE b.bidding_errand_id = '$client_id' ";
+        INNER JOIN errands e ON e.errand_id  = b.bidding_errand_id
+        WHERE e.errand_user_id = '$client_id' ";
         $stmt = $mysqli->prepare($query);
         $stmt->execute();
         $stmt->bind_result($payments);

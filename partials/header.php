@@ -12,7 +12,7 @@
         <!-- Header Content-->
         <div class="header-content header-style-five position-relative d-flex align-items-center justify-content-between">
             <!-- Logo Wrapper-->
-            <div class="logo-wrapper"><a href="home"><b>Errands Service<b></a></div>
+            <div class="logo-wrapper"><a href=""><b>Errands Service<b></a></div>
             <!-- Navbar Toggler-->
             <div class="navbar--toggler" id="affanNavbarToggler"><span class="d-block"></span><span class="d-block"></span><span class="d-block"></span></div>
         </div>
