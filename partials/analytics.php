@@ -101,7 +101,8 @@ if ($user_access_level == 'Administrator') {
         $query = "SELECT SUM(payment_amount)  FROM payments p
         INNER JOIN accepted_bids ab ON ab.accepted_bid_id = p.payment_accepted_bid_id
         INNER JOIN biddings b ON b.bidding_id = ab.accepted_bid_bidding_id 
-        WHERE b.bidding_errand_id = '$client_id' ";
+        INNER JOIN errands e ON e.errand_id  = b.bidding_errand_id
+        WHERE e.errand_user_id = '$client_id' ";
         $stmt = $mysqli->prepare($query);
         $stmt->execute();
         $stmt->bind_result($payments);
