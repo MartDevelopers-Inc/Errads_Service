@@ -77,7 +77,7 @@ if ($user_access_level == 'Administrator') {
     $stmt->execute(); //ok
     $res = $stmt->get_result();
     while ($client = $res->fetch_object()) {
-        $client_id = $client_user_id;
+        $client_id = $client->user_id;
         /* Freelancers */
         $query = "SELECT COUNT(*)  FROM users u 
         INNER JOIN login l ON l.login_id = u.user_login_id

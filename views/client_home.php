@@ -56,20 +56,10 @@ require_once('../partials/head.php');
                 </div>
             </div>
             <!-- Single Hero Slide-->
-            <div class="single-hero-slide bg-overlay" style="background-image: url('../public/img/bg-img/biddings.jpg')">
-                <div class="slide-content h-100 d-flex align-items-center text-center">
-                    <div class="container">
-                        <h4 class="text-white mb-1" data-animation="fadeInUp" data-delay="100ms" data-wow-duration="1000ms">Biddings</h4>
-                        <p class="text-white mb-4" data-animation="fadeInUp" data-delay="400ms" data-wow-duration="1000ms">Freelancers are eager to help with the tasks that have been placed.</p>
-                        <a class="btn btn-creative btn-warning" href="client_errands" data-animation="fadeInUp" data-delay="800ms" data-wow-duration="500ms"><?php echo $biddings; ?></a>
-                    </div>
-                </div>
-            </div>
-            <!-- Single Hero Slide-->
             <div class="single-hero-slide bg-overlay" style="background-image: url('../public/img/bg-img/payments.webp')">
                 <div class="slide-content h-100 d-flex align-items-center text-center">
                     <div class="container">
-                        <h4 class="text-white mb-1" data-animation="fadeInUp" data-delay="100ms" data-wow-duration="1000ms">Expenditire</h4>
+                        <h4 class="text-white mb-1" data-animation="fadeInUp" data-delay="100ms" data-wow-duration="1000ms">Expenditure</h4>
                         <p class="text-white mb-4" data-animation="fadeInUp" data-delay="400ms" data-wow-duration="1000ms">On this platform, freelancers make a lot of money, and clients spend a lot of money as well.</p>
                         <a class="btn btn-creative btn-warning" href="client_payments" data-animation="fadeInUp" data-delay="800ms" data-wow-duration="500ms">Ksh <?php echo number_format($payments, 2); ?></a>
                     </div>
