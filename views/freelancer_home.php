@@ -101,7 +101,7 @@ require_once('../partials/head.php');
                             $stmt->close();
                         ?>
                             <div class="single-testimonial-slide">
-                                <a href="errand_detail?view=<?php echo $errand_id; ?>">
+                                <a href="freelancer_errand_detail?view=<?php echo $errand_id; ?>">
                                     <div class="text-content">
                                         <h6 class="mb-2"><?php echo $errands->errand_name; ?></h6>
                                         <p class="">
