@@ -79,8 +79,6 @@ require_once('../partials/head.php');
     <?php require_once('../partials/side_nav.php'); ?>
 
     <div class="page-content-wrapper py-3">
-        <!-- Add New Staff-->
-        <div class="add-new-contact-wrap"><a class="shadow" href="#" data-bs-toggle="modal" data-bs-target="#addnewcontact"><i class="bi bi-plus"></i></a></div>
         <div class="container">
             <div class="card mb-2">
                 <div class="card-body p-2">

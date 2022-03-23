@@ -131,8 +131,8 @@ require_once('../partials/head.php');
             $ret = "SELECT * FROM payments p 
             INNER JOIN accepted_bids ab ON p.payment_accepted_bid_id  = ab.accepted_bid_id
             INNER JOIN biddings b  ON ab.accepted_bid_bidding_id = b.bidding_id
-            INNER JOIN users u ON b.bidding_user_id = u.user_id 
-            INNER JOIN errands e ON e.errand_id = b.bidding_errand_id";
+            INNER JOIN errands e ON e.errand_id = b.bidding_errand_id
+            INNER JOIN users u ON b.bidding_user_id = u.user_id ";
             $stmt = $mysqli->prepare($ret);
             $stmt->execute(); //ok
             $res = $stmt->get_result();
@@ -143,9 +143,6 @@ require_once('../partials/head.php');
                         <div class="text-content">
                             <h5>Errand: <?php echo $biddings->errand_name; ?> </h5>
                             <p><?php echo $biddings->errand_description; ?></p><br>
-                            <figcaption class="blockquote-footer">
-                                Posted By <cite title="Source Title"><?php echo $biddings->user_fname . ' ' . $biddings->user_lname; ?></cite>
-                            </figcaption>
                             <p>
                                 <span class="text-success">
                                     Amount: Ksh <?php echo number_format($biddings->errand_amount); ?><br>
