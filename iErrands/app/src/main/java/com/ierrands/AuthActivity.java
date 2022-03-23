@@ -118,7 +118,7 @@ public class AuthActivity extends AppCompatActivity {
         else {
             //When Internet Connectivity Is Active
             //Load Url In WebView also replace with your own url
-            web.loadUrl("http://172.16.4.58/iScheduling");
+            web.loadUrl("https://sandbox.devlan.co.ke/Errads/");
         }
 
 
