@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">iErrands</string>
+    <string name="no_internet">Offline. No Internet Connection.</string>
+    <string name="try_again">Reload</string>
 </resources>
