@@ -34,7 +34,7 @@ public class AuthActivity extends AppCompatActivity {
 
     private WebView web;
     //Replace This URL With Your Web Based Application URL
-    String webUrl = "https://sandbox.devlan.co.ke/Errads/";
+    String webUrl = "http://10.0.2.2/Errads/";
 
     public Context context;
 
