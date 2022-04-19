@@ -4,7 +4,7 @@ require_once('../config/config.php');
 require_once('../config/checklogin.php');
 require_once('../config/codeGen.php');
 check_login();
-
+require_once('../vendor/autoload.php');
 use Dompdf\Dompdf;
 
 $dompdf = new Dompdf();
@@ -82,7 +82,6 @@ $html = '<div style="margin:1px; page-break-after: always;">
                 .invoice-box {
                     margin: auto;
                     padding: 30px;
-                    border: 1px solid #006400;
                     box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
                     font-size: 16px;
                     line-height: 24px;
@@ -113,7 +112,6 @@ $html = '<div style="margin:1px; page-break-after: always;">
                     padding-bottom: 40px;
                 }
                 .invoice-box table tr.heading td {
-                    background: #eee;
                     border-bottom: 1px solid #ddd;
                     font-weight: bold;
                 }
@@ -165,17 +163,15 @@ $html = '<div style="margin:1px; page-break-after: always;">
             <body>
                 <h3 class="list_header" align="center">
                     iErrands <br>
-                </h3>
-                <h3 class="list_header letter_head" align="center">
-                    <hr style="width:100%" >
                     Freelancer Reports <br>
-                    <hr style="width:100%" >
                 </h3>
+                <hr>
                 <br>
                 <div class="invoice-box">
-                    <table border="1" cellspacing="0" width="98%" style="font-size:9pt">
+                    <table border="1" cellspacing="0" width="100%" style="font-size:9pt">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Full Name</th>
                                 <th>Gender</th>
                                 <th>Age</th>
@@ -199,9 +195,9 @@ $html = '<div style="margin:1px; page-break-after: always;">
                         '
                             <tr>
                                 <td width="3%">' . $cnt . '</td>
-                                <td width="100%">' . $users->user_fname . '<br>' . $users->user_fname . '</td>
-                                <td width="100%">' . $users->user_gender . '</td>
-                                <td width="100%">' . $users->user_age . '</td>
+                                <td width="100%">' . $users->user_fname . ' ' . $users->user_fname . '</td>
+                                <td width="50%">' . $users->user_gender . '</td>
+                                <td width="50%">' . $users->user_age . ' Years</td>
                                 <td width="100%">' . $users->user_contact . '</td>
                                 <td width="100%">' . $users->user_location . '</td>
                                 <td width="100%">' . $users->login_email . '</td>
@@ -219,7 +215,7 @@ $dompdf->load_html($html);
 $canvas = $dompdf->getCanvas();
 $w = $canvas->get_width();
 $h = $canvas->get_height();
-$imageURL = '../public/img/icons/icon.webp';
+$imageURL = '../public/img/bg-img/freelancer.png';
 $imgWidth = 500;
 $imgHeight = 500;
 $canvas->set_opacity(.3);
