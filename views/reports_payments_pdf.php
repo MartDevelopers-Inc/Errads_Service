@@ -171,19 +171,22 @@ $html = '<div style="margin:1px; page-break-after: always;">
                                 <th>#</th>
                                 <th>Errand Client</th>
                                 <th>Errand Details</th>
+                                <th>Bid Details</th>
+                                <th>Payment Details</th>
                             </tr>
                         </thead>
                         ';
-                        /* Fetch All Freelancers */
-                        $ret = "SELECT * FROM errands e
-                        INNER JOIN users u ON u.user_id = e.errand_user_id
-                        INNER JOIN login l ON l.login_id = u.user_login_id";
+                        $ret = "SELECT * FROM payments p 
+                        INNER JOIN accepted_bids ab ON ab.accepted_bid_id = p.payment_accepted_bid_id 
+                        INNER JOIN biddings b ON b.bidding_id = ab.accepted_bid_bidding_id 
+                        INNER JOIN errands e ON e.errand_id = b.bidding_errand_id
+                        INNER JOIN users u ON u.user_id = e.errand_user_id 
+                        INNER JOIN login l ON l.login_id = u.user_login_id; ";
                         $stmt = $mysqli->prepare($ret);
                         $stmt->execute(); //ok
                         $res = $stmt->get_result();
                         $cnt = 1;
                         while ($users = $res->fetch_object()) {
-                            /* Display All Freelancers In A Table */
                             $html .=
                         '
                             <tr>
@@ -198,7 +201,17 @@ $html = '<div style="margin:1px; page-break-after: always;">
                                     <b>Details:</b> ' . $users->errand_description  . ' <br>
                                     <b>Budget:</b> Ksh ' . number_format($users->errand_amount)  . ' <br>
                                     <b>Due:</b> ' . date('d M Y', strtotime($users->errand_due_date))  . ' <br>
-                                </td>                                
+                                </td> 
+                                <td width="100%">
+                                    <b>Amount: </b> Ksh ' . number_format($users->bidding_amount) . ' <br>
+                                    <b>Bid Date:</b> ' . date('d M Y', strtotime($users->accepted_bid_date))  . ' <br>
+                                </td> 
+                                <td width="100%">
+                                    <b>Payment REF#: </b>' . $users->payment_ref . ' <br>
+                                    <b>Amount: </b> Ksh ' . number_format($users->payment_amount) . ' <br>
+                                    <b>Payment Date: </b>' . $users->payment_date . ' <br>
+                                    <b>Payment Mode:: </b>' . $users->payment_modeGI . ' <br>
+                                </td>
                             </tr>
                         ';
                             $cnt = $cnt + 1;
