@@ -155,7 +155,7 @@ $html = '<div style="margin:1px; page-break-after: always;">
             <div class="pagebreak">
             <div class="footer letter_head list_header">
                 <hr>
-                <b>iErrands, Clients Reports</b>
+                <b>iErrands, Payments Reports</b>
             </div>
             <body>
                 <h3 class="list_header" align="center">
@@ -226,7 +226,7 @@ $dompdf->load_html($html);
 $canvas = $dompdf->getCanvas();
 $w = $canvas->get_width();
 $h = $canvas->get_height();
-$imageURL = '../public/img/bg-img/grocery-cart.png';
+$imageURL = '../public/img/bg-img/debit-card.png';
 $imgWidth = 500;
 $imgHeight = 500;
 $canvas->set_opacity(.3);
@@ -234,7 +234,7 @@ $x = (($w - $imgWidth) / 2);
 $y = (($h - $imgHeight) / 2);
 $canvas->image($imageURL, $x, $y, $imgWidth, $imgHeight);
 $dompdf->render();
-$dompdf->stream('Posted Errands', array("Attachment" => 1));
+$dompdf->stream('Payments', array("Attachment" => 1));
 $options = $dompdf->getOptions();
 $dompdf->set_paper('A4');
 $dompdf->set_option('isHtml5ParserEnabled', true);
