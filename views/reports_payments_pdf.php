@@ -210,7 +210,7 @@ $html = '<div style="margin:1px; page-break-after: always;">
                                     <b>Payment REF#: </b>' . $users->payment_ref . ' <br>
                                     <b>Amount: </b> Ksh ' . number_format($users->payment_amount) . ' <br>
                                     <b>Payment Date: </b>' . $users->payment_date . ' <br>
-                                    <b>Payment Mode:: </b>' . $users->payment_modeGI . ' <br>
+                                    <b>Payment Mode:: </b>' . $users->payment_mode . ' <br>
                                 </td>
                             </tr>
                         ';
