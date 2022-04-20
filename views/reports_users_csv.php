@@ -16,7 +16,7 @@ function filterData(&$str)
 }
 
 /* Excel File Name */
-$fileName = "Freelancers.xls";
+$fileName = "Clients.xls";
 
 /* Excel Column Name */
 $fields = array('#', 'Full Name', 'Gender', 'Age', 'Contacts', 'Location', 'Email');
@@ -28,7 +28,7 @@ $excelData = implode("\t", array_values($fields)) . "\n";
 /* Fetch All Records From The Database */
 $query = $mysqli->query("SELECT * FROM users u 
 INNER JOIN login l ON l.login_id = u.user_login_id
-WHERE l.login_rank = 'Freelancer'");
+WHERE l.login_rank = 'Client'");
 if ($query->num_rows > 0) {
     /* Load All Fetched Rows */
     $cnt = 1;
@@ -43,7 +43,7 @@ if ($query->num_rows > 0) {
         $cnt = $cnt + 1;
     }
 } else {
-    $excelData .= 'No Freelancers Available...' . "\n";
+    $excelData .= 'No Clients Available...' . "\n";
 }
 
 /* Generate Header File Encodings For Download */
