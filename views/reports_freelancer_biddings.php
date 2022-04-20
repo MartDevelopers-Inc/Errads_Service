@@ -1,138 +1,238 @@
 <?php
-/*
- *
- * The MIT License (MIT)
- * Copyright (c) 2021 MartDevelopers Inc
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
- * and associated documentation files (the "Software"), to deal in the Software without restriction,
- * including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all copies or substantial
- * portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
- * TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
- * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
 session_start();
 require_once('../config/config.php');
 require_once('../config/checklogin.php');
 require_once('../config/codeGen.php');
 check_login();
-require_once('../partials/head.php');
-?>
+require_once('../vendor/autoload.php');
+use Dompdf\Dompdf;
 
-<body class="pe-0">
-    <!-- Preloader-->
-    <div class="preloader d-flex align-items-center justify-content-center" id="preloader">
-        <div class="spinner-grow text-primary" role="status">
-            <div class="sr-only">Loading...</div>
-        </div>
-    </div>
-    <!-- Internet Connection Status-->
-    <div class="internet-connection-status" id="internetStatus"></div>
-    <!-- Header Area-->
-    <div class="header-area" id="headerArea">
-        <div class="container">
-            <!-- Header Content-->
-            <div class="header-content header-style-five position-relative d-flex align-items-center justify-content-between">
-                <!-- Back Button-->
-                <div class="back-button">
-                    <a href="freelancer_home">
-                        <svg width="32" height="32" viewBox="0 0 16 16" class="bi bi-arrow-left-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
-                        </svg>
-                    </a>
+$dompdf = new Dompdf();
+$html = '<div style="margin:1px; page-break-after: always;">
+            <style type="text/css">
+                @media print {
+                    .pagebreak { page-break-before: always; } /* page-break-after works, as well */
+                }
+                
+
+                #b_border {
+                    border-bottom: dashed thin;
+                }
+
+
+                .header {
+                    margin-bottom: 20px;
+                    width: 100%;
+                    text-align: left;
+                    position: absolute;
+                    top: 0px;
+                }
+
+                .footer {
+                    width: 100%;
+                    text-align: center;
+                    position: fixed;
+                    bottom: 5px;
+                    font-size: 60%;
+                }
+
+
+                .pagenum:before {
+                    content: counter(page);
+                }
+
+                /* Thick Green border */
+                hr {
+                    border: 1px solid green dashed;
+                }
+                
+                .list_header{
+                    font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+                }
+
+                /* Patient */
+                .patient_details{
+                    float: left;
+                    text-align:left;
+                    width:33.33333%;
+                }
+
+                /* Doctor */
+                .doctor_details{
+                    float: right;
+                    text-align:right;
+                    width:33.33333%;
+                }
+
+                /* Appointment Details */
+                .appointment_details{
+                    float: left;
+                    text-align:center;
+                    width:33.33333%;
+                }
+
+                /* Letter Head */
+                .letter_head{
+                    color: green; 
+                }
+
+                .pagenum:before {
+                    content: counter(page);
+                }
+                .invoice-box {
+                    margin: auto;
+                    padding: 30px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+                    font-size: 16px;
+                    line-height: 24px;
+                    font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+                    color: #000;
+                }
+                .invoice-box table {
+                    width: 100%;
+                    line-height: inherit;
+                }
+                .invoice-box table td {
+                    padding: 5px;
+                    vertical-align: top;
+                }
+                
+                .invoice-box table tr.top table td {
+                    padding-bottom: 20px;
+                }
+                .invoice-box table tr.top table td.title {
+                    font-size: 45px;
+                    line-height: 45px;
+                    color: #000;
+                }
+                .invoice-box table tr.information table td {
+                    padding-bottom: 40px;
+                }
+                .invoice-box table tr.heading td {
+                    border-bottom: 1px solid #ddd;
+                    font-weight: bold;
+                }
+                .invoice-box table tr.details td {
+                    padding-bottom: 20px;
+                }
+                .invoice-box table tr.item td {
+                    border-bottom: 1px solid #000;
+                }
+                .invoice-box table tr.item.last td {
+                    border-bottom: none;
+                }
+                .invoice-box table tr.total td:nth-child(2) {
+                    border-top: 2px;
+                    font-weight: bold;
+                }
+                @media only screen and (max-width: 600px) {
+                    .invoice-box table tr.top table td {
+                        width: 100%;
+                        display: block;
+                        text-align: center;
+                    }
+                    .invoice-box table tr.information table td {
+                        width: 100%;
+                        display: block;
+                        text-align: center;
+                    }
+                }
+                /** RTL **/
+                .invoice-box.rtl {
+                    direction: rtl;
+                    font-family: Tahoma, "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+                }
+                .invoice-box.rtl table {
+                    text-align: right;
+                }
+                .invoice-box.rtl table tr td:nth-child(2) {
+                    text-align: left;
+                }
+                .center {
+                    text-align: center;
+                }
+            </style>
+            <div class="pagebreak">
+            <div class="footer letter_head list_header">
+                <hr>
+                <b>iErrands, My bidding Reports</b>
+            </div>
+            <body>
+                <h3 class="list_header" align="center">
+                    iErrands <br>
+                    My Biddings Reports <br>
+                </h3>
+                <hr>
+                <br>
+                <div class="invoice-box">
+                    <table border="1" cellspacing="0" width="100%" style="font-size:9pt">
+                        <thead>
+                            <tr>
+                                <th>Bid Details</th>
+                                <th>Errand Client</th>
+                                <th>Errand Details</th>
+                            </tr>
+                        </thead>
+                        ';
+                        /* Fetch All Freelancers */
+                        $user_id = $_SESSION['user_id'];
+                        $ret = "SELECT * FROM payments p 
+                        INNER JOIN accepted_bids ab ON ab.accepted_bid_id = p.payment_accepted_bid_id 
+                        INNER JOIN biddings b ON b.bidding_id = ab.accepted_bid_bidding_id 
+                        INNER JOIN errands e ON e.errand_id = b.bidding_errand_id
+                        INNER JOIN users u ON u.user_id = e.errand_user_id 
+                        INNER JOIN login l ON l.login_id = u.user_login_id
+                        WHERE b.bidding_user_id = '$user_id'";
+                        $stmt = $mysqli->prepare($ret);
+                        $stmt->execute(); //ok
+                        $res = $stmt->get_result();
+                        $cnt = 1;
+                        while ($users = $res->fetch_object()) {
+                            /* Display All Freelancers In A Table */
+                            $html .=
+                        '
+                            <tr>
+                                <td width="3%">' . $cnt . '</td>
+                                <td width="100%">
+                                    <b>Amount: </b> Ksh  ' . number_format($users->bidding_amount) . ' <br>
+                                    <b>Bid Date: </b> ' . date('d M Y', strtotime($users->accepted_bid_date)) . ' <br>
+                                </td>
+                                <td width="50%">
+                                    <b>Names: </b>' . $users->user_fname . ' ' . $users->user_lname . ' <br>
+                                    <b>Contacts: </b>' . $users->user_contact . ' <br>
+                                    <b>Email: </b>' . $users->login_email . ' <br>
+                                </td>
+                                <td width="50%">
+                                    <b>Name: </b> ' . $users->errand_name . '<br>
+                                    <b>Budget: </b> Ksh ' . number_format($users->errand_amount) . '<br>
+                                    <b>Due: </b> ' . date('d M Y', strtotime($users->errand_due_date)) . ' </br>
+                                    <b>Details: </b> '.$users->errand_description.'
+                                </td>
+                            </tr>
+                        ';
+                            $cnt = $cnt + 1;
+                        }
+                        $html .= '
+                    </table>
                 </div>
-                <!-- Page Title-->
-                <div class="page-heading">
-                    <h6 class="mb-0">My Hiring History</h6>
-                </div>
-                <!-- Navbar Toggler-->
-                <div class="navbar--toggler" id="affanNavbarToggler"><span class="d-block"></span><span class="d-block"></span><span class="d-block"></span></div>
-            </div>
+            </body>
         </div>
-    </div>
-    <!-- Dark mode switching-->
-    <div class="dark-mode-switching">
-        <div class="d-flex w-100 h-100 align-items-center justify-content-center">
-            <div class="dark-mode-text text-center"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-moon" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M14.53 10.53a7 7 0 0 1-9.058-9.058A7.003 7.003 0 0 0 8 15a7.002 7.002 0 0 0 6.53-4.47z" />
-                </svg>
-                <p class="mb-0">Switching to dark mode</p>
-            </div>
-            <div class="light-mode-text text-center"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-brightness-high" viewBox="0 0 16 16">
-                    <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z" />
-                </svg>
-                <p class="mb-0">Switching to light mode</p>
-            </div>
-        </div>
-    </div>
-    <!-- Sidenav Black Overlay-->
-    <div class="sidenav-black-overlay"></div>
-    <!-- Side Nav Wrapper-->
-    <?php require_once('../partials/side_nav.php'); ?>
-
-    <!-- Add new Staff modal-->
-
-    <div class="page-content-wrapper py-3">
-        <div class="container">
-            <!-- Element Heading-->
-            <div class="element-heading">
-            </div>
-            <table id="report" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>Bid Details</th>
-                        <th>Errand Client</th>
-                        <th>Errand Details</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $user_id = $_SESSION['user_id'];
-                    $ret = "SELECT * FROM payments p 
-                    INNER JOIN accepted_bids ab ON ab.accepted_bid_id = p.payment_accepted_bid_id 
-                    INNER JOIN biddings b ON b.bidding_id = ab.accepted_bid_bidding_id 
-                    INNER JOIN errands e ON e.errand_id = b.bidding_errand_id
-                    INNER JOIN users u ON u.user_id = e.errand_user_id 
-                    INNER JOIN login l ON l.login_id = u.user_login_id
-                    WHERE b.bidding_user_id = '$user_id'";
-                    $stmt = $mysqli->prepare($ret);
-                    $stmt->execute(); //ok
-                    $res = $stmt->get_result();
-                    while ($users = $res->fetch_object()) {
-                    ?>
-                        <tr>
-                            <td>
-                                Amount: Ksh <?php echo number_format($users->bidding_amount); ?><br>
-                                Bid Date: <?php echo date('d M Y', strtotime($users->accepted_bid_date)); ?><br>
-                            </td>
-                            <td>
-                                Names: <?php echo $users->user_fname . ' ' . $users->user_lname; ?> <br>
-                                Contacts: <?php echo $users->user_contact; ?> <br>
-                                Email: <?php echo $users->login_email; ?>
-                            </td>
-                            <td>
-                                Name:<?php echo $users->errand_name; ?><br>
-                                Details: <?php echo $users->errand_description; ?><br>
-                                Budget: Ksh <?php echo number_format($users->errand_amount); ?><br>
-                                Due: <?php echo date('d M Y', strtotime($users->errand_due_date)); ?><br>
-                            </td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <!-- Footer Nav-->
-    <?php require_once('../partials/footer_nav.php'); ?>
-    <!-- All JavaScript Files-->
-    <?php require_once('../partials/scripts.php'); ?>
-</body>
-
-</html>
+    </div>';
+$dompdf->load_html($html);
+$canvas = $dompdf->getCanvas();
+$w = $canvas->get_width();
+$h = $canvas->get_height();
+$imageURL = '../public/img/bg-img/bid.png';
+$imgWidth = 500;
+$imgHeight = 500;
+$canvas->set_opacity(.3);
+$x = (($w - $imgWidth) / 2);
+$y = (($h - $imgHeight) / 2);
+$canvas->image($imageURL, $x, $y, $imgWidth, $imgHeight);
+$dompdf->render();
+$dompdf->stream('Freelancers Reports', array("Attachment" => 1));
+$options = $dompdf->getOptions();
+$dompdf->set_paper('A4');
+$dompdf->set_option('isHtml5ParserEnabled', true);
+$options->setDefaultFont('');
+$dompdf->setOptions($options);
