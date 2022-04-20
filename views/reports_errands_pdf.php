@@ -160,7 +160,7 @@ $html = '<div style="margin:1px; page-break-after: always;">
             <body>
                 <h3 class="list_header" align="center">
                     iErrands <br>
-                    Clients Reports <br>
+                    Posted Errands Reports <br>
                 </h3>
                 <hr>
                 <br>
@@ -181,6 +181,7 @@ $html = '<div style="margin:1px; page-break-after: always;">
                         $stmt = $mysqli->prepare($ret);
                         $stmt->execute(); //ok
                         $res = $stmt->get_result();
+                        $cnt = 1;
                         while ($users = $res->fetch_object()) {
                             /* Display All Freelancers In A Table */
                             $html .=
@@ -190,7 +191,7 @@ $html = '<div style="margin:1px; page-break-after: always;">
                                 <td width="100%">
                                     Names: ' . $users->user_fname . ' ' . $users->user_fname . ' <br>
                                     Contacts: ' . $users->user_contact  . ' <br>
-                                    Email: ' . $users->user_email  . '
+                                    Email: ' . $users->login_email  . '
                                 </td>
                                 <td width="100%">
                                     Name: ' . $users->errand_name . ' <br>
@@ -220,7 +221,7 @@ $x = (($w - $imgWidth) / 2);
 $y = (($h - $imgHeight) / 2);
 $canvas->image($imageURL, $x, $y, $imgWidth, $imgHeight);
 $dompdf->render();
-$dompdf->stream('Freelancers Reports', array("Attachment" => 1));
+$dompdf->stream('Posted Errands', array("Attachment" => 1));
 $options = $dompdf->getOptions();
 $dompdf->set_paper('A4');
 $dompdf->set_option('isHtml5ParserEnabled', true);
