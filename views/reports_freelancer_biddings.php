@@ -176,12 +176,9 @@ $html = '<div style="margin:1px; page-break-after: always;">
                         ';
                         /* Fetch All Freelancers */
                         $user_id = $_SESSION['user_id'];
-                        $ret = "SELECT * FROM payments p 
-                        INNER JOIN accepted_bids ab ON ab.accepted_bid_id = p.payment_accepted_bid_id 
-                        INNER JOIN biddings b ON b.bidding_id = ab.accepted_bid_bidding_id 
+                        $ret = "SELECT * FROM biddings b 
                         INNER JOIN errands e ON e.errand_id = b.bidding_errand_id
-                        INNER JOIN users u ON u.user_id = e.errand_user_id 
-                        INNER JOIN login l ON l.login_id = u.user_login_id
+                        INNER JOIN users u ON e.errand_user_id = u.user_id 
                         WHERE b.bidding_user_id = '$user_id'";
                         $stmt = $mysqli->prepare($ret);
                         $stmt->execute(); //ok
@@ -194,8 +191,8 @@ $html = '<div style="margin:1px; page-break-after: always;">
                             <tr>
                                 <td width="3%">' . $cnt . '</td>
                                 <td width="100%">
-                                    <b>Amount: </b> Ksh  ' . number_format($users->bidding_amount) . ' <br>
-                                    <b>Bid Date: </b> ' . date('d M Y', strtotime($users->accepted_bid_date)) . ' <br>
+                                    <b>Bidding Amount: </b> Ksh  ' . number_format($users->bidding_amount) . ' <br>
+                                    <b>Details: </b> '.$users->bidding_description.'
                                 </td>
                                 <td width="50%">
                                     <b>Names: </b>' . $users->user_fname . ' ' . $users->user_lname . ' <br>
