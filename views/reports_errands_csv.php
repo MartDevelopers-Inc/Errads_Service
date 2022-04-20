@@ -36,7 +36,7 @@ if ($query->num_rows > 0) {
         /* Hardwire This Data Into .xls File */
         $lineData = array(
             $cnt, $row['user_fname'] . ' ' . $row['user_lname'], $row['errand_name'],
-            'Ksh' . number_format($row['errand_amount'], 2), date('d M Y', strtotime($row['errand_due_date'])), $row['errand_description']
+            'Ksh ' . $row['errand_amount'], date('d M Y', strtotime($row['errand_due_date'])), $row['errand_description']
         );
         array_walk($lineData, 'filterData');
         $excelData .= implode("\t", array_values($lineData)) . "\n";
