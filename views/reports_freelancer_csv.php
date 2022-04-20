@@ -36,7 +36,7 @@ if ($query->num_rows > 0) {
         /* Hardwire This Data Into .xls File */
         $lineData = array(
             $cnt, $row['user_fname'] . ' ' . $row['user_lname'], $row['user_gender'],
-            $row['user_age'], $row['user_contact'], $row['user_location'], $row['login_email']
+            $row['user_age'] . ' ' . 'Years', $row['user_contact'], $row['user_location'], $row['login_email']
         );
         array_walk($lineData, 'filterData');
         $excelData .= implode("\t", array_values($lineData)) . "\n";
