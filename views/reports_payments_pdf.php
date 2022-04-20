@@ -181,7 +181,7 @@ $html = '<div style="margin:1px; page-break-after: always;">
                         INNER JOIN biddings b ON b.bidding_id = ab.accepted_bid_bidding_id 
                         INNER JOIN errands e ON e.errand_id = b.bidding_errand_id
                         INNER JOIN users u ON u.user_id = e.errand_user_id 
-                        INNER JOIN login l ON l.login_id = u.user_login_id; ";
+                        INNER JOIN login l ON l.login_id = u.user_login_id ";
                         $stmt = $mysqli->prepare($ret);
                         $stmt->execute(); //ok
                         $res = $stmt->get_result();
