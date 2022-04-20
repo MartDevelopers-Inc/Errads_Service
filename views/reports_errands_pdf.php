@@ -189,15 +189,15 @@ $html = '<div style="margin:1px; page-break-after: always;">
                             <tr>
                                 <td width="3%">' . $cnt . '</td>
                                 <td width="100%">
-                                    Names: ' . $users->user_fname . ' ' . $users->user_fname . ' <br>
-                                    Contacts: ' . $users->user_contact  . ' <br>
-                                    Email: ' . $users->login_email  . '
+                                    <b>Names:</b> ' . $users->user_fname . ' ' . $users->user_fname . ' <br>
+                                    <b>Contacts: </b>' . $users->user_contact  . ' <br>
+                                    <b>Email:</b> ' . $users->login_email  . '
                                 </td>
                                 <td width="100%">
-                                    Name: ' . $users->errand_name . ' <br>
-                                    Details: ' . $users->errand_description  . ' <br>
-                                    Budget: Ksh ' . number_format($users->errand_amount)  . ' <br>
-                                    Due: ' . date('d M Y', strtotime($users->errand_due_date))  . ' <br>
+                                <b>Name:</b> ' . $users->errand_name . ' <br>
+                                <b>Details:</b> ' . $users->errand_description  . ' <br>
+                                <b>Budget:</b> Ksh ' . number_format($users->errand_amount)  . ' <br>
+                                <b>Due:</b> ' . date('d M Y', strtotime($users->errand_due_date))  . ' <br>
                                 </td>                                
                             </tr>
                         ';
