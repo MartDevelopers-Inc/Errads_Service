@@ -169,35 +169,35 @@ $html = '<div style="margin:1px; page-break-after: always;">
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Full Name</th>
-                                <th>Gender</th>
-                                <th>Age</th>
-                                <th>Contacts</th>
-                                <th>Location</th>
-                                <th>Email</th>
+                                <th>Errand Client</th>
+                                <th>Errand Details</th>
                             </tr>
                         </thead>
                         ';
                         /* Fetch All Freelancers */
-                        $ret = "SELECT * FROM users u 
-                        INNER JOIN login l ON l.login_id = u.user_login_id
-                        WHERE l.login_rank = 'Client'";
+                        $ret = "SELECT * FROM errands e
+                        INNER JOIN users u ON u.user_id = e.errand_user_id
+                        INNER JOIN login l ON l.login_id = u.user_login_id";
                         $stmt = $mysqli->prepare($ret);
                         $stmt->execute(); //ok
                         $res = $stmt->get_result();
-                        $cnt = 1;
                         while ($users = $res->fetch_object()) {
                             /* Display All Freelancers In A Table */
                             $html .=
                         '
                             <tr>
                                 <td width="3%">' . $cnt . '</td>
-                                <td width="100%">' . $users->user_fname . ' ' . $users->user_fname . '</td>
-                                <td width="50%">' . $users->user_gender . '</td>
-                                <td width="50%">' . $users->user_age . ' Years</td>
-                                <td width="100%">' . $users->user_contact . '</td>
-                                <td width="100%">' . $users->user_location . '</td>
-                                <td width="100%">' . $users->login_email . '</td>
+                                <td width="100%">
+                                    Names: ' . $users->user_fname . ' ' . $users->user_fname . ' <br>
+                                    Contacts: ' . $users->user_contact  . ' <br>
+                                    Email: ' . $users->user_email  . '
+                                </td>
+                                <td width="100%">
+                                    Name: ' . $users->errand_name . ' <br>
+                                    Details: ' . $users->errand_description  . ' <br>
+                                    Budget: Ksh ' . number_format($users->errand_amount)  . ' <br>
+                                    Due: ' . date('d M Y', strtotime($users->errand_due_date))  . ' <br>
+                                </td>                                
                             </tr>
                         ';
                             $cnt = $cnt + 1;
@@ -212,7 +212,7 @@ $dompdf->load_html($html);
 $canvas = $dompdf->getCanvas();
 $w = $canvas->get_width();
 $h = $canvas->get_height();
-$imageURL = '../public/img/bg-img/man.png';
+$imageURL = '../public/img/bg-img/grocery-cart.png';
 $imgWidth = 500;
 $imgHeight = 500;
 $canvas->set_opacity(.3);
