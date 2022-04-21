@@ -160,7 +160,7 @@ $html = '<div style="margin:1px; page-break-after: always;">
             <body>
                 <h3 class="list_header" align="center">
                     iErrands <br>
-                    My Expenditure <br>
+                    Posted Errands Reports <br>
                 </h3>
                 <hr>
                 <br>
@@ -169,19 +169,19 @@ $html = '<div style="margin:1px; page-break-after: always;">
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Payment To</th>
+                                <th>Errand Client</th>
+                                <th>Errand Details</th>
+                                <th>Bid Details</th>
                                 <th>Payment Details</th>
                             </tr>
                         </thead>
                         ';
-                        $user_id  = $_SESSION['user_id'];
                         $ret = "SELECT * FROM payments p 
                         INNER JOIN accepted_bids ab ON ab.accepted_bid_id = p.payment_accepted_bid_id 
                         INNER JOIN biddings b ON b.bidding_id = ab.accepted_bid_bidding_id 
                         INNER JOIN errands e ON e.errand_id = b.bidding_errand_id
-                        INNER JOIN users u ON u.user_id = b.bidding_user_id 
-                        INNER JOIN login l ON l.login_id = u.user_login_id
-                        WHERE e.errand_user_id = '$user_id' ";
+                        INNER JOIN users u ON u.user_id = e.errand_user_id 
+                        INNER JOIN login l ON l.login_id = u.user_login_id ";
                         $stmt = $mysqli->prepare($ret);
                         $stmt->execute(); //ok
                         $res = $stmt->get_result();
@@ -191,16 +191,26 @@ $html = '<div style="margin:1px; page-break-after: always;">
                         '
                             <tr>
                                 <td width="3%">' . $cnt . '</td>
-                                <td>
-                                    <b>Names: </b>' . $users->user_fname . ' ' . $users->user_lname . '<br>
-                                    <b>Contacts: </b> ' . $users->user_contact . ' <br>
-                                    <b>Email: </b>' .  $users->login_email . '
+                                <td width="100%">
+                                    <b>Names:</b> ' . $users->user_fname . ' ' . $users->user_fname . ' <br>
+                                    <b>Contacts: </b>' . $users->user_contact  . ' <br>
+                                    <b>Email:</b> ' . $users->login_email  . '
                                 </td>
-                                <td>
-                                    <b>Payment REF#: </b>' . $users->payment_ref . '<br>
-                                    <b>Amount: Ksh </b>' .number_format($users->payment_amount) . '<br>
-                                    <b>Payment Date: </b>' . $users->payment_date . '<br>
-                                    <b>Payment Mode: </b>' . $users->payment_mode . '<br>
+                                <td width="100%">
+                                    <b>Name:</b> ' . $users->errand_name . ' <br>
+                                    <b>Details:</b> ' . $users->errand_description  . ' <br>
+                                    <b>Budget:</b> Ksh ' . number_format($users->errand_amount)  . ' <br>
+                                    <b>Due:</b> ' . date('d M Y', strtotime($users->errand_due_date))  . ' <br>
+                                </td> 
+                                <td width="100%">
+                                    <b>Amount: </b> Ksh ' . number_format($users->bidding_amount) . ' <br>
+                                    <b>Bid Date:</b> ' . date('d M Y', strtotime($users->accepted_bid_date))  . ' <br>
+                                </td> 
+                                <td width="100%">
+                                    <b>Payment REF#: </b>' . $users->payment_ref . ' <br>
+                                    <b>Amount: </b> Ksh ' . number_format($users->payment_amount) . ' <br>
+                                    <b>Payment Date: </b>' . $users->payment_date . ' <br>
+                                    <b>Payment Mode:: </b>' . $users->payment_mode . ' <br>
                                 </td>
                             </tr>
                         ';
@@ -224,7 +234,7 @@ $x = (($w - $imgWidth) / 2);
 $y = (($h - $imgHeight) / 2);
 $canvas->image($imageURL, $x, $y, $imgWidth, $imgHeight);
 $dompdf->render();
-$dompdf->stream('My Expenditure', array("Attachment" => 1));
+$dompdf->stream('Payments', array("Attachment" => 1));
 $options = $dompdf->getOptions();
 $dompdf->set_paper('A4');
 $dompdf->set_option('isHtml5ParserEnabled', true);

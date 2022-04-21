@@ -34,7 +34,7 @@ public class AuthActivity extends AppCompatActivity {
 
     private WebView web;
     //Replace This URL With Your Web Based Application URL
-    String webUrl = "http://10.0.2.2/Errads/";
+    String webUrl = "https://sandbox.devlan.co.ke/Errads/";
 
     public Context context;
 
@@ -113,7 +113,7 @@ public class AuthActivity extends AppCompatActivity {
         else {
             //When Internet Connectivity Is Active
             //Load Url In WebView also replace with your own url
-            web.loadUrl("http://10.0.2.2/Errads/");
+            web.loadUrl("https://sandbox.devlan.co.ke/Errads/");
         }
 
 

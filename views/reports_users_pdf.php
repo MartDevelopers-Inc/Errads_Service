@@ -91,15 +91,12 @@ $html = '<div style="margin:1px; page-break-after: always;">
                 .invoice-box table {
                     width: 100%;
                     line-height: inherit;
-                    text-align: left;
                 }
                 .invoice-box table td {
                     padding: 5px;
                     vertical-align: top;
                 }
-                .invoice-box table tr td:nth-child(2) {
-                    text-align: right;
-                }
+                
                 .invoice-box table tr.top table td {
                     padding-bottom: 20px;
                 }
