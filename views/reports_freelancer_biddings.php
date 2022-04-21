@@ -179,31 +179,30 @@ $html = '<div style="margin:1px; page-break-after: always;">
                         $ret = "SELECT * FROM biddings b 
                         INNER JOIN errands e ON e.errand_id = b.bidding_errand_id
                         INNER JOIN users u ON e.errand_user_id = u.user_id 
-                        WHERE b.bidding_user_id = '$user_id'";
+                        WHERE b.bidding_user_id = '$user_id'  ";
                         $stmt = $mysqli->prepare($ret);
                         $stmt->execute(); //ok
                         $res = $stmt->get_result();
-                        $cnt = 1;
-                        while ($users = $res->fetch_object()) {
+                        while ($biddings = $res->fetch_object()) {
                             /* Display All Freelancers In A Table */
                             $html .=
                         '
                             <tr>
                                 <td width="3%">' . $cnt . '</td>
                                 <td width="100%">
-                                    <b>Bidding Amount: </b> Ksh  ' . number_format($users->bidding_amount) . ' <br>
-                                    <b>Details: </b> '.$users->bidding_description.'
+                                    <b>Bidding Amount: </b> Ksh  ' . number_format($biddings->bidding_amount) . ' <br>
+                                    <b>Details: </b> ' . $biddings->bidding_description . '
                                 </td>
                                 <td width="50%">
-                                    <b>Names: </b>' . $users->user_fname . ' ' . $users->user_lname . ' <br>
-                                    <b>Contacts: </b>' . $users->user_contact . ' <br>
-                                    <b>Email: </b>' . $users->login_email . ' <br>
+                                    <b>Names: </b>' . $biddings->user_fname . ' ' . $biddings->user_lname . ' <br>
+                                    <b>Contacts: </b>' . $biddings->user_contact . ' <br>
+                                    <b>Email: </b>' . $biddings->login_email . ' <br>
                                 </td>
                                 <td width="50%">
-                                    <b>Name: </b> ' . $users->errand_name . '<br>
-                                    <b>Budget: </b> Ksh ' . number_format($users->errand_amount) . '<br>
-                                    <b>Due: </b> ' . date('d M Y', strtotime($users->errand_due_date)) . ' </br>
-                                    <b>Details: </b> '.$users->errand_description.'
+                                    <b>Name: </b> ' . $biddings->errand_name . '<br>
+                                    <b>Budget: </b> Ksh ' . number_format($biddings->errand_amount) . '<br>
+                                    <b>Due: </b> ' . date('d M Y', strtotime($biddings->errand_due_date)) . ' </br>
+                                    <b>Details: </b> ' . $biddings->errand_description . '
                                 </td>
                             </tr>
                         ';
