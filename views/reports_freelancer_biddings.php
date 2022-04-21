@@ -168,6 +168,7 @@ $html = '<div style="margin:1px; page-break-after: always;">
                     <table border="1" cellspacing="0" width="100%" style="font-size:9pt">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Bid Details</th>
                                 <th>Errand Client</th>
                                 <th>Errand Details</th>
@@ -183,25 +184,25 @@ $html = '<div style="margin:1px; page-break-after: always;">
                         $stmt = $mysqli->prepare($ret);
                         $stmt->execute(); //ok
                         $res = $stmt->get_result();
+                        $cnt = 1;
                         while ($biddings = $res->fetch_object()) {
                             /* Display All Freelancers In A Table */
                             $html .=
                         '
                             <tr>
                                 <td width="3%">' . $cnt . '</td>
-                                <td width="100%">
+                                <td width="50%">
                                     <b>Bidding Amount: </b> Ksh  ' . number_format($biddings->bidding_amount) . ' <br>
                                     <b>Details: </b> ' . $biddings->bidding_description . '
                                 </td>
                                 <td width="50%">
                                     <b>Names: </b>' . $biddings->user_fname . ' ' . $biddings->user_lname . ' <br>
                                     <b>Contacts: </b>' . $biddings->user_contact . ' <br>
-                                    <b>Email: </b>' . $biddings->login_email . ' <br>
                                 </td>
                                 <td width="50%">
                                     <b>Name: </b> ' . $biddings->errand_name . '<br>
                                     <b>Budget: </b> Ksh ' . number_format($biddings->errand_amount) . '<br>
-                                    <b>Due: </b> ' . date('d M Y', strtotime($biddings->errand_due_date)) . ' </br>
+                                    <b>Due: </b> ' . date('d M Y', strtotime($biddings->errand_due_date)) . ' <br>
                                     <b>Details: </b> ' . $biddings->errand_description . '
                                 </td>
                             </tr>
@@ -226,7 +227,7 @@ $x = (($w - $imgWidth) / 2);
 $y = (($h - $imgHeight) / 2);
 $canvas->image($imageURL, $x, $y, $imgWidth, $imgHeight);
 $dompdf->render();
-$dompdf->stream('Freelancers Reports', array("Attachment" => 1));
+$dompdf->stream('My Biddings', array("Attachment" => 1));
 $options = $dompdf->getOptions();
 $dompdf->set_paper('A4');
 $dompdf->set_option('isHtml5ParserEnabled', true);
