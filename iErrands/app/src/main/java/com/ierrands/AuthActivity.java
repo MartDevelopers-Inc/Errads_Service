@@ -23,6 +23,7 @@ import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.DownloadListener;
@@ -58,6 +59,8 @@ public class AuthActivity extends AppCompatActivity {
     // the same for Android 5.0 methods only
     private ValueCallback<Uri[]> mFilePathCallback;
     private String mCameraPhotoPath;
+    //Treeview
+    private ViewTreeObserver.OnScrollChangedListener mOnScrollChangedListener;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -77,6 +80,7 @@ public class AuthActivity extends AppCompatActivity {
 
         //Swipe To Refresh Layout
         SwipeToRefresh = (SwipeRefreshLayout)this.findViewById(R.id.swipeContainer);
+
 
         WebSettings mywebsettings = web.getSettings();
         mywebsettings.setJavaScriptEnabled(true);
@@ -172,6 +176,18 @@ public class AuthActivity extends AppCompatActivity {
                         web.reload();
                     }
                 });
+        //Prevent Infinite Loading
+        SwipeToRefresh.getViewTreeObserver().addOnScrollChangedListener(mOnScrollChangedListener =
+                new ViewTreeObserver.OnScrollChangedListener() {
+                    @Override
+                    public void onScrollChanged() {
+                        if (web.getScrollY() == 0)
+                            SwipeToRefresh.setEnabled(true);
+                        else
+                            SwipeToRefresh.setEnabled(false);
+                    }
+                });
+
         //Improve Web View Performance
         web.getSettings().setLoadsImagesAutomatically(true);
         web.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
