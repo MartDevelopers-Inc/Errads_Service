@@ -35,11 +35,15 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
 
+
 public class AuthActivity extends AppCompatActivity {
 
+    //Web view
     private WebView web;
     //API / PWA URL
     String webUrl = "https://sandbox.devlan.co.ke/Errads/";
+    //Swiper Refresh Layout
+    SwipeRefreshLayout SwipeToRefresh;
 
     public Context context;
 
@@ -65,8 +69,12 @@ public class AuthActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_auth);
 
+        //Load Web view
         web = (WebView) findViewById(R.id.auth);
         web.loadUrl(webUrl);
+
+        //Swipe To Refresh Layout
+        SwipeToRefresh = (SwipeRefreshLayout)this.findViewById(R.id.swipeContainer);
 
         WebSettings mywebsettings = web.getSettings();
         mywebsettings.setJavaScriptEnabled(true);
@@ -154,8 +162,14 @@ public class AuthActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Downloading Report", Toast.LENGTH_LONG).show();
             }});
 
-
-
+        // Swiper Gesture
+        SwipeToRefresh.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        web.reload();
+                    }
+                });
         //Improve Web View Performance
         web.getSettings().setLoadsImagesAutomatically(true);
         web.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
