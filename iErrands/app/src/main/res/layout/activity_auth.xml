@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".AuthActivity">
 
-   <androidx.swiperefreshlayout.widget.SwipeRefreshLayout        android:id="@+id/swipeContainer"
+   <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
     <WebView
         android:id="@+id/auth"
