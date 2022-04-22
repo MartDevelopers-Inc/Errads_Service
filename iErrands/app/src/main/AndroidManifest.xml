@@ -18,9 +18,6 @@
         android:theme="@style/Theme.IErrands"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".WebViewActivity"
-            android:exported="false" />
-        <activity
             android:name=".AuthActivity"
             android:exported="false" />
         <activity

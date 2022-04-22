@@ -1,6 +1,9 @@
 package com.ierrands;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.Manifest;
+import android.app.DownloadManager;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -19,6 +22,9 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.CookieManager;
+import android.webkit.DownloadListener;
+import android.webkit.URLUtil;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -26,14 +32,13 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.Toast;
-
 import java.io.File;
 import java.io.IOException;
 
 public class AuthActivity extends AppCompatActivity {
 
     private WebView web;
-    //Replace This URL With Your Web Based Application URL
+    //API / PWA URL
     String webUrl = "https://sandbox.devlan.co.ke/Errads/";
 
     public Context context;
@@ -76,8 +81,7 @@ public class AuthActivity extends AppCompatActivity {
 
         //Check Network Status
         if(networkInfo == null || !networkInfo.isConnected() || !networkInfo.isAvailable()) {
-            //When Connection Is Inactive
-            //Load Dialog
+            //When Connection Is Inactive,Load Dialog
             Dialog dialog = new Dialog(this);
             //Set Content view
             dialog.setContentView(R.layout.activity_no_internet);
@@ -111,10 +115,45 @@ public class AuthActivity extends AppCompatActivity {
 
         }
         else {
-            //When Internet Connectivity Is Active
-            //Load Url In WebView also replace with your own url
+            //When Internet Connectivity Is Active, Load application URL
             web.loadUrl("https://sandbox.devlan.co.ke/Errads/");
         }
+
+        //Runtime External storage permission for saving download files
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_DENIED) {
+                Log.d("permission", "permission denied to WRITE_EXTERNAL_STORAGE - requesting it");
+                String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                requestPermissions(permissions, 1);
+            }
+        }
+
+        //handle downloading
+        web.setDownloadListener(new DownloadListener()
+        {
+            @Override
+            public void onDownloadStart(String url, String userAgent,
+                                        String contentDisposition, String mimeType,
+                                        long contentLength) {
+                DownloadManager.Request request = new DownloadManager.Request(
+                        Uri.parse(url));
+                request.setMimeType(mimeType);
+                String cookies = CookieManager.getInstance().getCookie(url);
+                request.addRequestHeader("cookie", cookies);
+                request.addRequestHeader("User-Agent", userAgent);
+                request.setDescription("Downloading File...");
+                request.setTitle(URLUtil.guessFileName(url, contentDisposition, mimeType));
+                request.allowScanningByMediaScanner();
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                request.setDestinationInExternalPublicDir(
+                        Environment.DIRECTORY_DOWNLOADS, URLUtil.guessFileName(
+                                url, contentDisposition, mimeType));
+                DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                dm.enqueue(request);
+                Toast.makeText(getApplicationContext(), "Downloading Report", Toast.LENGTH_LONG).show();
+            }});
+
 
 
         //Improve Web View Performance
@@ -135,7 +174,7 @@ public class AuthActivity extends AppCompatActivity {
             // Lollipop, All In One
             public boolean onShowFileChooser(
                     WebView webView, ValueCallback<Uri[]> filePathCallback,
-                    WebChromeClient.FileChooserParams fileChooserParams) {
+                    FileChooserParams fileChooserParams) {
                 if (mFilePathCallback != null) {
                     mFilePathCallback.onReceiveValue(null);
                 }
@@ -215,7 +254,7 @@ public class AuthActivity extends AppCompatActivity {
 
                     mCapturedImageURI = Uri.fromFile(file); // save to the private variable
 
-                    final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    final Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI);
                     // captureIntent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -232,20 +271,14 @@ public class AuthActivity extends AppCompatActivity {
                 }
 
             }
-
             // openFileChooser for Android < 3.0
             public void openFileChooser(ValueCallback<Uri> uploadMsg) {
                 openFileChooser(uploadMsg, "");
             }
-
             // openFileChooser for other Android versions
-            /* may not work on KitKat due to lack of implementation of openFileChooser() or onShowFileChooser()
-               https://code.google.com/p/android/issues/detail?id=62220
-               however newer versions of KitKat fixed it on some devices */
             public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
                 openFileChooser(uploadMsg, acceptType);
             }
-
         });
     }
 
@@ -280,9 +313,9 @@ public class AuthActivity extends AppCompatActivity {
                 mUploadMessage = null;
             }
 
-        } // end of code for all versions except of Lollipop
+        }
 
-        // start of code for Lollipop only
+        // File Uploads For Lollipop Version
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
             if (requestCode != FILECHOOSER_RESULTCODE || mFilePathCallback == null) {
@@ -306,24 +339,20 @@ public class AuthActivity extends AppCompatActivity {
                     }
                 }
             }
-
             mFilePathCallback.onReceiveValue(results);
             mFilePathCallback = null;
-
-        } // end of code for Lollipop only
-
+        }
 
     }
 
 
+    // Allow Web View Activity To Load On Back Pressed
     @Override
     public void onBackPressed() {
         if(web.canGoBack()){
-
             web.goBack();
         }
         else {
-
             super.onBackPressed();
         }
     }
